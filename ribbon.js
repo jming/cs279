@@ -30,6 +30,20 @@ home.onload = function() {
 	// context.rect(525,55,72,22);
 	// context.stroke();
 
+	// context.rect(7,125,28,20);
+	// context.stroke();
+	// context.rect(35,125,28,20);
+	// context.stroke();
+
+	// context.rect(407,125,28,20);
+	// context.stroke();
+	// context.rect(351,125,28,20);
+	// context.stroke();
+
+	// context.rect(1140,95,50,55);
+	// context.stroke();
+	// context.rect(1040,95,50,55);
+	// context.stroke();
 
 };
 
@@ -55,16 +69,39 @@ var rects = [home_rect, layout_rect, docelt_rect, tables_rect, charts_rect, smar
 var urls = ['0home', '1layout', '2docelt', '3tables', '4charts', '5smartart', '6review'];
 // click handlers
 
+var bold = {x:7,y:125,w:28,h:20};
+var justify = {x:407,y:125,w:28,h:20};
+var insertpic = {x:1140,y:95,w:50,h:55};
+var italicize = {x:35,y:125,w:28,h:20};
+var center = {x:351,y:125,w:28,h:20};
+var inserttb = {x:1040,y:95,w:50,h:55};
+
+var orientation = {x:7,y:92,w:60,h:58};
+var size = {x:67,y:92,w:55,h:58};
+
+// orientation
+// bottom margin
+// size
+// left margin
+
+// accept
+// reject
+
+
 canvas.addEventListener('click', function(e) {
 	var rect = collides(rects, e.offsetX, e.offsetY);
 
 	if (rect) {
-		console.log(rect);
+		// console.log(rect);
 		current_page = rect.n;
 
 		var imageObject = new Image();
 		imageObject.onload = function() {
 			context.drawImage(imageObject, 0, 55, 1280, 98);
+			context.rect(7,92,60,58);
+			context.stroke();
+			context.rect(67,92,55,58);
+			context.stroke();
 		};
 		imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
 	}
