@@ -4,6 +4,10 @@ var context = canvas.getContext('2d');
 var current_page = 0;
 var target_rect = 11;
 
+// also set text options on context
+context.font = '24px sans-serif';
+context.textAlign = 'center';
+
 // initialize the basic screen
 var head = new Image();
 var home = new Image();
@@ -21,10 +25,6 @@ home.onload = function() {
 body.onload = function() {
 	context.drawImage(body, 0, 155, 1280, 648);
 };
-
-command.onload = function() {
-  context.drawImage(command, 580, 300);
-}
 
 head.src = 'screenshots/header.png';
 home.src = 'screenshots/0home.png';
@@ -50,16 +50,16 @@ var commandSets = [
     {t:'Bold text',x:7,y:125,w:28,h:20,p:0,n:0},
     {t:'Justify text',x:407,y:125,w:28,h:20,p:0,n:2},
     {t:'Insert picture',x:1140,y:95,w:50,h:55,p:0,n:4},
-    {t:'Orientation',x:7,y:92,w:60,h:58,p:1,n:0},
-    {t:'Bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
+    {t:'Change orientation',x:7,y:92,w:60,h:58,p:1,n:0},
+    {t:'Change bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
     {t:'Accept revision',x:445,y:92,w:53,h:58,p:6,n:0}
   ],
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
     {t:'Center text',x:351,y:125,w:28,h:20,p:0,n:3},
     {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
-    {t:'Size',x:67,y:92,w:55,h:58,p:1,n:1},
-    {t:'Left margin',x:255,y:125,w:45,h:20,p:1,n:3},
+    {t:'Change size',x:67,y:92,w:55,h:58,p:1,n:1},
+    {t:'Change left margin',x:255,y:125,w:45,h:20,p:1,n:3},
     {t:'Reject revision',x:497,y:92,w:50,h:58,p:6,n:1}
   ],
 ];
@@ -102,7 +102,7 @@ canvas.addEventListener('click', function(e) {
 		// TODO: clean this
 		studyInfo.trialId++;
 		var newCommand = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
-		drawCommand(newCommand.p, newCommand.n);
+		drawCommand(newCommand);
 	}
 	// neither correct pane nor command clicked
 	else {
@@ -143,7 +143,7 @@ function safelyReorderCommands() {
   var numSwitches = 0;
   var commandSet = commandSets[studyInfo.setId];
   for (var i = 1; i < commandSet.length; i++) {
-    // yay, we need a tab switch
+    // yay, we need tab switch
     if (commandSet[i].p != commandSet[i - 1].p) {
       numSwitches++;
     }
@@ -155,15 +155,26 @@ function safelyReorderCommands() {
 }
 
 // wrapper for drawing target command onto document (literally)
-function drawCommand(pane, number) {
-  context.clearRect(580, 300, 100, 100);
-	command.src = 'screenshots/icons/' + pane + number + '.png';
+function drawCommand(commandToDraw) {
+  context.clearRect(400, 250, 500, 500);
+  command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
+  command.onload = function() {
+    context.drawImage(command, 617 - 0.5 * command.width, 300 - 0.5 * command.height);
+  	context.fillText(commandToDraw.t, 617, 360);
+  };
+}
+
+// update study info
+function updateStudyInfo() {
+  //
 }
 
 function init() {
+  // reorder commands
   safelyReorderCommands();
-  var firstCommand = commandSets[studyInfo.setId][0];
-  drawCommand(firstCommand.p, firstCommand.n);
+  
+  // draw first command
+  drawCommand(commandSets[studyInfo.setId][0]);
 }
 
 window.onload = init;
