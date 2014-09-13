@@ -64,7 +64,7 @@ var commandSets = [
   ],
 ];
 
-// info about user
+// info about study
 var studyInfo = {
   // index of command set used
   setId: 0,
@@ -72,14 +72,26 @@ var studyInfo = {
   blockId: 0,
   // index of trial within block (30 total for familiarization, 90 total for performance)
   trialId: 0,
+  // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
+  totalTime: Date.now(),
   // data that holds participant accuracy and timing
-  data: []
+  data: [{
+    // copied from above
+    blockId: 0,
+    trialId: 0,
+    
+    // time in ms needed to complete trial
+    time: 0,
+    
+    // was user error-free in completing task?
+    correct: true
+  }]
 };
 
 // check the click event
 canvas.addEventListener('click', function(e) {
   var command = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
-  
+  var currentData = studyInfo.data[studyInfo.data.length - 1];
 	// re-render if any pane is clicked
 	var rect = collides(rects, e.offsetX, e.offsetY);
 	if (rect) {
@@ -94,19 +106,19 @@ canvas.addEventListener('click', function(e) {
 	
 	// check if correct command clicked on correct pane
 	if (current_pane == command.p && collides([command], e.offsetX, e.offsetY)) {
-		alert('yay!!!');
+		// log time needed for task
+		studyInfo.totalTime += currentData.time;
+		currentData.time = Date.now() - studyInfo.totalTime;
+		console.log(JSON.stringify(studyInfo));
 		// TODO: clean this
 		studyInfo.trialId++;
 		var newCommand = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
 		drawCommand(newCommand);
 	}
-	// did not click correct pane
+	// did not click correct pane, either
 	else if (current_pane != command.p || !rect) {
-	  alert('boo...');
+	  currentData.correct = false;
 	}
-
-	// TODO: record click timing and location
-	console.log(e.offsetX + '\n' + e.offsetY);
 });
 
 // see if click is on one of active regions in rs
@@ -155,8 +167,9 @@ function drawCommand(commandToDraw) {
   context.clearRect(400, 250, 500, 500);
   command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
   command.onload = function() {
-    context.drawImage(command, 617 - 0.5 * command.width, 300 - 0.5 * command.height);
-  	context.fillText(commandToDraw.t, 617, 360);
+    var centerX = 617;
+    context.drawImage(command, centerX - 0.5 * command.width, 300 - 0.5 * command.height);
+  	context.fillText(commandToDraw.t, centerX, 360);
   };
 }
 
