@@ -57,7 +57,7 @@ var commandSets = [
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
     {t:'Center text',x:351,y:125,w:28,h:20,p:0,n:3},
-    {t:'Insert textbox',x:1040,y:95,w:50,h:55,p:0,n:5},
+    {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
     {t:'Size',x:67,y:92,w:55,h:58,p:1,n:1},
     {t:'Left margin',x:255,y:125,w:45,h:20,p:1,n:3},
     {t:'Reject revision',x:497,y:92,w:50,h:58,p:6,n:1}
@@ -98,12 +98,15 @@ canvas.addEventListener('click', function(e) {
 	}
 	// check if correct command clicked
 	else if (collides([command], e.offsetX, e.offsetY)) {
-		// alert('some command clicked');
+		alert('yay!!!');
+		// TODO: clean this
 		studyInfo.trialId++;
+		var newCommand = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
+		drawCommand(newCommand.p, newCommand.n);
 	}
 	// neither correct pane nor command clicked
 	else {
-	 // alert('boooooo');
+	  alert('boo...');
 	}
 
 	// TODO: record click timing and location
@@ -153,14 +156,14 @@ function safelyReorderCommands() {
 
 // wrapper for drawing target command onto document (literally)
 function drawCommand(pane, number) {
+  context.clearRect(580, 300, 100, 100);
 	command.src = 'screenshots/icons/' + pane + number + '.png';
 }
 
 function init() {
   safelyReorderCommands();
   var firstCommand = commandSets[studyInfo.setId][0];
-  // drawCommand(firstCommand.p, firstCommand.n);
-  drawCommand(0, 5);
+  drawCommand(firstCommand.p, firstCommand.n);
 }
 
 window.onload = init;
