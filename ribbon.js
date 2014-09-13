@@ -1,7 +1,7 @@
 // global variables
 var canvas = document.getElementById('ribbon-canvas');
 var context = canvas.getContext('2d');
-var current_page = 0;
+var current_pane = 0;
 var target_rect = 11;
 
 // also set text options on context
@@ -81,9 +81,9 @@ canvas.addEventListener('click', function(e) {
   var command = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
   
 	// re-render if any pane is clicked
-	 var rect = collides(rects, e.offsetX, e.offsetY);
+	var rect = collides(rects, e.offsetX, e.offsetY);
 	if (rect) {
-		current_page = rect.n;
+		current_pane = rect.n;
 
 		var imageObject = new Image();
 		imageObject.onload = function() {
@@ -92,20 +92,16 @@ canvas.addEventListener('click', function(e) {
 		imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
 	}
 	
-	// check if correct pane clicked
-	if (collides([rects[command.p]], e.offsetX, e.offsetY)) {
-	  // TODO: add to data here?
-	}
-	// check if correct command clicked
-	else if (collides([command], e.offsetX, e.offsetY)) {
+	// check if correct command clicked on correct pane
+	if (current_pane == command.p && collides([command], e.offsetX, e.offsetY)) {
 		alert('yay!!!');
 		// TODO: clean this
 		studyInfo.trialId++;
 		var newCommand = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
 		drawCommand(newCommand);
 	}
-	// neither correct pane nor command clicked
-	else {
+	// did not click correct pane
+	else if (current_pane != command.p || !rect) {
 	  alert('boo...');
 	}
 
