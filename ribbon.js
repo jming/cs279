@@ -1,9 +1,15 @@
 // global variables
 var canvas = document.getElementById('ribbon-canvas');
 var context = canvas.getContext('2d');
-var current_page = 0;
+var current_pane = 0;
 var target_rect = 11;
 
+ 
+// also set text options on context
+context.font = '24px sans-serif';
+context.textAlign = 'center';
+
+ 
 // initialize the basic screen
 var head = new Image();
 var home = new Image();
@@ -51,21 +57,32 @@ var commandSets = [
     {t:'Bold text',x:7,y:125,w:28,h:20,p:0,n:0},
     {t:'Justify text',x:407,y:125,w:28,h:20,p:0,n:2},
     {t:'Insert picture',x:1140,y:95,w:50,h:55,p:0,n:4},
+ 
     {t:'Orientation',x:7,y:92,w:60,h:58,p:1,n:0},
     {t:'Bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
+ 
+    {t:'Change orientation',x:7,y:92,w:60,h:58,p:1,n:0},
+    {t:'Change bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
+ 
     {t:'Accept revision',x:445,y:92,w:53,h:58,p:6,n:0}
   ],
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
     {t:'Center text',x:351,y:125,w:28,h:20,p:0,n:3},
     {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
+ 
     {t:'Size',x:67,y:92,w:55,h:58,p:1,n:1},
     {t:'Left margin',x:255,y:125,w:45,h:20,p:1,n:3},
+
+    {t:'Change size',x:67,y:92,w:55,h:58,p:1,n:1},
+ 
     {t:'Reject revision',x:497,y:92,w:50,h:58,p:6,n:1}
   ],
 ];
 
-// info about user
+
+// info about user progress in study
+
 var studyInfo = {
   // index of command set used
   setId: 0,
@@ -79,14 +96,39 @@ var studyInfo = {
   next: 1
 };
 
+  data: [{
+    // copied from above
+    blockId: 0,
+    trialId: 0,
+    
+    // time in ms needed to complete trial
+    time: 0,
+    
+    // was user error-free in completing task?
+    correct: true
+  }]
+};
+
+// config vars for study
+var config = {
+  // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
+  totalTime: Date.now(),
+  // sound to play when user clicked incorrectly
+  wrongSound: new Audio('audio/buzzer.mp3')
+}
+
 // check the click event
 canvas.addEventListener('click', function(e) {
   var command = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
+
   
 	// re-render if any pane is clicked
 	 var rect = collides(rects, e.offsetX, e.offsetY);
+
+  var currentData = studyInfo.data[studyInfo.data.length - 1];
+
 	if (rect) {
-		current_page = rect.n;
+		current_pane = rect.n;
 
 		var imageObject = new Image();
 		imageObject.onload = function() {
@@ -94,7 +136,7 @@ canvas.addEventListener('click', function(e) {
 		};
 		imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
 	}
-	
+
 	// check if correct pane clicked
 	if (collides([rects[command.p]], e.offsetX, e.offsetY)) {
 	  // TODO: add to data here?
@@ -120,6 +162,24 @@ canvas.addEventListener('click', function(e) {
   rect = collides(next_rect, e.offsetX, e.offsetY);
   if(rect && next)
     drawCommandMap();
+
+	// check if correct command clicked on correct pane
+	if (current_pane == command.p && collides([command], e.offsetX, e.offsetY)) {
+		// log time needed for task
+		config.totalTime += currentData.time;
+		currentData.time = Date.now() - config.totalTime;
+		console.log(JSON.stringify(studyInfo));
+		// TODO: clean this
+		studyInfo.trialId++;
+		var newCommand = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
+		drawCommand(newCommand);
+	}
+	// did not click correct pane, either
+	else if (current_pane != command.p || !rect) {
+	  config.wrongSound.play();
+	  currentData.correct = false;
+	}
+
 });
 
 // see if click is on one of active regions in rs
@@ -145,7 +205,7 @@ function shuffleCommandSet() {
       commandSet[j] = temp;
   }
 }
-
+ 
 
 // draw CommandMaps
 function drawCommandMap() { 
@@ -162,6 +222,7 @@ function drawCommandMap() {
     imageObject.src = 'screenshots/command_maps.png';
     imageButton.src = 'screenshots/next.png';  
 }
+
 
 
 // generate new order of commands safely, i.e., such that at least half involve tab switch
@@ -182,6 +243,7 @@ function safelyReorderCommands() {
 }
 
 // wrapper for drawing target command onto document (literally)
+
 function drawCommand(pane, number) {
   context.clearRect(580, 300, 100, 100);
 	command.src = 'screenshots/icons/' + pane + number + '.png';
@@ -193,6 +255,28 @@ function init() {
   safelyReorderCommands();
   var firstCommand = commandSets[studyInfo.setId][0];
   drawCommand(firstCommand.p, firstCommand.n);
+
+function drawCommand(commandToDraw) {
+  context.clearRect(400, 250, 500, 500);
+  command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
+  command.onload = function() {
+    var centerX = 617;
+    context.drawImage(command, centerX - 0.5 * command.width, 300 - 0.5 * command.height);
+  	context.fillText(commandToDraw.t, centerX, 360);
+  };
+}
+
+// update study info
+function updateStudyInfo() {
+  //
+}
+
+function init() {
+  // reorder commands
+  safelyReorderCommands();
+  
+  // draw first command
+  drawCommand(commandSets[studyInfo.setId][0]);
 }
 
 window.onload = init;
