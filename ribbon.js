@@ -54,26 +54,16 @@ var commandSets = [
     {t:'Bold text',x:7,y:125,w:28,h:20,p:0,n:0},
     {t:'Justify text',x:407,y:125,w:28,h:20,p:0,n:2},
     {t:'Insert picture',x:1140,y:95,w:50,h:55,p:0,n:4},
-
-    {t:'Orientation',x:7,y:92,w:60,h:58,p:1,n:0},
-    {t:'Bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
-
     {t:'Change orientation',x:7,y:92,w:60,h:58,p:1,n:0},
     {t:'Change bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
-
     {t:'Accept revision',x:445,y:92,w:53,h:58,p:6,n:0}
   ],
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
     {t:'Center text',x:351,y:125,w:28,h:20,p:0,n:3},
     {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
-
-    {t:'Size',x:67,y:92,w:55,h:58,p:1,n:1},
-    {t:'Left margin',x:255,y:125,w:45,h:20,p:1,n:3},
-
     {t:'Change size',x:67,y:92,w:55,h:58,p:1,n:1},
     {t:'Change left margin',x:255,y:125,w:45,h:20,p:1,n:3},
-
     {t:'Reject revision',x:497,y:92,w:50,h:58,p:6,n:1}
   ],
 ];
@@ -133,10 +123,22 @@ canvas.addEventListener('click', function(e) {
   // handle clicks from within phase by looking at current trial
   var currentTrial = studyInfo.data[studyInfo.data.length - 1];
 
-  //check if clicked next and user can go to next interface
+  // check if clicked next and user can go to next interface
   rect = collides(next_rect, e.offsetX, e.offsetY);
   if (rect && next)
     drawCommandMap();
+    
+  // re-render pane if clicked to new pane
+  rect = collides(rects, e.offsetX, e.offsetY);
+  if (rect) {
+ 		currentPane = rect.n;
+ 
+ 		var imageObject = new Image();
+ 		imageObject.onload = function() {
+ 			context.drawImage(imageObject, 0, 55, 1280, 98);
+ 		};
+ 		imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
+ 	}
 
 	// check if correct command clicked on correct pane
 	if (currentPane == currentTrial.command.p &&
@@ -182,6 +184,26 @@ function rawShuffleCommands(commands) {
   return newCommands;
 }
 
+// safely shuffles commands
+function safeShuffleCommands() {
+  var commandSet = rawShuffleCommands(commandSets[studyInfo.setId]);
+  var numSwitches = 0;
+  
+  for (var i = 1; i < commandSet.length; i++) {
+    // yay, need pane switch
+    if (commandSet[i].p != commandSet[i - 1].p) {
+      numSwitches++;
+    }
+  }
+  
+  // not enough switches, so try again
+  if (numSwitches < 0.5 * commandSet.length) {
+    return safeShuffleCommands();
+  }
+  
+  return commandSet;
+}
+
 // draw CommandMaps
 function drawCommandMap() {
     var imageObject = new Image();
@@ -200,9 +222,10 @@ function drawCommandMap() {
 
 // wrapper for clearing document stuff
 function clearDoc() {
-    context.clearRect(400, 250, 500, 500);
+  context.clearRect(400, 250, 500, 500);
 }
 
+// draw command onto document (literally)
 function drawCommand(commandToDraw) {
   clearDoc();
   command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
@@ -213,6 +236,7 @@ function drawCommand(commandToDraw) {
 
 // when loaded, draw image and corresponding text
 function loadCommand(text) {
+  console.log('loaded');
   context.drawImage(
     command,
     config.centerX - 0.5 * command.width,
@@ -225,13 +249,13 @@ function loadCommand(text) {
 function handleTrialUpdate() {
   console.log('phase: ' + studyInfo.phaseId + '\ntrial: ' + studyInfo.trialId);
   // end of study!
-  if (studyInfo.phaseId === 1 && studyInfo.trialId === 90) {
+  if (studyInfo.phaseId === 1 && studyInfo.trialId === config.numTrials[1]) {
     alert('done!');
     return;
   }
   
   // end of phase 0 (familiarization)
-  if (studyInfo.phaseId === 0 && studyInfo.trialId === 30) {
+  if (studyInfo.phaseId === 0 && studyInfo.trialId === config.numTrials[0]) {
     startNewPhase(++studyInfo.phaseId);
     return;
   }
