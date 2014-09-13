@@ -4,12 +4,10 @@ var context = canvas.getContext('2d');
 var current_pane = 0;
 var target_rect = 11;
 
- 
 // also set text options on context
 context.font = '24px sans-serif';
 context.textAlign = 'center';
 
- 
 // initialize the basic screen
 var head = new Image();
 var home = new Image();
@@ -57,31 +55,30 @@ var commandSets = [
     {t:'Bold text',x:7,y:125,w:28,h:20,p:0,n:0},
     {t:'Justify text',x:407,y:125,w:28,h:20,p:0,n:2},
     {t:'Insert picture',x:1140,y:95,w:50,h:55,p:0,n:4},
- 
+
     {t:'Orientation',x:7,y:92,w:60,h:58,p:1,n:0},
     {t:'Bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
- 
+
     {t:'Change orientation',x:7,y:92,w:60,h:58,p:1,n:0},
     {t:'Change bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
- 
+
     {t:'Accept revision',x:445,y:92,w:53,h:58,p:6,n:0}
   ],
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
     {t:'Center text',x:351,y:125,w:28,h:20,p:0,n:3},
     {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
- 
+
     {t:'Size',x:67,y:92,w:55,h:58,p:1,n:1},
     {t:'Left margin',x:255,y:125,w:45,h:20,p:1,n:3},
 
     {t:'Change size',x:67,y:92,w:55,h:58,p:1,n:1},
- 
+    {t:'Change left margin',x:255,y:125,w:45,h:20,p:1,n:3},
+
     {t:'Reject revision',x:497,y:92,w:50,h:58,p:6,n:1}
   ],
 ];
 
-
-// info about user progress in study
 
 var studyInfo = {
   // index of command set used
@@ -91,11 +88,6 @@ var studyInfo = {
   // index of trial within block (30 total for familiarization, 90 total for performance)
   trialId: 0,
   // data that holds participant accuracy and timing
-  data: [],
-  // toggle between between Ribbon and CommandMaps
-  next: 1
-};
-
   data: [{
     // copied from above
     blockId: 0,
@@ -106,7 +98,8 @@ var studyInfo = {
     
     // was user error-free in completing task?
     correct: true
-  }]
+  }],
+  next: 1
 };
 
 // config vars for study
@@ -120,11 +113,9 @@ var config = {
 // check the click event
 canvas.addEventListener('click', function(e) {
   var command = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
-
   
 	// re-render if any pane is clicked
 	 var rect = collides(rects, e.offsetX, e.offsetY);
-
   var currentData = studyInfo.data[studyInfo.data.length - 1];
 
 	if (rect) {
@@ -136,6 +127,7 @@ canvas.addEventListener('click', function(e) {
 		};
 		imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
 	}
+	
 
 	// check if correct pane clicked
 	if (collides([rects[command.p]], e.offsetX, e.offsetY)) {
@@ -205,7 +197,8 @@ function shuffleCommandSet() {
       commandSet[j] = temp;
   }
 }
- 
+
+
 
 // draw CommandMaps
 function drawCommandMap() { 
@@ -224,14 +217,13 @@ function drawCommandMap() {
 }
 
 
-
 // generate new order of commands safely, i.e., such that at least half involve tab switch
 function safelyReorderCommands() {
   shuffleCommandSet();
   var numSwitches = 0;
   var commandSet = commandSets[studyInfo.setId];
   for (var i = 1; i < commandSet.length; i++) {
-    // yay, we need a tab switch
+    // yay, we need tab switch
     if (commandSet[i].p != commandSet[i - 1].p) {
       numSwitches++;
     }
@@ -243,7 +235,6 @@ function safelyReorderCommands() {
 }
 
 // wrapper for drawing target command onto document (literally)
-
 function drawCommand(pane, number) {
   context.clearRect(580, 300, 100, 100);
 	command.src = 'screenshots/icons/' + pane + number + '.png';
@@ -255,7 +246,6 @@ function init() {
   safelyReorderCommands();
   var firstCommand = commandSets[studyInfo.setId][0];
   drawCommand(firstCommand.p, firstCommand.n);
-
 function drawCommand(commandToDraw) {
   context.clearRect(400, 250, 500, 500);
   command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
