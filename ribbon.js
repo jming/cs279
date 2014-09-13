@@ -28,7 +28,7 @@ body.onload = function() {
 
 command.onload = function() {
   context.drawImage(command, 580, 300);
-}
+};
 
 head.src = 'screenshots/header.png';
 home.src = 'screenshots/0home.png';
@@ -108,14 +108,14 @@ var config = {
   totalTime: Date.now(),
   // sound to play when user clicked incorrectly
   wrongSound: new Audio('audio/buzzer.mp3')
-}
+};
 
 // check the click event
 canvas.addEventListener('click', function(e) {
   var command = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
   
 	// re-render if any pane is clicked
-	 var rect = collides(rects, e.offsetX, e.offsetY);
+	var rect = collides(rects, e.offsetX, e.offsetY);
   var currentData = studyInfo.data[studyInfo.data.length - 1];
 
 	if (rect) {
@@ -131,7 +131,7 @@ canvas.addEventListener('click', function(e) {
 
 	// check if correct pane clicked
 	if (collides([rects[command.p]], e.offsetX, e.offsetY)) {
-	  // TODO: add to data here?
+    // TODO: add to data here?
 	}
 	// check if correct command clicked
 	else if (collides([command], e.offsetX, e.offsetY)) {
@@ -143,7 +143,7 @@ canvas.addEventListener('click', function(e) {
 	}
 	// neither correct pane nor command clicked
 	else {
-	  alert('boo...');
+    alert('boo...');
 	}
 
 	// TODO: record click timing and location
@@ -168,8 +168,8 @@ canvas.addEventListener('click', function(e) {
 	}
 	// did not click correct pane, either
 	else if (current_pane != command.p || !rect) {
-	  config.wrongSound.play();
-	  currentData.correct = false;
+    config.wrongSound.play();
+    currentData.correct = false;
 	}
 
 });
@@ -201,7 +201,7 @@ function shuffleCommandSet() {
 
 
 // draw CommandMaps
-function drawCommandMap() { 
+function drawCommandMap() {
     var imageObject = new Image();
     var imageButton = new Image();
     imageObject.onload = function() {
@@ -209,11 +209,11 @@ function drawCommandMap() {
       context.drawImage(body, 0, 700, 1280, 648);
 
       if (studyInfo.next)
-        context.drawImage(imageButton, 600, 750, 100, 50); 
+        context.drawImage(imageButton, 600, 750, 100, 50);
       
-    }
+    };
     imageObject.src = 'screenshots/command_maps.png';
-    imageButton.src = 'screenshots/next.png';  
+    imageButton.src = 'screenshots/next.png';
 }
 
 
@@ -246,13 +246,14 @@ function init() {
   safelyReorderCommands();
   var firstCommand = commandSets[studyInfo.setId][0];
   drawCommand(firstCommand.p, firstCommand.n);
+}
 function drawCommand(commandToDraw) {
   context.clearRect(400, 250, 500, 500);
   command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
   command.onload = function() {
     var centerX = 617;
     context.drawImage(command, centerX - 0.5 * command.width, 300 - 0.5 * command.height);
-  	context.fillText(commandToDraw.t, centerX, 360);
+    context.fillText(commandToDraw.t, centerX, 360);
   };
 }
 
