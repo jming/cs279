@@ -27,7 +27,7 @@ body.onload = function() {
 
 command.onload = function() {
   context.drawImage(command, 580, 300);
-}
+};
 
 head.src = 'screenshots/header.png';
 home.src = 'screenshots/0home.png';
@@ -135,7 +135,7 @@ canvas.addEventListener('click', function(e) {
 
   //check if clicked next and user can go to next interface
   rect = collides(next_rect, e.offsetX, e.offsetY);
-  if(rect && next)
+  if (rect && next)
     drawCommandMap();
 
 	// check if correct command clicked on correct pane
@@ -193,7 +193,7 @@ function drawCommandMap() {
       if (studyInfo.next)
         context.drawImage(imageButton, 600, 750, 100, 50);
       
-    }
+    };
     imageObject.src = 'screenshots/command_maps.png';
     imageButton.src = 'screenshots/next.png';
 }
@@ -203,7 +203,6 @@ function clearDoc() {
     context.clearRect(400, 250, 500, 500);
 }
 
-// draw target command onto document (literally)
 function drawCommand(commandToDraw) {
   clearDoc();
   command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
