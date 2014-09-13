@@ -64,7 +64,7 @@ var commandSets = [
   ],
 ];
 
-// info about study
+// info about user progress in study
 var studyInfo = {
   // index of command set used
   setId: 0,
@@ -72,8 +72,6 @@ var studyInfo = {
   blockId: 0,
   // index of trial within block (30 total for familiarization, 90 total for performance)
   trialId: 0,
-  // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
-  totalTime: Date.now(),
   // data that holds participant accuracy and timing
   data: [{
     // copied from above
@@ -87,6 +85,14 @@ var studyInfo = {
     correct: true
   }]
 };
+
+// config vars for study
+var config = {
+  // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
+  totalTime: Date.now(),
+  // sound to play when user clicked incorrectly
+  wrongSound: new Audio('audio/buzzer.mp3')
+}
 
 // check the click event
 canvas.addEventListener('click', function(e) {
@@ -107,8 +113,8 @@ canvas.addEventListener('click', function(e) {
 	// check if correct command clicked on correct pane
 	if (current_pane == command.p && collides([command], e.offsetX, e.offsetY)) {
 		// log time needed for task
-		studyInfo.totalTime += currentData.time;
-		currentData.time = Date.now() - studyInfo.totalTime;
+		config.totalTime += currentData.time;
+		currentData.time = Date.now() - config.totalTime;
 		console.log(JSON.stringify(studyInfo));
 		// TODO: clean this
 		studyInfo.trialId++;
@@ -117,6 +123,7 @@ canvas.addEventListener('click', function(e) {
 	}
 	// did not click correct pane, either
 	else if (current_pane != command.p || !rect) {
+	  config.wrongSound.play();
 	  currentData.correct = false;
 	}
 });
