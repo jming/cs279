@@ -1,8 +1,7 @@
 // global variables
 var canvas = document.getElementById('ribbon-canvas');
 var context = canvas.getContext('2d');
-var current_pane = 0;
-var target_rect = 11;
+var currentPane = 0;
 
 // also set text options on context
 context.font = '24px sans-serif';
@@ -68,22 +67,19 @@ var commandSets = [
 var studyInfo = {
   // index of command set used
   setId: 0,
-  // index of block used (0: familiarization, 1: performance)
-  blockId: 0,
+  // index of current phase  (0: familiarization, 1: performance)
+  phaseId: 0,
   // index of trial within block (30 total for familiarization, 90 total for performance)
   trialId: 0,
-  // data that holds participant accuracy and timing
-  data: [{
-    // copied from above
-    blockId: 0,
-    trialId: 0,
-    
-    // time in ms needed to complete trial
-    time: 0,
-    
-    // was user error-free in completing task?
-    correct: true
-  }]
+  /*
+   * data that holds participant accuracy and timing. has following properties:
+   *   phaseId: (int) copied from studyInfo,
+   *   trialId: (int) copied from studyInfo,
+   *   command: (Obj) command for trial (from commandSets)
+   *   time: (int) time in ms needed to complete trial,
+   *   correct: (bool) was user error-free in completing task?
+   */
+  data: []
 };
 
 // config vars for study
@@ -91,17 +87,41 @@ var config = {
   // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
   totalTime: Date.now(),
   // sound to play when user clicked incorrectly
-  wrongSound: new Audio('audio/buzzer.mp3')
+  wrongSound: new Audio('audio/buzzer.mp3'),
+  // instructions for each phase of study
+  instructions: [
+    'Familiarization instructions!',
+    'Performance instructions!'
+  ],
+  // number of trials in each phase
+  numTrials: [30, 90],
+  // pre-computed shuffled sets of commands to use
+  sets: [],
+  // center X coordinate for drawing
+  centerX: 617,
+  // Y coordinate for drawing command
+  commandY: 300,
+  // Y coordinate for drawing text
+  textY: 360
 }
 
 // check the click event
 canvas.addEventListener('click', function(e) {
-  var command = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
-  var currentData = studyInfo.data[studyInfo.data.length - 1];
+  // handle clicks from new phases
+  if (studyInfo.trialId === 0) {
+    startNewTrial();
+    config.totalTime = Date.now();
+    
+    return;
+  }
+  
+  // handle clicks from within phase by looking at current trial
+  var currentTrial = studyInfo.data[studyInfo.data.length - 1];
+  
 	// re-render if any pane is clicked
 	var rect = collides(rects, e.offsetX, e.offsetY);
 	if (rect) {
-		current_pane = rect.n;
+		currentPane = rect.n;
 
 		var imageObject = new Image();
 		imageObject.onload = function() {
@@ -111,21 +131,22 @@ canvas.addEventListener('click', function(e) {
 	}
 	
 	// check if correct command clicked on correct pane
-	if (current_pane == command.p && collides([command], e.offsetX, e.offsetY)) {
-		// log time needed for task
-		config.totalTime += currentData.time;
-		currentData.time = Date.now() - config.totalTime;
-		console.log(JSON.stringify(studyInfo));
-		// TODO: clean this
-		studyInfo.trialId++;
-		var newCommand = commandSets[studyInfo.setId][studyInfo.trialId % commandSets[0].length];
-		drawCommand(newCommand);
+	if (currentPane == currentTrial.command.p &&
+	    collides([currentTrial.command], e.offsetX, e.offsetY)) {
+		// update time info for current task
+		currentTrial.time = Date.now() - config.totalTime;
+		config.totalTime += currentTrial.time;
+		
+		// end of trial - handle update
+		handleTrialUpdate();
 	}
 	// did not click correct pane, either
-	else if (current_pane != command.p || !rect) {
+	else if (currentPane != currentTrial.command.p || !rect) {
 	  config.wrongSound.play();
-	  currentData.correct = false;
+	  currentTrial.correct = false;
 	}
+	
+// 	console.log('X: ' + e.offsetX + '\nY: ' + e.offsetY);
 });
 
 // see if click is on one of active regions in rs
@@ -141,56 +162,122 @@ function collides(rs,x,y) {
 	return isCollision;
 }
 
-// shuffles commands in user's command set
-function shuffleCommandSet() {
-  var commandSet = commandSets[studyInfo.setId];
-  for (var i = commandSet.length - 1; i > 0; i--) {
+// shuffles given commands
+function rawShuffleCommands(commands) {
+  // do quasi-deep copy
+  var newCommands = commands.slice();
+  for (var i = newCommands.length - 1; i > 0; i--) {
       var j = Math.floor(Math.random() * (i + 1));
-      var temp = commandSet[i];
-      commandSet[i] = commandSet[j];
-      commandSet[j] = temp;
+      var temp = newCommands[i];
+      newCommands[i] = newCommands[j];
+      newCommands[j] = temp;
   }
+  
+  return newCommands;
 }
 
-// generate new order of commands safely, i.e., such that at least half involve tab switch
-function safelyReorderCommands() {
-  shuffleCommandSet();
+// generate new order of commands safely, i.e., such that at least half involve pane switch
+function safeShuffleCommands() {
+  var commandSet = rawShuffleCommands(commandSets[studyInfo.setId]);
   var numSwitches = 0;
-  var commandSet = commandSets[studyInfo.setId];
   for (var i = 1; i < commandSet.length; i++) {
-    // yay, we need tab switch
+    // yay, we need pane switch
     if (commandSet[i].p != commandSet[i - 1].p) {
       numSwitches++;
     }
   }
   
+  // has not met pane switch spec - shuffle again
   if (numSwitches < 0.5 * commandSet.length) {
-    safelyReorderCommands();
+    return safeShuffleCommands();
   }
+  
+  return commandSet;
 }
 
-// wrapper for drawing target command onto document (literally)
-function drawCommand(commandToDraw) {
+// wrapper for clearing document stuff
+function clearDoc() {
   context.clearRect(400, 250, 500, 500);
+}
+
+// draw target command onto document (literally)
+function drawCommand(commandToDraw) {
+  clearDoc();
   command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
   command.onload = function() {
-    var centerX = 617;
-    context.drawImage(command, centerX - 0.5 * command.width, 300 - 0.5 * command.height);
-  	context.fillText(commandToDraw.t, centerX, 360);
+    loadCommand(commandToDraw.t);
   };
 }
 
-// update study info
-function updateStudyInfo() {
-  //
+// when loaded, draw image and corresponding text
+function loadCommand(text) {
+  context.drawImage(
+    command,
+    config.centerX - 0.5 * command.width,
+    config.commandY - 0.5 * command.height
+  );
+	context.fillText(text, config.centerX, config.textY);
+}
+
+// update study info for trial
+function handleTrialUpdate() {
+  console.log('phase: ' + studyInfo.phaseId + '\ntrial: ' + studyInfo.trialId);
+  // end of study!
+  if (studyInfo.phaseId === 1 && studyInfo.trialId === 90) {
+    alert('done!');
+    return;
+  }
+  
+  // end of phase 0 (familiarization)
+  if (studyInfo.phaseId === 0 && studyInfo.trialId === 30) {
+    startNewPhase(++studyInfo.phaseId);
+    return;
+  }
+  
+	startNewTrial();
+}
+
+// update for new phase (intro 0, familiarization 1, performance 2)
+function startNewPhase(newPhaseNum) {
+  clearDoc();
+  
+  // TODO: set pane to blank or whatever
+  
+  // display new instructions
+  context.fillText(config.instructions[newPhaseNum], config.centerX, config.textY);
+  
+  studyInfo.trialId = 0;
+}
+
+// push clean data for new trial and draw corresponding command
+function startNewTrial() {
+  // which set of shuffled sets of commands to use
+  var shuffledSetId = Math.floor(studyInfo.trialId / commandSets[0].length);
+  var indexInSet = studyInfo.trialId % commandSets[0].length;
+	var newCommand = config.sets[studyInfo.phaseId][shuffledSetId][indexInSet];
+	studyInfo.data.push({
+      phaseId: studyInfo.phaseId,
+      trialId: ++studyInfo.trialId,
+      command: newCommand,
+      time: 0,
+      correct: true
+    });
+	drawCommand(newCommand);
 }
 
 function init() {
-  // reorder commands
-  safelyReorderCommands();
+  // TODO: set to random and record in data
+  studyInfo.setId = 0;
   
-  // draw first command
-  drawCommand(commandSets[studyInfo.setId][0]);
+  // precompute shuffled commands to avoid doing this on the fly during experiment
+  for (var i = 0; i < config.numTrials.length; i++) {
+    config.sets[i] = [];
+    for (var j = 0; j < config.numTrials[i]; j++) {
+      config.sets[i].push(safeShuffleCommands());
+    }
+  }
+  
+  startNewPhase(0);
 }
 
 window.onload = init;
