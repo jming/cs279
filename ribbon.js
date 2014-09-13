@@ -247,7 +247,7 @@ function loadCommand(text) {
 
 // update study info for trial
 function handleTrialUpdate() {
-  console.log('phase: ' + studyInfo.phaseId + '\ntrial: ' + studyInfo.trialId);
+  console.log(JSON.stringify(studyInfo.data[studyInfo.data.length - 1]));
   // end of study!
   if (studyInfo.phaseId === 1 && studyInfo.trialId === config.numTrials[1]) {
     alert('done!');
