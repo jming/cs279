@@ -25,6 +25,10 @@ function setVariables(condition) {
     $('#general-instructions-div').show();
 }
 
+function start() {
+    
+}
+
 // generate the active interface being used
     // familiarization instructions
     // familiarization actions
