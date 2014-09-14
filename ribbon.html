@@ -8,13 +8,13 @@
     <meta name="author" content="">
     <link rel="icon" href="../../favicon.ico">
 
-    <title>Starter Template for Bootstrap</title>
+    <title>Command Selection Experiment</title>
 
     <!-- Bootstrap core CSS -->
     <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <!-- <link href="http://getbootstrap.com/examples/starter-template/starter-template.css" rel="stylesheet"> -->
+    <link href="app.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
     <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -29,33 +29,47 @@
 
   <body>
 
-    <div class="container"></div>
+    <div id='consent-div' class="container instructions">
+      
+      <h1>Command Selection Experiment</h1>
 
-    <div id='ribbon-div' class="container" style="margin:0px;padding:0px;">
+      <h4>Participation is voluntary.</h4>
+      It is your choice whether or not to participate in this research. If you choose to participate, you may change your mind and leave the study at any time.
 
-      <!-- <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-      </div> -->
+      <h4>Description of the proposed study.</h4>
+      You will be asked to participate in a command selection task, which will take approximately ten to fifteen minutes. In this task, you will be asked to select the icon related to a corresponding task. Please read the instructions before starting the task, and if anything is unclear about the rules, you may ask before starting. After completing the task, you may ask questions about the purpose of the game and the research goals.
+
+      <h4>Potential risks and discomforts.</h4>
+      There is minimal risk that you may experience eye strain or other discomforts related to completing a task on a computer screen, but since the duration of the task is short, the probability of experiencing any discomfort is very low. We will be logging data based on your movements and actions during the task, but the data will not be linked to any identifiable information about yourself.
+
+      <h4>Potential benefits.</h4>
+      There are no special benefits you should expect from participating in the study; however, we hope you will find the experience engaging and enjoyable. The data gained from this study will help advance research in human computer interaction (in the context of artificial intelligence).
+
+      <h4>Compensation.</h4>
+      You will not be compensated in any monetary form for participating in this research.
+
+      <h4>Questions?</h4>
+      Contact Dianna Hu (dhu@college.harvard.edu), Joy Ming (jming@college.harvard.edu), or LuLu Li (luluvyd@gmail.com).
+
+      <h4>Participant consent.</h4>
+      I understand the risks presented by this study and by clicking on the button below, I am consenting to this experiment.
+
+      <p><button class='btn'>Experiment Condition 1</button>
+      <button class='btn'>Experiment Condition 2</button></p>
+
+    </div><!-- /.consent-div -->
+
+    <div id='ribbon-div' class="container experiment-canvas">
 
       <canvas id="ribbon-canvas" width="1280" height="800"></canvas>
 
-<!--       <canvas id="commandmap-canvas" width="1280" height="800"></canvas> -->
+    </div><!-- /.ribbon-div -->
 
-    </div><!-- /.container -->
-
-    <div id='commandmap-div' class="container" style="margin:0px;padding:0px;">
-
-      <!-- <div class="starter-template">
-        <h1>Bootstrap starter template</h1>
-        <p class="lead">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>
-      </div> -->
-
-<!--       <canvas id="ribbon-canvas" width="1280" height="800"></canvas> -->
+    <div id='commandmap-div' class="container experiment-canvas">
 
       <canvas id="commandmap-canvas" width="1280" height="800"></canvas>
 
-    </div><!-- /.container -->
+    </div><!-- /.commandmap-div -->
 
 
     <!-- Bootstrap core JavaScript
@@ -66,5 +80,6 @@
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="ribbon.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
