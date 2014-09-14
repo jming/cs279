@@ -26,7 +26,16 @@ function setVariables(condition) {
 }
 
 function start() {
-    happyform();
+
+    // should be placed in interface
+
+    // hide the consent form
+    $('#consent-div').hide();
+    // hide the general instructions
+    $('#general-instructions-div').hide();
+    // display the happiness form
+    $('#happy-form-div').show();
+
 }
 
 
@@ -57,13 +66,6 @@ function happyform() {
     document.getElementById('commap_3').value,
     document.getElementById('commap_4').value,
     document.getElementById('commap_5').value];
-
-    // hide the consent form
-    $('#consent-div').hide();
-    // hide the general instructions
-    $('#general-instructions-div').hide();
-    // display the happiness form
-    $('#happy-form-div').show();
 
     displaydata();
 }
