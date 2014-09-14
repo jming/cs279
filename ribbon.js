@@ -1,14 +1,21 @@
 // global variables
+var ribbon_div = '#ribbon-div';
+var commandmap_div = '#commandmap-div';
+
+var div = ribbon_div;
+$(commandmap_div).hide();
+
 var ribbon_canvas = document.getElementById('ribbon-canvas');
 var commandmap_canvas = document.getElementById('commandmap-canvas');
+
 var canvas = ribbon_canvas;
-// commandmap_canvas.hide();
 var context = canvas.getContext('2d');
-var currentPane = 0;
 
 // also set text options on context
 context.font = '24px sans-serif';
 context.textAlign = 'center';
+
+var currentPane = 0;
 
 // initialize the basic screen
 var head = new Image();
@@ -73,6 +80,8 @@ var commandSets = [
 
 
 var studyInfo = {
+  // interface used
+  interfaceName: 'ribbon',
   // index of command set used
   setId: 0,
   // index of current phase  (0: familiarization, 1: performance)
@@ -266,6 +275,11 @@ function handleTrialUpdate() {
 	startNewTrial();
 }
 
+// update for new interface
+function startNewInterface(interfaceName) {
+  $()
+}
+
 // update for new phase (intro 0, familiarization 1, performance 2)
 function startNewPhase(newPhaseNum) {
   clearDoc();
@@ -295,7 +309,8 @@ function startNewTrial() {
 }
 
 function init() {
-  // TODO: set to random and record in data
+  // TODO: set from handler and record in data
+  studyInfo.interfaceName = 'ribbon';
   studyInfo.setId = 0;
   
   // precompute shuffled commands to avoid doing this on the fly during experiment
