@@ -1,32 +1,32 @@
-var START_INTERFACE = null;
-var START_SET = null;
-
 // select condition 1, 2, 3, or 4
 function setVariables(condition) {
+  // set the start interface and command set
+  if (condition == 1) {
+      studyInfo.interfaceId = 0;
+      studyInfo.setId = 0;
+  } else if (condition == 2) {
+      studyInfo.interfaceId = 0;
+      studyInfo.setId = 1;
+  } else if (condition == 3) {
+      studyInfo.interfaceId = 1;
+      studyInfo.setId = 0;
+  } else {
+      studyInfo.interfaceId = 1;
+      studyInfo.setId = 1;
+  }
 
-    // set the start interface and command set
-    if (condition == 1) {
-        START_INTERFACE = 0;
-        START_SET = 0;
-    } else if (condition == 2) {
-        START_INTERFACE = 0;
-        START_SET = 1;
-    } else if (condition == 3) {
-        START_INTERFACE = 1;
-        START_SET = 0;
-    } else {
-        START_INTERFACE = 1;
-        START_SET = 1;
-    }
-
-    // hide the consent form
-    $('#consent-div').hide();
-    // display the general instructions
-    $('#general-instructions-div').show();
+  // hide the consent form
+  $('#consent-div').hide();
+  // display the general instructions
+  $('#general-instructions-div').show();
 }
 
 function start() {
-    
+  // hide instructions
+  $('#general-instructions-div').hide();
+  
+  // start selected interface
+  startNewInterface(studyInfo.interfaceId);
 }
 
 // generate the active interface being used
