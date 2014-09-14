@@ -1,20 +1,4 @@
 // global variables
-var ribbon_div = '#ribbon-div';
-var commandmap_div = '#commandmap-div';
-
-var div = ribbon_div;
-$(commandmap_div).hide();
-
-var ribbon_canvas = document.getElementById('ribbon-canvas');
-var commandmap_canvas = document.getElementById('commandmap-canvas');
-
-var canvas = ribbon_canvas;
-var context = canvas.getContext('2d');
-
-// also set text options on context
-context.font = '24px sans-serif';
-context.textAlign = 'center';
-
 var currentPane = 0;
 
 // initialize the basic screen
@@ -81,7 +65,7 @@ var commandSets = [
 
 var studyInfo = {
   // interface used
-  interfaceName: 'ribbon',
+  interfaceId: 'ribbon',
   // index of command set used
   setId: 0,
   // index of current phase  (0: familiarization, 1: performance)
@@ -101,6 +85,7 @@ var studyInfo = {
 
 // config vars for study
 var config = {
+  interfaceNames: ['ribbon', 'canvas'],
   // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
   totalTime: Date.now(),
   // sound to play when user clicked incorrectly
@@ -275,9 +260,23 @@ function handleTrialUpdate() {
 	startNewTrial();
 }
 
-// update for new interface
-function startNewInterface(interfaceName) {
-  $()
+// start new interface for study
+function startNewInterface(interfaceId) {
+  // show/hide divs
+  var interfaceDiv = '#'+config.interfaceNames[interfaceId]+'-div';
+  var otherDiv = '#'+config.interfaceNames[1 - interfaceId]+'-div';
+  $(interfaceDiv).show();
+  $(otherDiv).hide();
+  
+  // configure canvas and context based on interface
+  config.canvas = document.getElementById(config.interfaceNames[interfaceId]+'-canvas');
+  config.context = config.canvas.getContext('2d');
+  
+  // also set text options on context
+  config.context.font = '24px sans-serif';
+  config.context.textAlign = 'center';
+  
+  startNewPhase(0);
 }
 
 // update for new phase (intro 0, familiarization 1, performance 2)
@@ -310,7 +309,7 @@ function startNewTrial() {
 
 function init() {
   // TODO: set from handler and record in data
-  studyInfo.interfaceName = 'ribbon';
+  studyInfo.interfaceId = 0;
   studyInfo.setId = 0;
   
   // precompute shuffled commands to avoid doing this on the fly during experiment
@@ -321,7 +320,8 @@ function init() {
     }
   }
   
-  startNewPhase(0);
+  startNewInterface(studyInfo.interfaceId);
+  // startNewPhase(0);
 }
 
 window.onload = init;
