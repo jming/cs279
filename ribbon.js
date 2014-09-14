@@ -2,7 +2,7 @@
 var ribbon_canvas = document.getElementById('ribbon-canvas');
 var commandmap_canvas = document.getElementById('commandmap-canvas');
 var canvas = ribbon_canvas;
-commandmap_canvas.hide();
+// commandmap_canvas.hide();
 var context = canvas.getContext('2d');
 var currentPane = 0;
 
