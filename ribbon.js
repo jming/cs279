@@ -1,9 +1,17 @@
 // global variables
+var ribbon_div = '#ribbon-div';
+var commandmap_div = '#commandmap-div';
+
+var div = ribbon_div;
+$(commandmap_div).hide();
+
 var ribbon_canvas = document.getElementById('ribbon-canvas');
 var commandmap_canvas = document.getElementById('commandmap-canvas');
+
 var canvas = ribbon_canvas;
-commandmap_canvas.hide();
+
 var context = canvas.getContext('2d');
+
 var currentPane = 0;
 
 // also set text options on context
