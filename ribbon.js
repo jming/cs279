@@ -1,6 +1,7 @@
 // global variables
 var ribbon_div = '#ribbon-div';
 var commandmap_div = '#commandmap-div';
+var commandmap_div = '#commandmap-div';
 
 var div = ribbon_div;
 $(commandmap_div).hide();
@@ -119,7 +120,10 @@ var studyInfo = {
    *   time: (int) time in ms needed to complete trial,
    *   correct: (bool) was user error-free in completing task?
    */
-  data: []
+  data: [],
+  // new property for happiness test
+  ribbon: [],
+  commap: []
 };
 
 // config vars for study

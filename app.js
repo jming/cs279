@@ -26,8 +26,10 @@ function setVariables(condition) {
 }
 
 function start() {
-    
+    happyform();
 }
+
+
 
 // generate the active interface being used
     // familiarization instructions
@@ -42,5 +44,38 @@ function start() {
     // familiarization actions
 
 // fill in table
+function happyform() {
 
-// display data
+    studyInfo.ribbon = [document.getElementById('ribbon_1').value,
+    document.getElementById('ribbon_2').value, 
+    document.getElementById('ribbon_3').value,
+    document.getElementById('ribbon_4').value,
+    document.getElementById('ribbon_5').value];
+
+    studyInfo.commap = [document.getElementById('commap_1').value,
+    document.getElementById('commap_2').value,
+    document.getElementById('commap_3').value,
+    document.getElementById('commap_4').value,
+    document.getElementById('commap_5').value];
+
+    // hide the consent form
+    $('#consent-div').hide();
+    // hide the general instructions
+    $('#general-instructions-div').hide();
+    // display the happiness form
+    $('#happy-form-div').show();
+
+    displaydata();
+}
+
+// display and save data
+function displaydata() {
+    console.log("me studyInfo ", studyInfo.setId, studyInfo.phaseId, studyInfo.trialId, 
+        studyInfo.data, studyInfo.ribbon, studyInfo.commap); 
+
+
+    var outfile = new Blob(["setId: ", studyInfo.setId, "  phaseId: ", studyInfo.phaseId, "  trialId: ", studyInfo.trialId, 
+        "  data: ", studyInfo.data, "  ribbon: ", studyInfo.ribbon, "  commap: ", studyInfo.commap], {type: "text/plain;charset=utf-8"});
+    saveAs(outfile, "studyInfo.txt");
+}
+
