@@ -131,7 +131,7 @@ var config = {
   // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
   totalTime: Date.now(),
   // sound to play when user clicked incorrectly
-  wrongSound: new Audio('audio/buzzer.mp3'),
+  wrongSound: new Audio('audio/buzzer.m4a'),
   // instructions for each phase of study
   instructions: [
     'Familiarization instructions!',
