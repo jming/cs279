@@ -1,6 +1,7 @@
 // global variables
 var studyInfo = {
   // number of interfaces completed
+  numInterfacesDone: 0,
   // interface used (0: ribbon, 1: command maps)
   interfaceId: 0,
   // index of command set used
@@ -19,7 +20,10 @@ var studyInfo = {
    *   time: (int) time in ms needed to complete trial,
    *   correct: (bool) was user error-free in completing task?
    */
-  data: []
+  data: [],
+  // new property for happiness test
+  ribbon: [],
+  commap: []
 };
 
 // config vars for study
@@ -28,18 +32,18 @@ var config = {
   // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
   totalTime: Date.now(),
   // sound to play when user clicked incorrectly
-  wrongSound: new Audio('audio/buzzer.mp3'),
+  wrongSound: new Audio('audio/buzzer.m4a'),
   // instructions for each phase of study
   instructions: [
-    'Familiarization instructions!',
-    'Performance instructions!'
+    'Practice Phase (30 trials): Click on this doc when you\'re ready to start. :)',
+    'Test Phase (90 trials): Click on this doc when you\'re ready to start. :)'
   ],
   // number of trials in each phase
-  numTrials: [30, 90],
+  numTrials: [6, 6], // [30, 90],
   // pre-computed shuffled sets of commands to use
   sets: [],
   // center X coordinate for drawing
-  centerX: 617,
+  centerX: 645,
   // Y coordinate for drawing command
   commandY: 300,
   // Y coordinate for drawing text
@@ -200,6 +204,7 @@ function setupRibbon() {
 
 // setup for command map specifically
 function setupCommandMap() {
+  // TODO: finish this
   config.canvas.removeEventListener('click', ribbonClick);
   config.canvas.addEventListener('click', commandMapClick);
 }
@@ -256,7 +261,7 @@ function drawCommandMap() {
 
 // wrapper for clearing document stuff
 function clearDoc() {
-  config.context.clearRect(400, 250, 500, 500);
+  config.context.clearRect(250, 250, 800, 500);
 }
 
 // draw command onto document (literally)
@@ -281,28 +286,30 @@ function loadCommand(text) {
 // update study info for trial
 function handleTrialUpdate() {
   console.log(JSON.stringify(studyInfo.data[studyInfo.data.length - 1]));
-  // end of study!
+  // end of phase 1 - finished an interface!
   if (studyInfo.phaseId === 1 && studyInfo.trialId === config.numTrials[1]) {
-    alert('done!');
-    return;
+    studyInfo.numInterfacesDone++;
+    
+    // toggle interface and set (this hack okay because only two of them...)
+    studyInfo.interfaceId = 1 - studyInfo.interfaceId;
+    studyInfo.setId = 1 - studyInfo.setId;
+    
+    startInstructions();
   }
-  
   // end of phase 0 (familiarization)
-  if (studyInfo.phaseId === 0 && studyInfo.trialId === config.numTrials[0]) {
+  else if (studyInfo.phaseId === 0 && studyInfo.trialId === config.numTrials[0]) {
     startNewPhase(++studyInfo.phaseId);
-    return;
   }
-  
-	startNewTrial();
+  else {
+    startNewTrial();
+  }
 }
 
-// start new interface for study
+// start new interface for study (note: does not check for whether all interfaces done)
 function startNewInterface(interfaceId) {
-  // show/hide divs
+  // show correct canvas div
   var interfaceDiv = '#'+config.interfaceNames[interfaceId]+'-div';
-  var otherDiv = '#'+config.interfaceNames[1 - interfaceId]+'-div';
   $(interfaceDiv).show();
-  $(otherDiv).hide();
   
   // configure canvas and context based on interface
   config.canvas = document.getElementById(config.interfaceNames[interfaceId]+'-canvas');

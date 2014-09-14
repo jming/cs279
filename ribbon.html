@@ -66,14 +66,20 @@
     <div id='general-instructions-div' class='container' style='display:none;' >
       <h1>Instructions</h1>
       <p>Please click on the button corresponding with the given action. You'll be presented with two types of interfaces. For each one, you will have a practice phase and a test phase.</p>
-      <p>Before you begin:
-        <ul>
-          <li>Turn your volume up.</li>
-          <li>Make sure your screen is maximized.</li>
-        </ul>
-      </p>
-      <button class='btn' onclick="start();">Start!</button>
-    </div><!-- /.general-instructions-div -->
+      <p>Before you begin:</p>
+      <ul>
+        <li>Turn your volume up.</li>
+        <li>Make sure your screen is maximized.</li>
+      </ul>
+      <button class='btn' onclick="startInstructions();">Start!</button>
+    </div>
+    
+    <div id='interface-instructions-div' class='container' style='display:none;'>
+      <h1>The Interface</h1>
+      <p id='interface-specifics'></p>
+      <p>Ready to see the interface?</p>
+      <button class='btn' onclick="startAction();">Yes!</button>
+    </div>
 
     <div id='ribbon-div' class="container experiment-canvas">
       <canvas id="ribbon-canvas" width="1280" height="800"></canvas>
@@ -83,14 +89,45 @@
       <canvas id="commandmap-canvas" width="1280" height="800"></canvas>
     </div><!-- /.commandmap-div -->
 
-    <div id='tlx-div' class="container" style='display:none;'>
-      PUT TLX HERE!
-    </div><!-- /.tlx-div -->
+    <div id='happy-form-div' class='container' style='display:none;' >
+      <h1>Happiness Form</h1>
+      <p>Please fill out this form and tell us about your experience with the experiment:</p>
 
-    <div id='data-div' class="container" style='display:none;'>
-      PUT DATA DUMP HERE!
-    </div><!-- /.data-div -->
+      <table class="tg">
+        <tr>
+          <th class="tg-031e"></th>
+          <th class="tg-031e">Ribbon</th>
+          <th class="tg-031e">CommandMaps</th>
+        </tr>
+        <tr>
+          <td class="tg-031e">How mentally demanding was the task?</td>
+          <td class="tg-031e"><input id="ribbon_1" name="ribbon_1" size="15" type="number"/></td>
+          <td class="tg-031e"><input id="commap_1" name="commap_1" size="15" type="number"/></td>
+        </tr>
+        <tr>
+          <td class="tg-031e">How physically demanding was the task?</td>
+          <td class="tg-031e"><input id="ribbon_2" name="ribbon_2" size="15" type="number"/></td>
+          <td class="tg-031e"><input id="commap_2" name="commap_2" size="15" type="number"/></td>
+        </tr>
+        <tr>
+          <td class="tg-031e">How hurried or rushed was the pace of the task?</td>
+          <td class="tg-031e"><input id="ribbon_3" name="ribbon_3" size="15" type="number"/></td>
+          <td class="tg-031e"><input id="commap_3" name="commap_3" size="15" type="number"/></td>
+        </tr>
+        <tr>
+          <td class="tg-031e">How hard did you have to work to accomplish<br>your level of performance?</td>
+          <td class="tg-031e"><input id="ribbon_4" name="ribbon_4" size="15" type="number"/></td>
+          <td class="tg-031e"><input id="commap_4" name="commap_4" size="15" type="number"/></td>
+        </tr>
+        <tr>
+          <td class="tg-031e">How insecure, discouraged, irritated, stressed,<br>and annoyed were you?</td>
+          <td class="tg-031e"><input id="ribbon_5" name="ribbon_5" size="15" type="number"/></td>
+          <td class="tg-031e"><input id="commap_5" name="commap_5" size="15" type="number"/></td>
+        </tr>
+      </table>
+    <button class='btn' onclick="happyform();">Finish</button>
 
+  </div><!-- /.happy-form-div -->
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
@@ -101,5 +138,6 @@
     <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
     <script src="ribbon.js"></script>
     <script src="app.js"></script>
+    <script src="FileSaver.js"></script>
   </body>
 </html>
