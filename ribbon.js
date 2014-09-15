@@ -38,7 +38,7 @@ var config = {
     'Practice Phase (30 trials): Click this sentence when you\'re ready to start!',
     'Test Phase (90 trials): Click this sentence when you\'re ready to start!'
   ],
-  // number of trials in each phase
+  // number of trials in each phase (familiarization and performance, respectively)
   numTrials: [30, 90], // can change to any positive multiple of 6 for testing! :D
   // pre-computed shuffled sets of commands to use
   sets: [],
