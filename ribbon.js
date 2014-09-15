@@ -28,15 +28,15 @@ var studyInfo = {
 
 // config vars for study
 var config = {
-  interfaceNames: ['ribbon', 'canvas'],
+  interfaceNames: ['ribbon', 'commandmap'],
   // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
   totalTime: Date.now(),
   // sound to play when user clicked incorrectly
   wrongSound: new Audio('audio/buzzer.m4a'),
   // instructions for each phase of study
   instructions: [
-    'Practice Phase (30 trials): Click on this doc when you\'re ready to start. :)',
-    'Test Phase (90 trials): Click on this doc when you\'re ready to start. :)'
+    'Practice Phase (30 trials): Click [here] when you\'re ready to start. :)',
+    'Test Phase (90 trials): Click [here] when you\'re ready to start. :)'
   ],
   // number of trials in each phase
   numTrials: [6, 6], // [30, 90],
@@ -115,11 +115,6 @@ function ribbonClick(e) {
   
   // handle clicks from within phase by looking at current trial
   var currentTrial = studyInfo.data[studyInfo.data.length - 1];
-
-  // check if clicked next and user can go to next interface
-  rect = collides(next_rect, e.offsetX, e.offsetY);
-  if (rect && next)
-    drawCommandMap();
     
   // re-render pane if clicked to new pane
   rect = collides(rects, e.offsetX, e.offsetY);
@@ -151,7 +146,58 @@ function ribbonClick(e) {
 }
 
 function commandMapClick(e) {
-  // TODO: fill this in
+  // handle clicks from new phases
+  if (studyInfo.trialId === 0) {
+    startNewTrial();
+    config.totalTime = Date.now();
+    
+    return;
+  }
+  
+  // handle clicks from within phase by looking at current trial
+  var currentTrial = studyInfo.data[studyInfo.data.length - 1];
+  
+  // check if correct command clicked with interface activated
+  if (config.activeCommandMapInterface &&
+      collides([currentTrial.command], e.offsetX, e.offsetY)) {
+    // update time info for current task
+		currentTrial.time = Date.now() - config.totalTime;
+		config.totalTime += currentTrial.time;
+		
+		// end of trial - handle update
+		handleTrialUpdate();
+  }
+  else {
+    config.wrongSound.play();
+	  currentTrial.correct = false;
+  }
+}
+
+function commandMapKeyDown(e) {
+  // do not allow for toggling during non-trial!
+  if (studyInfo.trialId === 0) {
+    return;
+  }
+  
+  config.keysPressed[e.keyCode] = true;
+  
+  // Ctrl Shift Z
+  if (config.keysPressed[17] && config.keysPressed[16] && config.keysPressed[90]) {
+    // not active, so draw it
+    if (!config.activeCommandMapInterface) {
+      drawCommandMapInterface();
+    }
+    // toggle by clearing it and drawing command instead
+    else {
+      drawCommand(studyInfo.data[studyInfo.data.length - 1].command);
+    }
+    
+    config.activeCommandMapInterface = !config.activeCommandMapInterface;
+  }
+}
+
+function commandMapKeyUp(e) {
+  config.keysPressed[e.keyCode] = false;
 }
 
 // see if click is on one of active regions in rs
@@ -169,15 +215,13 @@ function collides(rs,x,y) {
 
 // setup for ribbon specifically
 function setupRibbon() {
+  // index of pane that user is on
   config.currentPane = 0;
 
   // initialize the basic screen
-  config.head = new Image();
   config.home = new Image();
   config.body = new Image();
-  config.command = new Image();
   
-  config.head.src = 'screenshots/header.png';
   config.home.src = 'screenshots/0home.png';
   config.body.src = 'screenshots/body.png';
 
@@ -194,19 +238,32 @@ function setupRibbon() {
   	startNewPhase(0);
   };
   
-  config.command.onload = function() {
-    config.context.drawImage(config.command, 580, 300);
-  };
-  
   config.canvas.removeEventListener('click', commandMapClick);
+  window.removeEventListener('keydown', commandMapKeyDown, true);
+  window.removeEventListener('keyup', commandMapKeyUp);
+  
   config.canvas.addEventListener('click', ribbonClick);
 }
 
 // setup for command map specifically
 function setupCommandMap() {
-  // TODO: finish this
+  // has user activated command maps interface?
+  config.activeCommandMapInterface = false;
+  
+  // container of keys that were pressed down
+  config.keysPressed = {};
+  
+  // initialize cm-specific screen
+  config.commandMapInterface = new Image();
+  config.commandMapInterface.src = 'screenshots/command_maps.png';
+  
   config.canvas.removeEventListener('click', ribbonClick);
+  
   config.canvas.addEventListener('click', commandMapClick);
+  window.addEventListener('keydown', commandMapKeyDown);
+  window.addEventListener('keyup', commandMapKeyUp);
+  
+  startNewPhase(0);
 }
 
 // shuffles given commands
@@ -243,20 +300,10 @@ function safeShuffleCommands() {
   return commandSet;
 }
 
-// draw CommandMaps
-function drawCommandMap() {
-  var imageObject = new Image();
-  var imageButton = new Image();
-  imageObject.onload = function() {
-    config.context.drawImage(imageObject, 0, 55, 1280, 700);
-    config.context.drawImage(body, 0, 700, 1280, 648);
-
-    if (studyInfo.next)
-      config.context.drawImage(imageButton, 600, 750, 100, 50);
-    
-  };
-  imageObject.src = 'screenshots/command_maps.png';
-  imageButton.src = 'screenshots/next.png';
+// draw CommandMap
+function drawCommandMapInterface() {
+  config.context.drawImage(config.head, 0, 0, 1280, 55);
+  config.context.drawImage(config.commandMapInterface, 0, 55, 1280, 700);
 }
 
 // wrapper for clearing document stuff
@@ -264,9 +311,22 @@ function clearDoc() {
   config.context.clearRect(250, 250, 800, 500);
 }
 
-// draw command onto document (literally)
+// wrapper for clearing entire screen
+function clearScreen() {
+  config.context.clearRect(0, 0, config.canvas.width, config.canvas.height);
+}
+
+// draw command onto page
 function drawCommand(commandToDraw) {
-  clearDoc();
+  // wipe out only doc in ribbon, but whole screen in cms
+  if (studyInfo.interfaceId === 0) {
+    clearDoc();
+  }
+  else {
+    clearScreen();
+  }
+
+  config.command = new Image();
   config.command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
   config.command.onload = function() {
     loadCommand(commandToDraw.t);
@@ -281,28 +341,6 @@ function loadCommand(text) {
     config.commandY - 0.5 * config.command.height
   );
 	config.context.fillText(text, config.centerX, config.textY);
-}
-
-// update study info for trial
-function handleTrialUpdate() {
-  console.log(JSON.stringify(studyInfo.data[studyInfo.data.length - 1]));
-  // end of phase 1 - finished an interface!
-  if (studyInfo.phaseId === 1 && studyInfo.trialId === config.numTrials[1]) {
-    studyInfo.numInterfacesDone++;
-    
-    // toggle interface and set (this hack okay because only two of them...)
-    studyInfo.interfaceId = 1 - studyInfo.interfaceId;
-    studyInfo.setId = 1 - studyInfo.setId;
-    
-    startInstructions();
-  }
-  // end of phase 0 (familiarization)
-  else if (studyInfo.phaseId === 0 && studyInfo.trialId === config.numTrials[0]) {
-    startNewPhase(++studyInfo.phaseId);
-  }
-  else {
-    startNewTrial();
-  }
 }
 
 // start new interface for study (note: does not check for whether all interfaces done)
@@ -327,11 +365,15 @@ function startNewInterface(interfaceId) {
     }
   }
   
+  // set up basic components common to both interfaces
+  config.head = new Image();
+  config.head.src = 'screenshots/header.png';
+  
   // ribbon-specific setup
   if (interfaceId === 0) {
     setupRibbon();
   }
-  // commandmaps-specific setup
+  // commandmap-specific setup
   else {
     setupCommandMap();
   }
@@ -340,7 +382,12 @@ function startNewInterface(interfaceId) {
 // update for new phase (familiarization 0, performance 1)
 function startNewPhase(newPhaseNum) {
   // clear whatever was there before
-  clearDoc();
+  if (studyInfo.interfaceId === 0) {
+    clearDoc();
+  }
+  else {
+    clearScreen();
+  }
   
   // display new instructions
   config.context.fillText(config.instructions[newPhaseNum], config.centerX, config.textY);
@@ -364,4 +411,30 @@ function startNewTrial() {
       correct: true
     });
 	drawCommand(newCommand);
+}
+
+// update study info for trial
+function handleTrialUpdate() {
+  console.log(JSON.stringify(studyInfo.data[studyInfo.data.length - 1]));
+  // end of phase 1 - finished an interface!
+  if (studyInfo.phaseId === 1 && studyInfo.trialId === config.numTrials[1]) {
+    studyInfo.numInterfacesDone++;
+    
+    // toggle interface and set (this hack okay because only two of them...)
+    studyInfo.interfaceId = 1 - studyInfo.interfaceId;
+    studyInfo.setId = 1 - studyInfo.setId;
+    
+    startInstructions();
+  }
+  // end of phase 0 (familiarization)
+  else if (studyInfo.phaseId === 0 && studyInfo.trialId === config.numTrials[0]) {
+    startNewPhase(++studyInfo.phaseId);
+  }
+  else {
+    startNewTrial();
+  }
+  
+  if (studyInfo.interfaceId === 1) {
+    config.activeCommandMapInterface = false;
+  }
 }

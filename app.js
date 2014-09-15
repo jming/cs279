@@ -46,7 +46,7 @@ function startInstructions() {
     'Soon you will be presented with the <b>Command Maps</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
-    '  <li>Toggling the interface by pressing Ctrl-Shift-C (together), and then</li>' +
+    '  <li>Toggling the interface by pressing Ctrl-Shift-Z (together), and then</li>' +
     '  <li>Clicking on the desired command</li>' +
     '</ul>'
   ];
