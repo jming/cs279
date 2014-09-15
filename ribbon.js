@@ -35,11 +35,11 @@ var config = {
   wrongSound: new Audio('audio/buzzer.m4a'),
   // instructions for each phase of study
   instructions: [
-    'Practice Phase (30 trials): Click [here] when you\'re ready to start. :)',
-    'Test Phase (90 trials): Click [here] when you\'re ready to start. :)'
+    'Practice Phase (30 trials): Click this sentence when you\'re ready to start!',
+    'Test Phase (90 trials): Click this sentence when you\'re ready to start!'
   ],
   // number of trials in each phase
-  numTrials: [6, 6], // [30, 90],
+  numTrials: [30, 90], // can change to any positive multiple of 6 for testing! :D
   // pre-computed shuffled sets of commands to use
   sets: [],
   // center X coordinate for drawing
@@ -300,9 +300,8 @@ function safeShuffleCommands() {
   return commandSet;
 }
 
-// draw CommandMap
+// wrapper for drawing the command maps interface
 function drawCommandMapInterface() {
-  config.context.drawImage(config.head, 0, 0, 1280, 55);
   config.context.drawImage(config.commandMapInterface, 0, 55, 1280, 700);
 }
 
@@ -313,7 +312,7 @@ function clearDoc() {
 
 // wrapper for clearing entire screen
 function clearScreen() {
-  config.context.clearRect(0, 0, config.canvas.width, config.canvas.height);
+  config.context.clearRect(0, 55, 1280, 700);
 }
 
 // draw command onto page
@@ -341,6 +340,15 @@ function loadCommand(text) {
     config.commandY - 0.5 * config.command.height
   );
 	config.context.fillText(text, config.centerX, config.textY);
+	
+	// put reminder about Ctrl Shift Z activation
+	if (studyInfo.interfaceId === 1) {
+	  config.context.fillText(
+	    'Press Ctrl-Shift-Z to toggle the interface!',
+	    config.centerX,
+	    config.textY - 200
+	  );
+	}
 }
 
 // start new interface for study (note: does not check for whether all interfaces done)
@@ -368,6 +376,9 @@ function startNewInterface(interfaceId) {
   // set up basic components common to both interfaces
   config.head = new Image();
   config.head.src = 'screenshots/header.png';
+  config.head.onload = function() {
+  	config.context.drawImage(config.head, 0, 0, 1280, 55);
+  };
   
   // ribbon-specific setup
   if (interfaceId === 0) {
@@ -415,7 +426,6 @@ function startNewTrial() {
 
 // update study info for trial
 function handleTrialUpdate() {
-  console.log(JSON.stringify(studyInfo.data[studyInfo.data.length - 1]));
   // end of phase 1 - finished an interface!
   if (studyInfo.phaseId === 1 && studyInfo.trialId === config.numTrials[1]) {
     studyInfo.numInterfacesDone++;

@@ -104,9 +104,12 @@ function happyform() {
 function displaydata() {
     console.log("me studyInfo ", studyInfo.setId, studyInfo.phaseId, studyInfo.trialId,
         studyInfo.data, studyInfo.ribbon, studyInfo.commap);
-
-
-    var outfile = new Blob(["setId: ", studyInfo.setId, "  phaseId: ", studyInfo.phaseId, "  trialId: ", studyInfo.trialId,
-        "  data: ", studyInfo.data, "  ribbon: ", studyInfo.ribbon, "  commap: ", studyInfo.commap], {type: "text/plain;charset=utf-8"});
+    // var outfile = new Blob(["setId: ", studyInfo.setId, "  phaseId: ", studyInfo.phaseId, "  trialId: ", studyInfo.trialId,
+    //     "  data: ", studyInfo.data, "  ribbon: ", studyInfo.ribbon, "  commap: ", studyInfo.commap], {type: "text/plain;charset=utf-8"});
+    var outfile = new Blob([
+      'trials: ', JSON.stringify(studyInfo.data),
+      '\nribbon: ', studyInfo.ribbon,
+      '\ncommap: ', studyInfo.commap
+      ], {type:"text/plain;charset=utf-8"});
     saveAs(outfile, "studyInfo.txt");
 }
