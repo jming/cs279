@@ -388,6 +388,8 @@ function startNewInterface(interfaceId) {
   else {
     setupCommandMap();
   }
+
+  studyInfo.phaseId = 0;
 }
 
 // update for new phase (familiarization 0, performance 1)
