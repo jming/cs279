@@ -4,19 +4,26 @@ var studyInfo = {
   numInterfacesDone: 0,
   // interface used (0: ribbon, 1: command maps)
   interfaceId: 0,
+  // order in which interfaces are shown
+  interfaceOrder: [],
   // index of command set used
   setId: 0,
+  // order in which command sets are shown
+  setOrder: [],
   // index of current phase (0: familiarization, 1: performance)
   phaseId: 0,
-  // index of trial within block (30 total for familiarization, 90 total for performance)
+  // index of trial within block (30 total familiarization, 90 total performance)
   trialId: 0,
   /*
    * data that holds participant accuracy and timing. has following properties:
+   *   interfaceOrder: (int array) copied from studyInfo,
    *   interfaceId: (int) copied from studyInfo,
+   *   setOrder: (int array) copied from studyInfo,
    *   setId: (int) copied from studyInfo,
    *   phaseId: (int) copied from studyInfo,
    *   trialId: (int) copied from studyInfo,
    *   command: (Obj) command for trial (from commandSets)
+   *   sameParent: (bool) is this command in same parent pane as last one?
    *   time: (int) time in ms needed to complete trial,
    *   correct: (bool) was user error-free in completing task?
    */
@@ -29,7 +36,7 @@ var studyInfo = {
 // config vars for study
 var config = {
   interfaceNames: ['ribbon', 'commandmap'],
-  // holds total time elapsed from midnight Jan 1, 1970 until current trial of study
+  // total time elapsed from midnight Jan 1, 1970 until current trial of study
   totalTime: Date.now(),
   // sound to play when user clicked incorrectly
   wrongSound: new Audio('audio/buzzer.m4a'),
@@ -39,7 +46,7 @@ var config = {
     'Test Phase (90 trials): Click this sentence when you\'re ready to start!'
   ],
   // number of trials in each phase (familiarization and performance, respectively)
-  numTrials: [30, 90], // can change to any positive multiple of 6 for testing! :D
+  numTrials: [30, 90],
   // pre-computed shuffled sets of commands to use
   sets: [],
   // center X coordinate for drawing
@@ -420,15 +427,19 @@ function startNewTrial() {
   var shuffledSetId = Math.floor(studyInfo.trialId / commandSets[0][0].length);
   var indexInSet = studyInfo.trialId % commandSets[0][0].length;
   var newCommand = config.sets[studyInfo.phaseId][shuffledSetId][indexInSet];
+
   studyInfo.data.push({
-      interfaceId: studyInfo.interfaceId,
-      setId: studyInfo.setId,
-      phaseId: studyInfo.phaseId,
-      trialId: ++studyInfo.trialId,
-      command: newCommand,
-      time: 0,
-      correct: true
-    });
+    interfaceId: studyInfo.interfaceId,
+    interfaceOrder: studyInfo.interfaceOrder,
+    setId: studyInfo.setId,
+    setOrder: studyInfo.setOrder,
+    phaseId: studyInfo.phaseId,
+    trialId: ++studyInfo.trialId,
+    command: newCommand,
+    sameParent: false,   
+    time: 0,
+    correct: true
+  });
   drawCommand(newCommand);
 }
 

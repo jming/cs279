@@ -15,6 +15,10 @@ function setVariables(condition) {
       studyInfo.setId = 1;
   }
 
+  // from above start info, set order info
+  studyInfo.interfaceOrder = [studyInfo.interfaceId, 1 - studyInfo.interfaceId];
+  studyInfo.setOrder = [studyInfo.setId, 1 - studyInfo.setId];
+
   // hide the consent form
   $('#consent-div').hide();
   // display the general instructions
@@ -102,10 +106,6 @@ function happyform() {
 
 // display and save data
 function displaydata() {
-    console.log("me studyInfo ", studyInfo.setId, studyInfo.phaseId, studyInfo.trialId,
-        studyInfo.data, studyInfo.ribbon, studyInfo.commap);
-    // var outfile = new Blob(["setId: ", studyInfo.setId, "  phaseId: ", studyInfo.phaseId, "  trialId: ", studyInfo.trialId,
-    //     "  data: ", studyInfo.data, "  ribbon: ", studyInfo.ribbon, "  commap: ", studyInfo.commap], {type: "text/plain;charset=utf-8"});
     var outfile = new Blob([
       'trials: ', JSON.stringify(studyInfo.data),
       '\nribbon: ', studyInfo.ribbon,
