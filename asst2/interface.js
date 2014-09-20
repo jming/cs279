@@ -55,14 +55,14 @@ var home_rect = {x:10, y:55, w:80, h:22, n:0};
 var layout_rect = {x:90, y:55, w:70, h:22, n:1};
 var docelt_rect = {x:160, y:55, w:145, h:22, n:2};
 var tables_rect = {x:305, y:55, w:70, h:22, n:3};
-var charts_rect = {x:375, y:55, w:67, h:22, n:4};
-var smartart_rect = {x:442, y:55, w:83, h:22, n:5};
-var review_rect = {x:525, y:55, w:72, h:22, n:6};
-var next_rect = {x:600, y:750, w:100, h:50, n:7};
+// var charts_rect = {x:375, y:55, w:67, h:22, n:4};
+// var smartart_rect = {x:442, y:55, w:83, h:22, n:5};
+// var review_rect = {x:525, y:55, w:72, h:22, n:6};
+// var next_rect = {x:600, y:750, w:100, h:50, n:7};
 
 // create rects to describe each pane
-var rects = [home_rect, layout_rect, docelt_rect, tables_rect, charts_rect, smartart_rect, review_rect];
-var urls = ['0home', '1layout', '2docelt', '3tables', '4charts', '5smartart', '6review'];
+var rects = [home_rect, layout_rect, docelt_rect, tables_rect];
+var urls = ['0home', '1layout', '2docelt', '3tables'];
 
 // information for commands of interest
 // t (text), x and y (position), w and h (dimension), p (pane), n (number)
@@ -74,15 +74,17 @@ var commandSets = [
     {t:'Insert picture',x:1140,y:95,w:50,h:55,p:0,n:4},
     {t:'Change orientation',x:7,y:92,w:60,h:58,p:1,n:0},
     {t:'Change bottom margin',x:350,y:95,w:45,h:20,p:1,n:2},
-    {t:'Accept revision',x:445,y:92,w:53,h:58,p:6,n:0}
+    // {t:'Accept revision',x:445,y:92,w:53,h:58,p:6,n:0}
+    {t:'Change cell shading',x:1002,y:95,w:45,h:30,p:3,n:0}
   ],
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
     {t:'Center text',x:351,y:125,w:28,h:20,p:0,n:3},
     {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
     {t:'Change size',x:67,y:92,w:55,h:58,p:1,n:1},
-    {t:'Change left margin',x:255,y:125,w:45,h:20,p:1,n:3},
-    {t:'Reject revision',x:497,y:92,w:50,h:58,p:6,n:1}
+    {t:'Change left margin',x:255,y:125,w:43,h:20,p:1,n:3},
+    // {t:'Reject revision',x:497,y:92,w:50,h:58,p:6,n:1}
+    {t:'Change cell lines',x:1002,y:120,w:45,h:30,p:3,n:1}
   ]],
   // command maps interface (different y coordinates)
   [[
@@ -91,7 +93,8 @@ var commandSets = [
     {t:'Insert picture',x:1140,y:95,w:50,h:55,p:0,n:4},
     {t:'Change orientation',x:7,y:192,w:60,h:58,p:1,n:0},
     {t:'Change bottom margin',x:350,y:195,w:45,h:20,p:1,n:2},
-    {t:'Accept revision',x:445,y:681,w:53,h:58,p:6,n:0}
+    // {t:'Accept revision',x:445,y:681,w:53,h:58,p:6,n:0}
+    {t:'Change cell shading',x:1002,y:390,w:45,h:30,p:3,n:0}
   ],
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
@@ -99,7 +102,8 @@ var commandSets = [
     {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
     {t:'Change size',x:67,y:192,w:55,h:58,p:1,n:1},
     {t:'Change left margin',x:255,y:225,w:45,h:20,p:1,n:3},
-    {t:'Reject revision',x:497,y:681,w:50,h:58,p:6,n:1}
+    // {t:'Reject revision',x:497,y:681,w:50,h:58,p:6,n:1}
+    {t:'Change cell lines',x:1002,y:420,w:45,h:30,p:3,n:1}
   ]]
 ];
 
@@ -153,6 +157,8 @@ function commandMapClick(e) {
     
     return;
   }
+
+  console.log(e.offsetX, e.offsetY);
   
   // handle clicks from within phase by looking at current trial
   var currentTrial = studyInfo.data[studyInfo.data.length - 1];
@@ -302,7 +308,7 @@ function safeShuffleCommands() {
 
 // wrapper for drawing the command maps interface
 function drawCommandMapInterface() {
-  config.context.drawImage(config.commandMapInterface, 0, 55, 1280, 700);
+  config.context.drawImage(config.commandMapInterface, 0, 55, 1280, 400);
 }
 
 // wrapper for clearing document stuff
