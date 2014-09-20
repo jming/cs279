@@ -37,13 +37,13 @@ function startInstructions() {
   
   // for ribbons and command maps, respectively
   var instructions = [
-    'Soon you will be presented with the <b>Ribbons</b> interface. ' +
+    'Soon you will be presented with the <b>Ribbon</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
     '  <li>Clicking on the pane label on top that describes the command, and then</li>' +
     '  <li>Clicking on the command itself</li>' +
     '</ul>',
-    'Soon you will be presented with the <b>Command Maps</b> interface. ' +
+    'Soon you will be presented with the <b>CommandMap</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
     '  <li>Toggling the interface by pressing Ctrl-Shift-Z (together), and then</li>' +

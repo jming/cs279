@@ -48,7 +48,7 @@ var config = {
   commandY: 300,
   // Y coordinate for drawing text
   textY: 360
-}
+};
 
 // define the active regions
 var home_rect = {x:10, y:55, w:80, h:22, n:0};
@@ -119,30 +119,30 @@ function ribbonClick(e) {
   // re-render pane if clicked to new pane
   rect = collides(rects, e.offsetX, e.offsetY);
   if (rect) {
- 		config.currentPane = rect.n;
+    config.currentPane = rect.n;
  
- 		var imageObject = new Image();
- 		imageObject.onload = function() {
- 			config.context.drawImage(imageObject, 0, 55, 1280, 98);
- 		};
- 		imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
- 	}
+    var imageObject = new Image();
+    imageObject.onload = function() {
+      config.context.drawImage(imageObject, 0, 55, 1280, 98);
+    };
+    imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
+  }
 
-	// check if correct command clicked on correct pane
-	if (config.currentPane == currentTrial.command.p &&
-	    collides([currentTrial.command], e.offsetX, e.offsetY)) {
-		// update time info for current task
-		currentTrial.time = Date.now() - config.totalTime;
-		config.totalTime += currentTrial.time;
-		
-		// end of trial - handle update
-		handleTrialUpdate();
-	}
-	// did not click correct pane, either
-	else if (config.currentPane != currentTrial.command.p || !rect) {
-	  config.wrongSound.play();
-	  currentTrial.correct = false;
-	}
+  // check if correct command clicked on correct pane
+  if (config.currentPane == currentTrial.command.p &&
+      collides([currentTrial.command], e.offsetX, e.offsetY)) {
+    // update time info for current task
+    currentTrial.time = Date.now() - config.totalTime;
+    config.totalTime += currentTrial.time;
+    
+    // end of trial - handle update
+    handleTrialUpdate();
+  }
+  // did not click correct pane, either
+  else if (config.currentPane != currentTrial.command.p || !rect) {
+    config.wrongSound.play();
+    currentTrial.correct = false;
+  }
 }
 
 function commandMapClick(e) {
@@ -161,15 +161,15 @@ function commandMapClick(e) {
   if (config.activeCommandMapInterface &&
       collides([currentTrial.command], e.offsetX, e.offsetY)) {
     // update time info for current task
-		currentTrial.time = Date.now() - config.totalTime;
-		config.totalTime += currentTrial.time;
-		
-		// end of trial - handle update
-		handleTrialUpdate();
+    currentTrial.time = Date.now() - config.totalTime;
+    config.totalTime += currentTrial.time;
+    
+    // end of trial - handle update
+    handleTrialUpdate();
   }
   else {
     config.wrongSound.play();
-	  currentTrial.correct = false;
+    currentTrial.correct = false;
   }
 }
 
@@ -202,15 +202,15 @@ function commandMapKeyUp(e) {
 
 // see if click is on one of active regions in rs
 function collides(rs,x,y) {
-	var isCollision = false;
-	for (var i=0, len=rs.length; i<len; i++) {
-		var left = rs[i].x, right = rs[i].x+rs[i].w;
-		var top = rs[i].y, bottom = rs[i].y+rs[i].h;
-		if (right >= x && left <= x && bottom >= y && top <= y) {
-			isCollision = rs[i];
-		}
-	}
-	return isCollision;
+  var isCollision = false;
+  for (var i=0, len=rs.length; i<len; i++) {
+    var left = rs[i].x, right = rs[i].x+rs[i].w;
+    var top = rs[i].y, bottom = rs[i].y+rs[i].h;
+    if (right >= x && left <= x && bottom >= y && top <= y) {
+      isCollision = rs[i];
+    }
+  }
+  return isCollision;
 }
 
 // setup for ribbon specifically
@@ -226,16 +226,16 @@ function setupRibbon() {
   config.body.src = 'screenshots/body.png';
 
   config.head.onload = function() {
-  	config.context.drawImage(config.head, 0, 0, 1280, 55);
+    config.context.drawImage(config.head, 0, 0, 1280, 55);
   };
   
   config.home.onload = function() {
-  	config.context.drawImage(config.home, 0, 55, 1280, 98);
+    config.context.drawImage(config.home, 0, 55, 1280, 98);
   };
   
   config.body.onload = function() {
-  	config.context.drawImage(config.body, 0, 155, 1280, 648);
-  	startNewPhase(0);
+    config.context.drawImage(config.body, 0, 155, 1280, 648);
+    startNewPhase(0);
   };
   
   config.canvas.removeEventListener('click', commandMapClick);
@@ -339,16 +339,16 @@ function loadCommand(text) {
     config.centerX - 0.5 * config.command.width,
     config.commandY - 0.5 * config.command.height
   );
-	config.context.fillText(text, config.centerX, config.textY);
-	
-	// put reminder about Ctrl Shift Z activation
-	if (studyInfo.interfaceId === 1) {
-	  config.context.fillText(
-	    'Press Ctrl-Shift-Z to toggle the interface!',
-	    config.centerX,
-	    config.textY - 200
-	  );
-	}
+  config.context.fillText(text, config.centerX, config.textY);
+  
+  // put reminder about Ctrl Shift Z activation
+  if (studyInfo.interfaceId === 1) {
+    config.context.fillText(
+      'Press Ctrl-Shift-Z to toggle the interface!',
+      config.centerX,
+      config.textY - 200
+    );
+  }
 }
 
 // start new interface for study (note: does not check for whether all interfaces done)
@@ -377,7 +377,7 @@ function startNewInterface(interfaceId) {
   config.head = new Image();
   config.head.src = 'screenshots/header.png';
   config.head.onload = function() {
-  	config.context.drawImage(config.head, 0, 0, 1280, 55);
+    config.context.drawImage(config.head, 0, 0, 1280, 55);
   };
   
   // ribbon-specific setup
@@ -413,17 +413,17 @@ function startNewTrial() {
   // which set of shuffled sets of commands to use
   var shuffledSetId = Math.floor(studyInfo.trialId / commandSets[0][0].length);
   var indexInSet = studyInfo.trialId % commandSets[0][0].length;
-	var newCommand = config.sets[studyInfo.phaseId][shuffledSetId][indexInSet];
-	studyInfo.data.push({
-	    interfaceId: studyInfo.interfaceId,
-	    setId: studyInfo.setId,
+  var newCommand = config.sets[studyInfo.phaseId][shuffledSetId][indexInSet];
+  studyInfo.data.push({
+      interfaceId: studyInfo.interfaceId,
+      setId: studyInfo.setId,
       phaseId: studyInfo.phaseId,
       trialId: ++studyInfo.trialId,
       command: newCommand,
       time: 0,
       correct: true
     });
-	drawCommand(newCommand);
+  drawCommand(newCommand);
 }
 
 // update study info for trial
