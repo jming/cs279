@@ -139,13 +139,19 @@ function ribbonClick(e) {
     imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
   }
 
-  // check if correct command clicked on correct pane
+  // correct command clicked on correct pane
   if (config.currentPane == currentTrial.command.p &&
       collides([currentTrial.command], e.offsetX, e.offsetY)) {
     // update time info for current task
     currentTrial.time = Date.now() - config.totalTime;
     config.totalTime += currentTrial.time;
     
+    // examine previous command parent pane if second trial or onward
+    if (studyInfo.trialId > 1) {
+      var prevTrial = studyInfo.data[studyInfo.data.length - 2];
+      currentTrial.sameParent = (currentTrial.command.p === prevTrial.command.p);
+    }
+
     // end of trial - handle update
     handleTrialUpdate();
   }
@@ -170,13 +176,19 @@ function commandMapClick(e) {
   // handle clicks from within phase by looking at current trial
   var currentTrial = studyInfo.data[studyInfo.data.length - 1];
   
-  // check if correct command clicked with interface activated
+  // correct command clicked with interface activated
   if (config.activeCommandMapInterface &&
       collides([currentTrial.command], e.offsetX, e.offsetY)) {
     // update time info for current task
     currentTrial.time = Date.now() - config.totalTime;
     config.totalTime += currentTrial.time;
     
+    // examine previous command parent pane if second trial or onward
+    if (studyInfo.trialId > 1) {
+      var prevTrial = studyInfo.data[studyInfo.data.length - 2];
+      currentTrial.sameParent = (currentTrial.command.p === prevTrial.command.p);
+    }
+
     // end of trial - handle update
     handleTrialUpdate();
   }
@@ -440,6 +452,7 @@ function startNewTrial() {
     time: 0,
     correct: true
   });
+
   drawCommand(newCommand);
 }
 
