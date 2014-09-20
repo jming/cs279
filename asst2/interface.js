@@ -12,7 +12,7 @@ var studyInfo = {
   setOrder: [],
   // index of current phase (0: familiarization, 1: performance)
   phaseId: 0,
-  // index of trial within block (30 total familiarization, 90 total performance)
+  // index of trial within block (30 familiarization, 90 performance)
   trialId: 0,
   /*
    * data that holds participant accuracy and timing. has following properties:
@@ -42,19 +42,19 @@ var config = {
   wrongSound: new Audio('audio/buzzer.m4a'),
   // instructions for each phase of study
   instructions: [
-    'Practice Phase (30 trials): Click this sentence when you\'re ready to start!',
-    'Test Phase (90 trials): Click this sentence when you\'re ready to start!'
+    'Practice Phase (30 trials): Click [here] when you\'re ready to start!',
+    'Test Phase (90 trials): Click [here] when you\'re ready to start!'
   ],
-  // number of trials in each phase (familiarization and performance, respectively)
+  // number of trials in each phase (familiarization and performance)
   numTrials: [30, 90],
   // pre-computed shuffled sets of commands to use
   sets: [],
   // center X coordinate for drawing
   centerX: 645,
-  // Y coordinate for drawing command
-  commandY: 300,
+  // Y coordinate for drawing command (ribbon and cms)
+  commandYs: [300, 500],
   // Y coordinate for drawing text
-  textY: 360
+  textYs: [360, 560]
 };
 
 // define the active regions
@@ -177,8 +177,7 @@ function commandMapClick(e) {
   var currentTrial = studyInfo.data[studyInfo.data.length - 1];
   
   // correct command clicked with interface activated
-  if (config.activeCommandMapInterface &&
-      collides([currentTrial.command], e.offsetX, e.offsetY)) {
+  if (collides([currentTrial.command], e.offsetX, e.offsetY)) {
     // update time info for current task
     currentTrial.time = Date.now() - config.totalTime;
     config.totalTime += currentTrial.time;
@@ -186,7 +185,7 @@ function commandMapClick(e) {
     // examine previous command parent pane if second trial or onward
     if (studyInfo.trialId > 1) {
       var prevTrial = studyInfo.data[studyInfo.data.length - 2];
-      currentTrial.sameParent = (currentTrial.command.p === prevTrial.command.p);
+      currentTrial.sameParent = currentTrial.command.p === prevTrial.command.p;
     }
 
     // end of trial - handle update
@@ -196,33 +195,6 @@ function commandMapClick(e) {
     config.wrongSound.play();
     currentTrial.correct = false;
   }
-}
-
-function commandMapKeyDown(e) {
-  // do not allow for toggling during non-trial!
-  if (studyInfo.trialId === 0) {
-    return;
-  }
-  
-  config.keysPressed[e.keyCode] = true;
-  
-  // Ctrl Shift Z
-  if (config.keysPressed[17] && config.keysPressed[16] && config.keysPressed[90]) {
-    // not active, so draw it
-    if (!config.activeCommandMapInterface) {
-      drawCommandMapInterface();
-    }
-    // toggle by clearing it and drawing command instead
-    else {
-      drawCommand(studyInfo.data[studyInfo.data.length - 1].command);
-    }
-    
-    config.activeCommandMapInterface = !config.activeCommandMapInterface;
-  }
-}
-
-function commandMapKeyUp(e) {
-  config.keysPressed[e.keyCode] = false;
 }
 
 // see if click is on one of active regions in rs
@@ -272,21 +244,15 @@ function setupRibbon() {
 
 // setup for command map specifically
 function setupCommandMap() {
-  // has user activated command maps interface?
-  config.activeCommandMapInterface = false;
-  
-  // container of keys that were pressed down
-  config.keysPressed = {};
-  
   // initialize cm-specific screen
   config.commandMapInterface = new Image();
   config.commandMapInterface.src = 'screenshots/command_maps.png';
+  config.commandMapInterface.onload = function() {
+    config.context.drawImage(config.commandMapInterface, 0, 55, 1280, 400);
+  };
   
   config.canvas.removeEventListener('click', ribbonClick);
-  
   config.canvas.addEventListener('click', commandMapClick);
-  window.addEventListener('keydown', commandMapKeyDown);
-  window.addEventListener('keyup', commandMapKeyUp);
   
   startNewPhase(0);
 }
@@ -307,7 +273,8 @@ function rawShuffleCommands(commands) {
 
 // safely shuffles commands (with constraint)
 function safeShuffleCommands() {
-  var commandSet = rawShuffleCommands(commandSets[studyInfo.interfaceId][studyInfo.setId]);
+  var commandSet = rawShuffleCommands(
+    commandSets[studyInfo.interfaceId][studyInfo.setId]);
   var numSwitches = 0;
   
   for (var i = 1; i < commandSet.length; i++) {
@@ -325,33 +292,22 @@ function safeShuffleCommands() {
   return commandSet;
 }
 
-// wrapper for drawing the command maps interface
-function drawCommandMapInterface() {
-  config.context.drawImage(config.commandMapInterface, 0, 55, 1280, 400);
-}
-
-// wrapper for clearing document stuff
-function clearDoc() {
-  config.context.clearRect(250, 250, 800, 500);
-}
-
-// wrapper for clearing entire screen
-function clearScreen() {
-  config.context.clearRect(0, 55, 1280, 700);
+// clear command section depending on interface
+function clearPrevCommand() {
+  if (studyInfo.interfaceId === 0) {
+    config.context.clearRect(250, 250, 800, 500);
+  }
+  else {
+    config.context.clearRect(250, 470, 800, 500);
+  }
 }
 
 // draw command onto page
 function drawCommand(commandToDraw) {
-  // wipe out only doc in ribbon, but whole screen in cms
-  if (studyInfo.interfaceId === 0) {
-    clearDoc();
-  }
-  else {
-    clearScreen();
-  }
-
+  clearPrevCommand();
   config.command = new Image();
-  config.command.src = 'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
+  config.command.src = 
+    'screenshots/icons/' + commandToDraw.p + commandToDraw.n + '.png';
   config.command.onload = function() {
     loadCommand(commandToDraw.t);
   };
@@ -362,35 +318,29 @@ function loadCommand(text) {
   config.context.drawImage(
     config.command,
     config.centerX - 0.5 * config.command.width,
-    config.commandY - 0.5 * config.command.height
+    config.commandYs[studyInfo.interfaceId] - 0.5 * config.command.height
   );
-  config.context.fillText(text, config.centerX, config.textY);
-  
-  // put reminder about Ctrl Shift Z activation
-  if (studyInfo.interfaceId === 1) {
-    config.context.fillText(
-      'Press Ctrl-Shift-Z to toggle the interface!',
-      config.centerX,
-      config.textY - 200
-    );
-  }
+
+  config.context.fillText(
+    text, config.centerX, config.textYs[studyInfo.interfaceId]);
 }
 
-// start new interface for study (note: does not check for whether all interfaces done)
+// start new interface for study
 function startNewInterface(interfaceId) {
   // show correct canvas div
   var interfaceDiv = '#'+config.interfaceNames[interfaceId]+'-div';
   $(interfaceDiv).show();
   
   // configure canvas and context based on interface
-  config.canvas = document.getElementById(config.interfaceNames[interfaceId]+'-canvas');
+  config.canvas = document.getElementById(
+    config.interfaceNames[interfaceId]+'-canvas');
   config.context = config.canvas.getContext('2d');
   
   // also set text options on context
   config.context.font = '24px sans-serif';
   config.context.textAlign = 'center';
   
-  // precompute shuffled commands to avoid doing this on the fly during experiment
+  // precompute shuffled commands to avoid doing this on the fly 
   for (var i = 0; i < config.numTrials.length; i++) {
     config.sets[i] = [];
     for (var j = 0; j < config.numTrials[i]; j++) {
@@ -419,16 +369,14 @@ function startNewInterface(interfaceId) {
 
 // update for new phase (familiarization 0, performance 1)
 function startNewPhase(newPhaseNum) {
-  // clear whatever was there before
-  if (studyInfo.interfaceId === 0) {
-    clearDoc();
-  }
-  else {
-    clearScreen();
-  }
-  
+  clearPrevCommand();
+
   // display new instructions
-  config.context.fillText(config.instructions[newPhaseNum], config.centerX, config.textY);
+  config.context.fillText(
+    config.instructions[newPhaseNum],
+    config.centerX,
+    config.textYs[studyInfo.interfaceId]
+  );
   
   studyInfo.trialId = 0;
 }
@@ -474,9 +422,5 @@ function handleTrialUpdate() {
   }
   else {
     startNewTrial();
-  }
-  
-  if (studyInfo.interfaceId === 1) {
-    config.activeCommandMapInterface = false;
   }
 }
