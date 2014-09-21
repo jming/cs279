@@ -54,7 +54,9 @@ var config = {
   // Y coordinate for drawing command (ribbon and cms)
   commandYs: [300, 500],
   // Y coordinate for drawing text
-  textYs: [360, 560]
+  textYs: [360, 560],
+  // user must click next to continue to next trial
+  mustClickNext: false
 };
 
 // define the active regions
@@ -113,6 +115,10 @@ var commandSets = [
     {t:'Change cell lines',x:1002,y:420,w:45,h:30,p:3,n:1}
   ]]
 ];
+
+// quasi-command for next button: has essentials (invariant: p and n not
+// overlapping with actual command!)
+var nextCommand = {t:'Good job! :)',p:9,n:9};
 
 // in ribbons interface, change pane based on click event and
 // return true iff pane was updated
@@ -175,92 +181,9 @@ function clickHandler(e) {
     config.wrongSound.play();
     currentTrial.correct = false;
   }
+
+  console.log(e.offsetX + ' ' + e.offsetY);
 }
-
-/*
-// check the click event
-function ribbonClick(e) {
-  // handle clicks from new phases
-  if (studyInfo.trialId === 0) {
-    startNewTrial();
-    config.totalTime = Date.now();
-    
-    return;
-  }
-  
-  // handle clicks from within phase by looking at current trial
-  var currentTrial = studyInfo.data[studyInfo.data.length - 1];
-    
-  // re-render pane if clicked to new pane
-  rect = collides(rects, e.offsetX, e.offsetY);
-  if (rect) {
-    config.currentPane = rect.n;
- 
-    var imageObject = new Image();
-    imageObject.onload = function() {
-      config.context.drawImage(imageObject, 0, 55, 1280, 98);
-    };
-    imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
-  }
-
-  // correct command clicked on correct pane
-  if (config.currentPane == currentTrial.command.p &&
-      collides([currentTrial.command], e.offsetX, e.offsetY)) {
-    // update time info for current task
-    currentTrial.time = Date.now() - config.totalTime;
-    config.totalTime += currentTrial.time;
-    
-    // examine previous command parent pane if second trial or onward
-    if (studyInfo.trialId > 1) {
-      var prevTrial = studyInfo.data[studyInfo.data.length - 2];
-      currentTrial.sameParent = (currentTrial.command.p === prevTrial.command.p);
-    }
-
-    // end of trial - handle update
-    handleTrialUpdate();
-  }
-  // did not click correct pane, either
-  else if (config.currentPane != currentTrial.command.p || !rect) {
-    config.wrongSound.play();
-    currentTrial.correct = false;
-  }
-}
-
-function commandMapClick(e) {
-  // handle clicks from new phases
-  if (studyInfo.trialId === 0) {
-    startNewTrial();
-    config.totalTime = Date.now();
-    
-    return;
-  }
-
-  console.log(e.offsetX, e.offsetY);
-  
-  // handle clicks from within phase by looking at current trial
-  var currentTrial = studyInfo.data[studyInfo.data.length - 1];
-  
-  // correct command clicked with interface activated
-  if (collides([currentTrial.command], e.offsetX, e.offsetY)) {
-    // update time info for current task
-    currentTrial.time = Date.now() - config.totalTime;
-    config.totalTime += currentTrial.time;
-    
-    // examine previous command parent pane if second trial or onward
-    if (studyInfo.trialId > 1) {
-      var prevTrial = studyInfo.data[studyInfo.data.length - 2];
-      currentTrial.sameParent = currentTrial.command.p === prevTrial.command.p;
-    }
-
-    // end of trial - handle update
-    handleTrialUpdate();
-  }
-  else {
-    config.wrongSound.play();
-    currentTrial.correct = false;
-  }
-}
-*/
 
 // see if click is on one of active regions in rs
 function collides(rs,x,y) {
@@ -299,9 +222,6 @@ function setupRibbon() {
     config.context.drawImage(config.body, 0, 155, 1280, 648);
     startNewPhase(0);
   };
-  
-  //config.canvas.removeEventListener('click', commandMapClick);
-  //config.canvas.addEventListener('click', ribbonClick);
 }
 
 // setup for command map specifically
@@ -312,9 +232,6 @@ function setupCommandMap() {
   config.commandMapInterface.onload = function() {
     config.context.drawImage(config.commandMapInterface, 0, 55, 1280, 400);
   };
-  
-  //config.canvas.removeEventListener('click', ribbonClick);
-  //config.canvas.addEventListener('click', commandMapClick);
   
   startNewPhase(0);
 }
@@ -465,7 +382,8 @@ function startNewTrial() {
     correct: true
   });
 
-  drawCommand(newCommand);
+  drawCommand(nextCommand);
+  // drawCommand(newCommand);
 }
 
 // update study info for trial
@@ -481,7 +399,8 @@ function handleTrialUpdate() {
     startInstructions();
   }
   // end of phase 0 (familiarization)
-  else if (studyInfo.phaseId === 0 && studyInfo.trialId === config.numTrials[0]) {
+  else if (studyInfo.phaseId === 0 && 
+           studyInfo.trialId === config.numTrials[0]) {
     startNewPhase(++studyInfo.phaseId);
   }
   else {
