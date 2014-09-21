@@ -116,9 +116,12 @@ var commandSets = [
   ]]
 ];
 
-// quasi-command for next button: has essentials (invariant: p and n not
-// overlapping with actual command!)
-var nextCommand = {t:'Good job! :)',p:9,n:9};
+// quasi-command for next button wth invariant that p and n not overlapping
+// with actual command! two entries, one for each interface
+var nextCommand = [
+  {t:'Good job! :)',x:572,y:268,w:155,h:70,p:9,n:9},
+  {t:'Good job! :)',x:572,y:468,w:155,h:70,p:9,n:9}
+];
 
 // in ribbons interface, change pane based on click event and
 // return true iff pane was updated
@@ -149,6 +152,18 @@ function clickHandler(e) {
     return;
   }
 
+  // handle clicks where user must click 'next'
+  if (config.mustClickNext) {
+    // user actually clicked 'next' button/command
+    if (collides([nextCommand[studyInfo.interfaceId]], e.offsetX, e.offsetY)) {
+      config.mustClickNext = false;
+      startNewTrial();
+      config.totalTime = Date.now();
+    }
+
+    return;
+  }
+
   // handle clicks from within phase by looking at current trial
   var currentTrial = studyInfo.data[studyInfo.data.length - 1];
 
@@ -173,6 +188,7 @@ function clickHandler(e) {
       currentTrial.sameParent = currentTrial.command.p === prevTrial.command.p;
     }
 
+    console.log(currentTrial);
     // end of trial - handle update
     handleTrialUpdate();
   }
@@ -277,7 +293,7 @@ function clearPrevCommand() {
     config.context.clearRect(250, 250, 800, 500);
   }
   else {
-    config.context.clearRect(250, 470, 800, 500);
+    config.context.clearRect(250, 460, 800, 500);
   }
 }
 
@@ -382,8 +398,7 @@ function startNewTrial() {
     correct: true
   });
 
-  drawCommand(nextCommand);
-  // drawCommand(newCommand);
+  drawCommand(newCommand);
 }
 
 // update study info for trial
@@ -404,6 +419,7 @@ function handleTrialUpdate() {
     startNewPhase(++studyInfo.phaseId);
   }
   else {
-    startNewTrial();
+    config.mustClickNext = true;
+    drawCommand(nextCommand[studyInfo.interfaceId]);
   }
 }
