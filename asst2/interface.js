@@ -114,6 +114,70 @@ var commandSets = [
   ]]
 ];
 
+// in ribbons interface, change pane based on click event and
+// return true iff pane was updated
+function maybeChangePane(e) {
+  rect = collides(rects, e.offsetX, e.offsetY);
+  if (rect) {
+    config.currentPane = rect.n;
+ 
+    var imageObject = new Image();
+    imageObject.onload = function() {
+      config.context.drawImage(imageObject, 0, 55, 1280, 98);
+    };
+    imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
+
+    return true;
+  }
+
+  return false;
+}
+
+// check all click events
+function clickHandler(e) {
+  // handle clicks from new phases
+  if (studyInfo.trialId === 0) {
+    startNewTrial();
+    config.totalTime = Date.now();
+    
+    return;
+  }
+
+  // handle clicks from within phase by looking at current trial
+  var currentTrial = studyInfo.data[studyInfo.data.length - 1];
+
+  var changedPane = false;
+  if (studyInfo.interfaceId === 0) {
+    changedPane = maybeChangePane(e);
+  }
+
+  // pane is correct if in cms interface (1) or in correct ribbons interface
+  var correctPane =
+    studyInfo.interfaceId || config.currentPane == currentTrial.command.p;
+
+  // clicked on correct target
+  if (correctPane && collides([currentTrial.command], e.offsetX, e.offsetY)) {
+    // update time info for current task
+    currentTrial.time = Date.now() - config.totalTime;
+    config.totalTime += currentTrial.time;
+    
+    // examine previous command parent pane if second trial or onward
+    if (studyInfo.trialId > 1) {
+      var prevTrial = studyInfo.data[studyInfo.data.length - 2];
+      currentTrial.sameParent = currentTrial.command.p === prevTrial.command.p;
+    }
+
+    // end of trial - handle update
+    handleTrialUpdate();
+  }
+  // no change to correct pane
+  else if (studyInfo.interfaceId || !correctPane || !changedPane) {
+    config.wrongSound.play();
+    currentTrial.correct = false;
+  }
+}
+
+/*
 // check the click event
 function ribbonClick(e) {
   // handle clicks from new phases
@@ -196,6 +260,7 @@ function commandMapClick(e) {
     currentTrial.correct = false;
   }
 }
+*/
 
 // see if click is on one of active regions in rs
 function collides(rs,x,y) {
@@ -235,11 +300,8 @@ function setupRibbon() {
     startNewPhase(0);
   };
   
-  config.canvas.removeEventListener('click', commandMapClick);
-  window.removeEventListener('keydown', commandMapKeyDown, true);
-  window.removeEventListener('keyup', commandMapKeyUp);
-  
-  config.canvas.addEventListener('click', ribbonClick);
+  //config.canvas.removeEventListener('click', commandMapClick);
+  //config.canvas.addEventListener('click', ribbonClick);
 }
 
 // setup for command map specifically
@@ -251,8 +313,8 @@ function setupCommandMap() {
     config.context.drawImage(config.commandMapInterface, 0, 55, 1280, 400);
   };
   
-  config.canvas.removeEventListener('click', ribbonClick);
-  config.canvas.addEventListener('click', commandMapClick);
+  //config.canvas.removeEventListener('click', ribbonClick);
+  //config.canvas.addEventListener('click', commandMapClick);
   
   startNewPhase(0);
 }
@@ -355,6 +417,8 @@ function startNewInterface(interfaceId) {
     config.context.drawImage(config.head, 0, 0, 1280, 55);
   };
   
+  config.canvas.addEventListener('click', clickHandler);
+
   // ribbon-specific setup
   if (interfaceId === 0) {
     setupRibbon();
