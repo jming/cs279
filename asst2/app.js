@@ -22,7 +22,9 @@ function setVariables(condition) {
   // hide the consent form
   $('#consent-div').hide();
   // display the general instructions
-  $('#general-instructions-div').show();
+  $('#general-instructions-div').hide();
+
+  startHappiness() ;
 }
 
 function startInstructions() {
@@ -89,7 +91,8 @@ function startHappiness() {
 
 // fill in table
 function happyform() {
-    studyInfo.ribbon = [document.getElementById('ribbon_1').value,
+  /*
+    studyInfo.ribbon = [document.getElementsByName('ribbon_1').value,
     document.getElementById('ribbon_2').value,
     document.getElementById('ribbon_3').value,
     document.getElementById('ribbon_4').value,
@@ -100,8 +103,15 @@ function happyform() {
     document.getElementById('commap_3').value,
     document.getElementById('commap_4').value,
     document.getElementById('commap_5').value];
-
-    displaydata();
+*/
+    studyInfo.ribbon = [0,0,0,0,0];
+    studyInfo.commap = [0,0,0,0,0];
+    var inputs = document.getElementsByName("ribbon_1");
+    for (var i = 0; i < inputs.length; i++){ 
+      if (inputs[i].checked) 
+        studyInfo.ribbon[0] = inputs[i].value;
+    }
+  displaydata();
 }
 
 // display and save data
