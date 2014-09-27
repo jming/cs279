@@ -12,7 +12,7 @@ var studyInfo = {
   setOrder: [],
   // index of current phase (0: familiarization, 1: performance)
   phaseId: 0,
-  // index of trial within block (30 familiarization, 90 performance)
+  // index of trial within block (18 familiarization, 36 performance)
   trialId: 0,
   /*
    * data that holds participant accuracy and timing. has following properties:
@@ -39,8 +39,8 @@ var config = {
   wrongSound: new Audio('audio/buzzer.m4a'),
   // instructions for each phase of study
   instructions: [
-    'Practice Phase (30 trials): Click [here] when you\'re ready to start!',
-    'Test Phase (90 trials): Click [here] when you\'re ready to start!'
+    'Practice Phase (18 trials): Click [here] when you\'re ready to start!',
+    'Test Phase (36 trials): Click [here] when you\'re ready to start!'
   ],
   // number of trials in each phase (familiarization and performance)
   numTrials: [6, 6],
@@ -86,7 +86,7 @@ var commandSets = [
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
     {t:'Center text',x:351,y:125,w:28,h:20,p:0,n:3},
-    {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
+    {t:'Insert shape',x:1090,y:95,w:50,h:55,p:0,n:5},
     {t:'Change size',x:67,y:92,w:55,h:58,p:1,n:1},
     {t:'Change left margin',x:255,y:125,w:43,h:20,p:1,n:3},
     // {t:'Reject revision',x:497,y:92,w:50,h:58,p:6,n:1}
@@ -105,7 +105,7 @@ var commandSets = [
   [
     {t:'Italicize text',x:35,y:125,w:28,h:20,p:0,n:1},
     {t:'Center text',x:351,y:125,w:28,h:20,p:0,n:3},
-    {t:'Insert text box',x:1040,y:95,w:50,h:55,p:0,n:5},
+    {t:'Insert shape',x:1090,y:95,w:50,h:55,p:0,n:5},
     {t:'Change size',x:67,y:192,w:55,h:58,p:1,n:1},
     {t:'Change left margin',x:255,y:225,w:45,h:20,p:1,n:3},
     // {t:'Reject revision',x:497,y:681,w:50,h:58,p:6,n:1}

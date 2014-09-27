@@ -91,81 +91,103 @@
 
     <div id='happy-form-div' class='container' style='display:none;' >
       <h1>Happiness Form</h1>
-      <p>Please fill out this form and tell us about your experience with the experiment by ranking each question from 1 (worst) to 20 (best).</p>
+      <p>Please fill out this form and tell us about your experience with the experiment by ranking each question from 1 (least) to 5 (most).</p>
 
 
-      <table class="tg">
-        <tr>
-          <th class="tg-031e"></th>
-
-          <th class="tg-031e"></th>
-          <th class="tg-031e"></th>
-          <th class="tg-031e">Ribbon</th>
-          <th class="tg-031e"></th>
-          <th class="tg-031e"></th>
-
-          <th class="tg-031e"></th>
-          <th class="tg-031e"></th>
-          <th class="tg-031e">CommandMaps</th>
-          <th class="tg-031e"></th>
-          <th class="tg-031e"></th>
-        </tr>
-        <tr>
-          <td class="tg-031e">How mentally demanding was the task?</td>
-          <td class="tg-031e"><input type="radio" name="ribbon_1" value="1" size="15" checked/></td>
-          <td class="tg-031e"><input type="radio" name="ribbon_1" value="2" size="15"/></td>
-          <td class="tg-031e"><input type="radio" name="ribbon_1" value="3" size="15"/></td>
-          <td class="tg-031e"><input type="radio" name="ribbon_1" value="4" size="15"/></td>
-          <td class="tg-031e"><input type="radio" name="ribbon_1" value="5" size="15" style="margin-right: 5"/></td>
-
-          <td class="tg-031e"><input type="radio" name="commap_1" value="1" size="15" checked/></td>
-          <td class="tg-031e"><input type="radio" name="commap_1" value="2" size="15"/></td>
-          <td class="tg-031e"><input type="radio" name="commap_1" value="3" size="15"/></td>
-          <td class="tg-031e"><input type="radio" name="commap_1" value="4" size="15"/></td>
-          <td class="tg-031e"><input type="radio" name="commap_1" value="5" size="15"/></td>
-          </td>
-          </td>
-        </tr>
-      </table>
-    <br />
-    <button class='btn' onclick="happyform();">Finish</button>
-
-<!--
-      <table class="tg">
+      <table class="tg" >
         <tr>
           <th class="tg-031e"></th>
           <th class="tg-031e">Ribbon</th>
-          <th class="tg-031e">CommandMaps</th>
+          <th class="tg-031e">CM</th>
         </tr>
         <tr>
-          <td class="tg-031e">How mentally demanding was the task?</td>
-          <td class="tg-031e"><input id="ribbon_1" name="ribbon_1" size="15" type="number"/></td>
-          <td class="tg-031e"><input id="commap_1" name="commap_1" size="15" type="number"/></td>
+              <td class="tg-031e">How mentally demanding was the task?</td>
+              <td class="tg-031e"><select name="ribbon_1" id="ribbon_1">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_1" id="commap_1">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
         </tr>
         <tr>
-          <td class="tg-031e">How physically demanding was the task?</td>
-          <td class="tg-031e"><input id="ribbon_2" name="ribbon_2" size="15" type="number"/></td>
-          <td class="tg-031e"><input id="commap_2" name="commap_2" size="15" type="number"/></td>
+              <td class="tg-031e">How physically demanding was the task?</td>
+              <td class="tg-031e"><select name="ribbon_2" id="ribbon_2">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_2" id="commap_2">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
         </tr>
         <tr>
-          <td class="tg-031e">How hurried or rushed was the pace of the task?</td>
-          <td class="tg-031e"><input id="ribbon_3" name="ribbon_3" size="15" type="number"/></td>
-          <td class="tg-031e"><input id="commap_3" name="commap_3" size="15" type="number"/></td>
+              <td class="tg-031e">How hurried or rushed was the pace of the task?</td>
+              <td class="tg-031e"><select name="ribbon_3" id="ribbon_3">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_3" id="commap_3">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
         </tr>
         <tr>
-          <td class="tg-031e">How hard did you have to work to accomplish<br>your level of performance?</td>
-          <td class="tg-031e"><input id="ribbon_4" name="ribbon_4" size="15" type="number"/></td>
-          <td class="tg-031e"><input id="commap_4" name="commap_4" size="15" type="number"/></td>
+              <td class="tg-031e">How hard did you have to work to accomplish your level of performance?</td>
+              <td class="tg-031e"><select name="ribbon_4" id="ribbon_4">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_4" id="commap_4">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
         </tr>
         <tr>
-          <td class="tg-031e">How insecure, discouraged, irritated, stressed,<br>and annoyed were you?</td>
-          <td class="tg-031e"><input id="ribbon_5" name="ribbon_5" size="15" type="number"/></td>
-          <td class="tg-031e"><input id="commap_5" name="commap_5" size="15" type="number"/></td>
+              <td class="tg-031e">How insecure, discouraged, irritated, stressed,<br>and annoyed were you?</td>
+              <td class="tg-031e"><select name="ribbon_5" id="ribbon_5">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_5" id="commap_5">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
         </tr>
-      </table>
+        </table>
     <br />
     <button class='btn' onclick="happyform();">Finish</button>
---!>
   </div><!-- /.happy-form-div -->
 
     <!-- Bootstrap core JavaScript
