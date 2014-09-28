@@ -24,6 +24,7 @@ function setVariables(condition) {
   // display the general instructions
   $('#general-instructions-div').show();
 
+
 }
 
 function startInstructions() {
@@ -105,8 +106,11 @@ function happyform() {
 
     studyInfo.demography = [document.getElementById('age').value,
     document.getElementById('gender').value,
-    document.getElementById('usage_hour').value];
+    document.getElementById('usage_hour').value,
 
+    document.getElementById('input_device').value,
+    document.getElementById('browser').value,
+    document.getElementById('os').value];
 
   displaydata();
 }
@@ -116,8 +120,11 @@ function displaydata() {
     var outfile = new Blob([
       'trials: ', JSON.stringify(studyInfo.data),
       '\nage: ', studyInfo.demography[0], 
-      ' gender: ', studyInfo.demography[1],
-      ' usage_hour: ', studyInfo.demography[2],
+      ', gender: ', studyInfo.demography[1],
+      ', usage_hour: ', studyInfo.demography[2],
+      ', input_device: ', studyInfo.demography[3], 
+      ', browser: ', studyInfo.demography[4],
+      ', os: ', studyInfo.demography[5],
 
       '\nribbon: ', studyInfo.ribbon,
       '\ncommap: ', studyInfo.commap
