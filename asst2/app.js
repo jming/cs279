@@ -46,13 +46,13 @@ function startInstructions() {
     'Soon you will be presented with the <b>Ribbon</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
-    '  <li>Clicking on the pane label on top that describes the command, and then</li>' +
+    '  <li>Clicking on the pane label on top that describes the command (Home, Layout, Document Elements, or Tables), and then</li>' +
     '  <li>Clicking on the command itself</li>' +
     '</ul>',
     'Soon you will be presented with the <b>CommandMap</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
-    '  <li>Toggling the interface by pressing Ctrl-Shift-Z (together), and then</li>' +
+    '  <li>Looking for the command in the interface, and then</li>' +
     '  <li>Clicking on the desired command</li>' +
     '</ul>'
   ];
@@ -117,17 +117,20 @@ function happyform() {
 
 // display and save data
 function displaydata() {
-    var outfile = new Blob([
-      'trials: ', JSON.stringify(studyInfo.data),
-      '\nage: ', studyInfo.demography[0], 
-      ', gender: ', studyInfo.demography[1],
-      ', usage_hour: ', studyInfo.demography[2],
-      ', input_device: ', studyInfo.demography[3], 
-      ', browser: ', studyInfo.demography[4],
-      ', os: ', studyInfo.demography[5],
+    $('#happy-form-div').hide();
+    // saveAs(outfile, "studyInfo.txt");
+    $('#final-info-div').show();
+    var info_json = {
+      trials: studyInfo.data,
+      age: studyInfo.demography[0],
+      gender: studyInfo.demography[1],
+      usage_hour: studyInfo.demography[2],
+      input_device: studyInfo.demography[3], 
+      browser: studyInfo.demography[4],
+      os: studyInfo.demography[5],
 
-      '\nribbon: ', studyInfo.ribbon,
-      '\ncommap: ', studyInfo.commap
-      ], {type:"text/plain;charset=utf-8"});
-    saveAs(outfile, "studyInfo.txt");
+      ribbon: studyInfo.ribbon,
+      commap: studyInfo.commap
+    };
+    $('#final-info-text').text(JSON.stringify(info_json));
 }
