@@ -45,7 +45,7 @@ var config = {
     'Test Phase (36 trials): Click [here] when you\'re ready to start!'
   ],
   // number of trials in each phase (familiarization and performance)
-  numTrials: [6, 6],
+  numTrials: [18, 36],
   // pre-computed shuffled sets of commands to use
   sets: [],
   // center X coordinate for drawing
