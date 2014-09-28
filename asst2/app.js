@@ -118,13 +118,13 @@ function displaydata() {
     // saveAs(outfile, "studyInfo.txt");
     $('#final-info-div').show();
     var info_json = {
-      trials: JSON.stringify(studyInfo.data),
+      trials: studyInfo.data,
       age: studyInfo.demography[0],
       gender: studyInfo.demography[1],
       usage_hour: studyInfo.demography[2],
       ribbon: studyInfo.ribbon,
       commap: studyInfo.commap
     };
-    $('final-info-div').append(info_json);
+    $('#final-info-text').text(JSON.stringify(info_json));
 
 }
