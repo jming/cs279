@@ -22,9 +22,8 @@ function setVariables(condition) {
   // hide the consent form
   $('#consent-div').hide();
   // display the general instructions
-  $('#general-instructions-div').hide();
+  $('#general-instructions-div').show();
 
-  startHappiness();
 }
 
 function startInstructions() {
