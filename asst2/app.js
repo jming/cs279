@@ -22,7 +22,9 @@ function setVariables(condition) {
   // hide the consent form
   $('#consent-div').hide();
   // display the general instructions
-  $('#general-instructions-div').show();
+  $('#general-instructions-div').hide();
+
+  startHappiness();
 }
 
 function startInstructions() {
@@ -102,6 +104,11 @@ function happyform() {
     document.getElementById('commap_4').value,
     document.getElementById('commap_5').value];
 
+    studyInfo.demography = [document.getElementById('age').value,
+    document.getElementById('gender').value,
+    document.getElementById('usage_hour').value];
+
+
   displaydata();
 }
 
@@ -109,6 +116,10 @@ function happyform() {
 function displaydata() {
     var outfile = new Blob([
       'trials: ', JSON.stringify(studyInfo.data),
+      '\nage: ', studyInfo.demography[0], 
+      ' gender: ', studyInfo.demography[1],
+      ' usage_hour: ', studyInfo.demography[2],
+
       '\nribbon: ', studyInfo.ribbon,
       '\ncommap: ', studyInfo.commap
       ], {type:"text/plain;charset=utf-8"});
