@@ -23,11 +23,13 @@ var studyInfo = {
    *   phaseId: (int) copied from studyInfo,
    *   trialId: (int) copied from studyInfo,
    *   command: (Obj) command for trial (from commandSets)
-   *   sameParent: (bool) is this command in same parent pane as last one?
+   *   sameParent: (bool) is this command in sameribbo parent pane as last one?
    *   time: (int) time in ms needed to complete trial,
    *   correct: (bool) was user error-free in completing task?
    */
-  data: []
+  data: [],
+  demography: []
+
 };
 
 // config vars for study
@@ -43,7 +45,7 @@ var config = {
     'Test Phase (36 trials): Click [here] when you\'re ready to start!'
   ],
   // number of trials in each phase (familiarization and performance)
-  numTrials: [6, 6],
+  numTrials: [18, 36],
   // pre-computed shuffled sets of commands to use
   sets: [],
   // center X coordinate for drawing
@@ -132,7 +134,6 @@ function maybeChangePane(e) {
       config.context.drawImage(imageObject, 0, 55, 1280, 98);
     };
     imageObject.src = 'screenshots/'+urls[rect.n]+'.png';
-
     return true;
   }
 

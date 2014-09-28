@@ -23,6 +23,7 @@ function setVariables(condition) {
   $('#consent-div').hide();
   // display the general instructions
   $('#general-instructions-div').show();
+
 }
 
 function startInstructions() {
@@ -44,13 +45,13 @@ function startInstructions() {
     'Soon you will be presented with the <b>Ribbon</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
-    '  <li>Clicking on the pane label on top that describes the command, and then</li>' +
+    '  <li>Clicking on the pane label on top that describes the command (Home, Layout, Document Elements, or Tables), and then</li>' +
     '  <li>Clicking on the command itself</li>' +
     '</ul>',
     'Soon you will be presented with the <b>CommandMap</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
-    '  <li>Toggling the interface by pressing Ctrl-Shift-Z (together), and then</li>' +
+    '  <li>Looking for the command in the interface, and then</li>' +
     '  <li>Clicking on the desired command</li>' +
     '</ul>'
   ];
@@ -102,15 +103,28 @@ function happyform() {
     document.getElementById('commap_4').value,
     document.getElementById('commap_5').value];
 
+    studyInfo.demography = [document.getElementById('age').value,
+    document.getElementById('gender').value,
+    document.getElementById('usage_hour').value];
+
+
   displaydata();
 }
 
 // display and save data
 function displaydata() {
+
     $('#happy-form-div').hide();
     // saveAs(outfile, "studyInfo.txt");
     $('#final-info-div').show();
-    $('final-info-div').append('trials: '+ JSON.stringify(studyInfo.data),
-      '\nribbon: '+ studyInfo.ribbon,
-      '\ncommap: '+ studyInfo.commap);
+    var info_json = {
+      trials: JSON.stringify(studyInfo.data),
+      age: studyInfo.demography[0],
+      gender: studyInfo.demography[1],
+      usage_hour: studyInfo.demography[2],
+      ribbon: studyInfo.ribbon,
+      commap: studyInfo.commap
+    };
+    $('final-info-div').append(info_json);
+
 }
