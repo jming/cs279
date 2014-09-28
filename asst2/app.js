@@ -44,13 +44,13 @@ function startInstructions() {
     'Soon you will be presented with the <b>Ribbon</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
-    '  <li>Clicking on the pane label on top that describes the command, and then</li>' +
+    '  <li>Clicking on the pane label on top that describes the command (Home, Layout, Document Elements, or Tables), and then</li>' +
     '  <li>Clicking on the command itself</li>' +
     '</ul>',
     'Soon you will be presented with the <b>CommandMap</b> interface. ' +
     'You can click on a desired command by:' +
     '<ul>' +
-    '  <li>Toggling the interface by pressing Ctrl-Shift-Z (together), and then</li>' +
+    '  <li>Looking for the command in the interface, and then</li>' +
     '  <li>Clicking on the desired command</li>' +
     '</ul>'
   ];
