@@ -107,10 +107,10 @@ function happyform() {
 
 // display and save data
 function displaydata() {
-    var outfile = new Blob([
-      'trials: ', JSON.stringify(studyInfo.data),
-      '\nribbon: ', studyInfo.ribbon,
-      '\ncommap: ', studyInfo.commap
-      ], {type:"text/plain;charset=utf-8"});
-    saveAs(outfile, "studyInfo.txt");
+    $('#happy-form-div').hide();
+    // saveAs(outfile, "studyInfo.txt");
+    $('#final-info-div').show();
+    $('final-info-div').append('trials: '+ JSON.stringify(studyInfo.data),
+      '\nribbon: '+ studyInfo.ribbon,
+      '\ncommap: '+ studyInfo.commap);
 }
