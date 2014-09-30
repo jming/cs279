@@ -24,6 +24,7 @@ function setVariables(condition) {
   // display the general instructions
   $('#general-instructions-div').show();
 
+
 }
 
 function startInstructions() {
@@ -105,15 +106,17 @@ function happyform() {
 
     studyInfo.demography = [document.getElementById('age').value,
     document.getElementById('gender').value,
-    document.getElementById('usage_hour').value];
+    document.getElementById('usage_hour').value,
 
+    document.getElementById('input_device').value,
+    document.getElementById('browser').value,
+    document.getElementById('os').value];
 
   displaydata();
 }
 
 // display and save data
 function displaydata() {
-
     $('#happy-form-div').hide();
     // saveAs(outfile, "studyInfo.txt");
     $('#final-info-div').show();
@@ -122,9 +125,12 @@ function displaydata() {
       age: studyInfo.demography[0],
       gender: studyInfo.demography[1],
       usage_hour: studyInfo.demography[2],
+      input_device: studyInfo.demography[3], 
+      browser: studyInfo.demography[4],
+      os: studyInfo.demography[5],
+
       ribbon: studyInfo.ribbon,
       commap: studyInfo.commap
     };
     $('#final-info-text').text(JSON.stringify(info_json));
-
 }
