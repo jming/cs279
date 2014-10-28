@@ -13,5 +13,5 @@ Google Maps using Google Street View (GSV), and re-route the user until an acces
 select, and fix paradigm to assign tasks to workers in a collaborative manner. We show that our paradigm and specifically designed 
 quality control methods allow remote workers to properly verify and create accessible routes.
 
-See project proposal: https://github.com/jming/cs279/blob/master/finalproject/CS279_Final_Project_10282014.pdf
+See project proposal: https://www.dropbox.com/s/k5hwd2m62u6qlyk/CS279_Final_Project_10282014.pdf?dl=0
 
