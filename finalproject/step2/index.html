@@ -1,19 +1,80 @@
 <!DOCTYPE html>
 <html>
   <head>
+
     <style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+      html, body, .view-canvas { height: 650px; margin: 0; padding: 0;}
+      #instruction-canvas {
+        margin-top: 10px;
+        padding: 20px;
+      }
     </style>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyBnFtNxTH2Mh-iJIy1EMaZjwMhS80keM">
     </script>
+    <script src='../bootstrap/js/bootstrap.min.js'></script>
     <script type="text/javascript" src='app.js'></script>
-    <script type="text/javascript" src='directions.js'></script>
     <script type="text/javascript" src='marker.js'></script>
   </head>
   <body>
-    <button type="button" onclick="getRoute();">Get route</button>
-    <div id="map-canvas"></div>
+
+    <!-- <div id='map-canvas'></div> -->
+    <!-- <div id='container'> -->
+      <div class='row'>
+        <div class='col-md-5 view-canvas' id='map-canvas'></div>
+        <div class='col-md-5 view-canvas' id='street-canvas'></div>
+        <div class='col-md-2 view-canvas' id='instruction-canvas'>
+          <div id='instruction-loc'>
+            <p>You are looking at the accessibility of <span id='instruction-pos'></span>.</p>
+            
+          </div>
+          <p>Please mark if the route <b>has</b> any of the following:</p>
+          <div id='instruction-checklist'>
+            <form role='form'>
+              <div class='checkbox'>
+                <label><input type='checkbox' value='stairs' /> Stairs</label>
+              </div>
+              <div class='checkbox'>
+                <label><input type='checkbox' value='stairs' /> Potholes</label>
+              </div>
+              <div class='checkbox'>
+                <label><input type='checkbox' value='stairs' /> Obstacles</label>
+              </div>
+              <div class='checkbox'>
+                <label><input type='checkbox' value='stairs' /> Other</label>
+              </div>
+              <div class='form-group'>
+                <input class='form-control' id='instruction-other' type='text' />
+              </div>
+            </form>
+            
+          </div>
+
+          <p>Please mark if the route <b>is missing</b> any of the following:</p>
+
+          <div id='instruction-checklist-negative'>
+            <form role='form'>
+              <div class='checkbox'>
+                <label><input type='checkbox' value='stairs' /> Curb ramps</label>
+              </div>
+              <div class='checkbox'>
+                <label><input type='checkbox' value='stairs' /> Zebra crossing</label>
+              </div>
+              <div class='checkbox'>
+                <label><input type='checkbox' value='stairs' /> Other</label>
+              </div>
+              <div class='form-group'>
+                <input class='form-control' id='instruction-other' type='text' />
+              </div>
+            </form>  
+          </div>
+
+          <button class='btn'>Submit!</button>
+        </div>
+      </div>
+    <!-- </div> -->
   </body>
 </html>
