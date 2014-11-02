@@ -25,8 +25,8 @@ function getRoute() {
 function showRoute(route) {
   // create line to represent route
   var polyroute = new google.maps.Polyline({
-    strokeColor: '#2222FF',
-    strokeWidth: 3
+    strokeColor: '#3366FF',
+    strokeWeight: 7
   });
 
   // for ensuring correct bounds/zoom level

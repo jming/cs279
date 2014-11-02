@@ -13,12 +13,7 @@ function MarkerInfo (lat,lng,highlight) {
 }
 
 function initialize() {
-  globals.directionsDisplay = new google.maps.DirectionsRenderer(
-  // {
-  //   draggable: true,
-  //   polylineOptions: {clickable: false}
-  // }
-  );
+  globals.directionsDisplay = new google.maps.DirectionsRenderer();
   globals.directionsService = new google.maps.DirectionsService();
 
   var mapOptions = {
