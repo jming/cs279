@@ -8,6 +8,9 @@
         margin-top: 10px;
         padding: 20px;
       }
+      #result-div {
+        padding:50px;
+      }
     </style>
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -23,12 +26,12 @@
 
     <!-- <div id='map-canvas'></div> -->
     <!-- <div id='container'> -->
-      <div class='row'>
+      <div id='mapping-div' class='row'>
         <div class='col-md-5 view-canvas' id='map-canvas'></div>
         <div class='col-md-5 view-canvas' id='street-canvas'></div>
         <div class='col-md-2 view-canvas' id='instruction-canvas'>
           <div id='instruction-loc'>
-            <p>You are looking at the accessibility of <span id='instruction-pos'></span>.</p>
+            <p>You are looking at the accessibility of the route starting at <b><span id='instruction-pos'></span></b>.</p>
             
           </div>
           <p>Please mark if the route <b>has</b> any of the following:</p>
@@ -38,16 +41,16 @@
                 <label><input type='checkbox' value='stairs' /> Stairs</label>
               </div>
               <div class='checkbox'>
-                <label><input type='checkbox' value='stairs' /> Potholes</label>
+                <label><input type='checkbox' value='potholes' /> Potholes</label>
               </div>
               <div class='checkbox'>
-                <label><input type='checkbox' value='stairs' /> Obstacles</label>
+                <label><input type='checkbox' value='obstacles' /> Obstacles</label>
               </div>
               <div class='checkbox'>
-                <label><input type='checkbox' value='stairs' /> Other</label>
+                <label><input type='checkbox' value='other-pos' /> Other</label>
               </div>
               <div class='form-group'>
-                <input class='form-control' id='instruction-other' type='text' />
+                <input class='form-control' id='instruction-other-pos' type='text' />
               </div>
             </form>
             
@@ -58,22 +61,38 @@
           <div id='instruction-checklist-negative'>
             <form role='form'>
               <div class='checkbox'>
-                <label><input type='checkbox' value='stairs' /> Curb ramps</label>
+                <label><input type='checkbox' value='curb' class='checklist-neg'/> Curb ramps</label>
               </div>
               <div class='checkbox'>
-                <label><input type='checkbox' value='stairs' /> Zebra crossing</label>
+                <label><input type='checkbox' value='zebra' /> Zebra crossing</label>
               </div>
               <div class='checkbox'>
-                <label><input type='checkbox' value='stairs' /> Other</label>
+                <label><input type='checkbox' value='other-neg' /> Other</label>
               </div>
               <div class='form-group'>
-                <input class='form-control' id='instruction-other' type='text' />
+                <input class='form-control' id='instruction-other-neg' type='text' />
               </div>
             </form>  
           </div>
 
-          <button class='btn'>Submit!</button>
+          <p>Is the route accessible?</p>
+
+          <div id='instruction-checklist-final'>
+            <div class='radio'>
+              <label><input type='radio' name='is_accessible' id='is_accessible_yes' value='y'>Yes</label>
+            </div>
+            <div class='radio'>
+              <label><input type='radio' name='is_accessible' id='is_accessible_no' value='n'>No</label>
+            </div>
+          </div>
+
+          <button class='btn' onclick='submitAccessibility()'>Submit!</button>
         </div>
+      </div>
+
+      <div id='result-div' style='display:none;'>
+        <h3>Please copy and paste the following back to Amazon Mechanical Turk.</h3>
+        <div id='result-div-text'></div>
       </div>
     <!-- </div> -->
   </body>
