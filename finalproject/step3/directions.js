@@ -1,11 +1,11 @@
 globals.start = new google.maps.LatLng(42.370769, -71.117342);
 globals.end = new google.maps.LatLng(42.363988, -71.124164);
 
-// returns route between start and endpoints
-function getRoute() {
+// returns route of a section
+function getRoute(section) {
   var request = {
-    origin: globals.start,
-    destination: globals.end,
+    origin: section.point1,
+    destination: section.point2,
     travelMode: google.maps.TravelMode.WALKING,
     provideRouteAlternatives: true
   };
@@ -14,7 +14,7 @@ function getRoute() {
     if (status == google.maps.DirectionsStatus.OK) {
       // NO! below thing is NOT (marker-placement) clickable
       // globals.directionsDisplay.setDirections(response);
-      showRoute(response.routes[0]);
+      showRoute(response.routes[0], section.isAccessible);
       placeMarker(response.routes[0].legs[0].start_location);
       placeMarker(response.routes[0].legs[0].end_location);
     }
@@ -22,30 +22,20 @@ function getRoute() {
 }
 
 // display route on map (and allow clickable!)
-function showRoute(route) {
+function showRoute(route, isAccessible) {
   // create line to represent route
   var polyroute = new google.maps.Polyline({
-    strokeColor: '#3366FF',
-    strokeWeight: 7
+    strokeColor: isAccessible ? globals.green : globals.red,
+    strokeWeight: globals.weight
   });
-
-  // for ensuring correct bounds/zoom level
-  var bounds = new google.maps.LatLngBounds();
 
   $(route.legs).each(function(i, leg) {
     $(leg.steps).each(function(j, step) {
       $(step.path).each(function(k, point) {
         polyroute.getPath().push(point);
-        bounds.extend(point);
       })
     })
   });
 
-  globals.map.fitBounds(bounds);
   polyroute.setMap(globals.map);
-
-  // let person place marker at every point in path
-  google.maps.event.addListener(polyroute, 'click', function(event) {
-    placeMarker(event.latLng);
-  });
 }

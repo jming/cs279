@@ -39,5 +39,6 @@ function showLatLngs() {
   }
 
   alert(latLngs);
+  console.log(latLngs);
 };
 // console.log(window.map)
