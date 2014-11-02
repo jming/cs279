@@ -26,11 +26,18 @@ function initialize() {
 
   globals.directionsDisplay.setMap(globals.map);
 
-  placeMarkers(globals.map, [
-    new MarkerInfo(42.365517, -71.122176, true),
-    new MarkerInfo(42.366523, -71.119212, false)
-  ]);
+  getRoute();
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
+function showLatLngs() {
+  var latLngs = [];
+  for (var i = 0; i < globals.markersArray.length; i++) {
+    if (globals.markersArray[i]) {
+      latLngs.push(globals.markersArray[i].getPosition());
+    }
+  }
+
+  alert(latLngs);
+};
 // console.log(window.map)
