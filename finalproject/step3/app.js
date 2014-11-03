@@ -14,6 +14,7 @@ var globals = {
   map: null,
   directionsDisplay: null,
   directionsService: null,
+  polyroutes: [],
   sectionsArray: [
     new Section(
       new google.maps.LatLng(42.37079689999999, -71.11742509999999),

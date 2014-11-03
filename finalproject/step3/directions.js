@@ -25,7 +25,7 @@ function getRoute(section) {
 function showRoute(route, isAccessible) {
   // create line to represent route
   var polyroute = new google.maps.Polyline({
-    strokeColor: isAccessible ? globals.green : globals.red,
+    strokeColor: isAccessible ? globals.green[0] : globals.red[0],
     strokeWeight: globals.weight
   });
 
@@ -38,4 +38,16 @@ function showRoute(route, isAccessible) {
   });
 
   polyroute.setMap(globals.map);
+  var polyrouteInfo = {
+    polyroute: polyroute,
+    isAccessible: isAccessible,
+    isSelected: 0
+  };
+  globals.polyroutes.push(polyrouteInfo);
+
+  google.maps.event.addListener(polyroute, 'click', function(event) {
+    polyrouteInfo.isSelected = 1 - polyrouteInfo.isSelected;
+    var color = isAccessible ? globals.green : globals.red;
+    polyroute.setOptions({strokeColor: color[polyrouteInfo.isSelected]});
+  });
 }
