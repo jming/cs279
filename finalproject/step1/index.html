@@ -1,19 +1,47 @@
 <!DOCTYPE html>
 <html>
   <head>
+
     <style type="text/css">
-      html, body, #map-canvas { height: 100%; margin: 0; padding: 0;}
+      html, body, .view-canvas { height: 650px; margin: 0; padding: 0;}
+      #instructions-canvas {
+        padding: 20px;
+      }
     </style>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript"
       src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyBnFtNxTH2Mh-iJIy1EMaZjwMhS80keM">
     </script>
+    <script src='../bootstrap/js/bootstrap.min.js'></script>
+
     <script type="text/javascript" src='app.js'></script>
     <script type="text/javascript" src='directions.js'></script>
     <script type="text/javascript" src='marker.js'></script>
+
   </head>
   <body>
-    <button type="button" onclick="showLatLngs();">Done!</button>
-    <div id="map-canvas"></div>
+
+    <div id='mapping-div' class='row'>
+      <div class='col-md-10 view-canvas' id='map-canvas'></div>
+      <div class='col-md-2 view-canvas' id='instructions-canvas'>
+        <div id='instructions-base'>
+          <p>The route is highlighted in blue. Mark the <b>intersections</b> by clicking on the location on the route. Right-click to remove the marker.</p>
+          <button class='btn' onclick='showLatLngs();'>Done!</button>
+        </div>
+        <div id='result-base' style='display:none;'>
+          <b>Please copy and paste the following back to Amazon Mechanical Turk.</b><br /><br />
+          <div id='result-div-text'></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div id='result-div' style='display:none;'> -->
+      
+    </div>
+
+    <!-- <button type="button" onclick="showLatLngs();">Done!</button> -->
+    <!-- <div id="map-canvas"></div> -->
   </body>
 </html>

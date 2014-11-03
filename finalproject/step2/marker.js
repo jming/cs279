@@ -53,8 +53,8 @@ function displayStreetview(map, pos) {
 
 function submitAccessibility() {
 
-	$('#mapping-div').hide();
-	$('#result-div').show();
+	$('#instructions-base').hide();
+	$('#result-base').show();
 
 	var checked_array = [];
 
@@ -65,9 +65,9 @@ function submitAccessibility() {
 	checked_array.push($('#instruction-other-pos').val());
 	checked_array.push($('#instruction-other-neg').val());
 
-	$('#result-div').append($('#instruction-pos').text());
-	$('#result-div').append(checked_array.toString());
-	$('#result-div').append($('.radio :checked').val());
+	$('#result-div-text').append($('#instruction-pos').text()).append('<br>');
+	$('#result-div-text').append(checked_array.toString()).append('<br>');
+	$('#result-div-text').append($('.radio :checked').val()).append('<br>');
 }
 
 
