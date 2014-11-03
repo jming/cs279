@@ -38,7 +38,12 @@ function showLatLngs() {
     }
   }
 
-  alert(latLngs);
-  console.log(latLngs);
+  $('#instructions-base').hide();
+  $('#result-base').show();
+
+  $('#result-div-text').append(latLngs.toString());
+
+  // alert(latLngs);
+  // console.log(latLngs);
 };
 // console.log(window.map)
