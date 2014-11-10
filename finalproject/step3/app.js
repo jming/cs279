@@ -9,6 +9,12 @@ function Section(point1, point2, isAccessible) {
   this.isAccessible = isAccessible;
 }
 
+Section.prototype.toString = function sectionToString() {
+  return '[' + this.point1.toString() 
+    + ';' + this.point2.toString() 
+    + ';' + this.isAccessible + ']';
+}
+
 // yay globals :)
 var globals = {
   map: null,
@@ -57,3 +63,12 @@ function initialize() {
   globals.map.fitBounds(bounds);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function submitRoute() {
+
+  $('#instructions-base').hide();
+  $('#results-base').show();
+
+  $('#result-div-text').append(globals.sectionsArray.toString());
+
+}
