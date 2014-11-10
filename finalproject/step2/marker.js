@@ -25,7 +25,7 @@ function placeMarkers(map, markers_list) {
 
 		if (markers_list[i].highlight_start) {
 			displayStreetview(map, marker_pos);
-			$('#instruction-pos').append('(' + marker_pos.lat().toFixed(2) + ',' + marker_pos.lng().toFixed(2) + ')');
+			$('#instruction-pos').append('(' + marker_pos.lat().toFixed(4) + ', ' + marker_pos.lng().toFixed(4) + ')');
 		}
 		
 

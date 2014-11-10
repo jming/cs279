@@ -24,9 +24,35 @@
   </head>
   <body>
 
+  <div class='container'>
+    <div class="modal fade" id="input-loc" tabindex="-1" role="dialog" aria-labelledby="input-loc-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="input-loc-label">Input start and stop location from Amazon Mechanical Turk</h4>
+          </div>
+          <div class="modal-body">
+            <form>
+              <textarea id='input-loc-text' class='form-control'></textarea>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-primary" onclick='updateMap();'>Begin!</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
+    
+
     <!-- <div id='map-canvas'></div> -->
     <!-- <div id='container'> -->
-      <div id='mapping-div' class='row'>
+      <div id='mapping-div' class='row' >
         <div class='col-md-5 view-canvas' id='map-canvas'></div>
         <div class='col-md-5 view-canvas' id='street-canvas'></div>
         <div class='col-md-2 view-canvas' id='instruction-canvas'>
@@ -100,6 +126,8 @@
         </div> <!-- instruction div -->
           
       </div><!-- row div -->
+
+
 
       
     <!-- </div> -->

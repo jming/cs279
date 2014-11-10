@@ -29,13 +29,31 @@ function initialize() {
 
   // globals.directionsDisplay.setMap(globals.map);
 
-  placeMarkers(globals.map, [
-    new MarkerInfo(42.365517, -71.122176, true, true),
-    new MarkerInfo(42.366523, -71.119212, false, false)
-  ]);
+  // placeMarkers(globals.map, [
+  //   new MarkerInfo(42.365517, -71.122176, true, true),
+  //   new MarkerInfo(42.366523, -71.119212, false, false)
+  // ]);
+
+  $('#input-loc').modal('show');
 
 
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
 // console.log(window.map)
+
+function updateMap() {
+  $('#input-loc').modal('hide');
+  var input_loc_text = $('#input-loc-text').val().split(';');
+
+  for (var i=0; i<input_loc_text.length; i++) {
+    input_loc_text[i] = input_loc_text[i].replace('(','').replace(')','').split(',');
+  }
+  // (42.365517, -71.122176);(42.366523, -71.119212)
+  // var input_loc_parsed = ('[' + input_loc_text + ']');
+  console.log(input_loc_text);
+  placeMarkers(globals.map, [
+    new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
+    new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
+  ]);
+}
