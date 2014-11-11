@@ -13,14 +13,13 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script type="text/javascript"
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyBnFtNxTH2Mh-iJIy1EMaZjwMhS80keM">
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyBnFtNxTH2Mh-iJIy1EMaZjwMhS80keM&libraries=geometry">
     </script>
     <script src='../bootstrap/js/bootstrap.min.js'></script>
 
     <script type="text/javascript" src='app.js'></script>
     <script type="text/javascript" src='sections.js'></script>
     <script type="text/javascript" src='directions.js'></script>
-    <script type="text/javascript" src='marker.js'></script>
   </head>
 
   <body>
@@ -31,12 +30,12 @@
       <div class='col-md-2 view-canvas' id='instruction-canvas'>
 
         <div id='instructions-base'>
-          <p>Click on different segments of the route to find a path that is the shortest and has the least number of red, or inaccessible, segments.</p>
-          <button class='btn' onclick='submitRoute()'>Done!</button>
+          <p>Some instructions</p>
+          <button class='btn' onclick='submitRevisions()'>Done!</button>
         </div>
 
         <div id='results-base' style='display:none;'>
-          <b>Please copy and paste the following back to Amazon Mechanical Turk.</b> <br /><br />
+          <b>Something about results:</b> <br /><br />
           <div id='result-div-text'></div>
         </div>
 
