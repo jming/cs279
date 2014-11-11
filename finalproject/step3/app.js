@@ -25,8 +25,12 @@ var globals = {
   sectionsArray: [
     new Section(
       new google.maps.LatLng(42.37079689999999, -71.11742509999999),
-      new google.maps.LatLng(42.3696056730474, -71.11813688278198),
+      new google.maps.LatLng(42.370265539907415, -71.11774804344628),
       true),
+    new Section(
+      new google.maps.LatLng(42.370265539907415, -71.11774804344628),
+      new google.maps.LatLng(42.3696056730474, -71.11813688278198),
+      false),
     new Section(
       new google.maps.LatLng(42.3696056730474, -71.11813688278198),
       new google.maps.LatLng(42.369204585658785, -71.1173837184906),

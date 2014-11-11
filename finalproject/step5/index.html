@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <style type="text/css">
+      html, body, .view-canvas { height: 650px; margin: 0; padding: 0;}
+      #instruction-canvas {
+        margin-top: 10px;
+        padding: 20px;
+      }
+    </style>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyBnFtNxTH2Mh-iJIy1EMaZjwMhS80keM&libraries=geometry">
+    </script>
+    <script src='../bootstrap/js/bootstrap.min.js'></script>
+
+    <script type="text/javascript" src='app.js'></script>
+    <script type="text/javascript" src='sections.js'></script>
+    <script type="text/javascript" src='directions.js'></script>
+  </head>
+
+  <body>
+
+    <div id="mapping-div" class="row">
+
+      <div class='col-md-10 view-canvas' id='map-canvas'></div><!-- map canvas -->
+      <div class='col-md-2 view-canvas' id='instruction-canvas'>
+
+        <div id='instructions-base'>
+          <p>Some instructions</p>
+          <button class='btn' onclick='submitRevisions()'>Done!</button>
+        </div>
+
+        <div id='results-base' style='display:none;'>
+          <b>Something about results:</b> <br /><br />
+          <div id='result-div-text'></div>
+        </div>
+
+
+      </div><!-- instruction canvas -->
+    </div>
+
+  </body>
+
+</html>

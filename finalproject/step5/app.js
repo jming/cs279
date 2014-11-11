@@ -23,6 +23,8 @@ function initialize() {
 
   var bounds = new google.maps.LatLngBounds();
   globals.directionsDisplay.setMap(globals.map);
+
+  // display static accessibility
   for (var i = 0; i < globals.polyroutes.length; i++) {
     var polyrouteInfo = globals.polyroutes[i];
     var points = google.maps.geometry.encoding.decodePath(polyrouteInfo.polyroute);
@@ -31,8 +33,15 @@ function initialize() {
       bounds.extend(points[j]);
     }
 
-    showRouteInfo(polyrouteInfo);
+    showStaticRoute(polyrouteInfo.points, polyrouteInfo.isAccessible, polyrouteInfo.isSelected);
   }
+
+  // display draggable route
+  var start = globals.polyroutes[0].points[0];
+  var ends = globals.polyroutes[globals.polyroutes.length - 1].points;
+  var end = ends[ends.length - 1];
+  showDraggableRoute(start, end);
+  
   globals.map.fitBounds(bounds);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
