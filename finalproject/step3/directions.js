@@ -39,7 +39,7 @@ function showRoute(route, isAccessible) {
 
   polyroute.setMap(globals.map);
   var polyrouteInfo = {
-    polyroute: polyroute,
+    polyroute: google.maps.geometry.encoding.encodePath(polyroute.getPath()),
     isAccessible: isAccessible,
     isSelected: 0
   };

@@ -13,7 +13,8 @@ Section.prototype.toString = function sectionToString() {
   return '[' + this.point1.toString() 
     + ';' + this.point2.toString() 
     + ';' + this.isAccessible + ']';
-}
+};
+
 
 // yay globals :)
 var globals = {
@@ -69,6 +70,6 @@ function submitRoute() {
   $('#instructions-base').hide();
   $('#results-base').show();
 
-  $('#result-div-text').append(globals.sectionsArray.toString());
-
+  // $('#result-div-text').append(globals.sectionsArray.toString());
+  $('#result-div-text').append(JSON.stringify(globals.polyroutes));
 }

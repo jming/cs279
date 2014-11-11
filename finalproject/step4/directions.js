@@ -50,5 +50,3 @@ function showStaticRoute(points, isAccessible, isSelected) {
 
   polyroute.setMap(globals.map);
 }
-
-// convert directions object into a route
