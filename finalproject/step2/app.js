@@ -14,8 +14,8 @@ function MarkerInfo (lat,lng,highlight,highlight_start) {
 }
 
 function initialize() {
-  // globals.directionsDisplay = new google.maps.DirectionsRenderer();
-  // globals.directionsService = new google.maps.DirectionsService();
+  globals.directionsDisplay = new google.maps.DirectionsRenderer();
+  globals.directionsService = new google.maps.DirectionsService();
 
   var center_pos = new google.maps.LatLng(42.370788, -71.117111);
 
@@ -27,7 +27,7 @@ function initialize() {
   globals.map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
 
-  // globals.directionsDisplay.setMap(globals.map);
+  globals.directionsDisplay.setMap(globals.map);
 
   // placeMarkers(globals.map, [
   //   new MarkerInfo(42.365517, -71.122176, true, true),
@@ -35,6 +35,7 @@ function initialize() {
   // ]);
 
   $('#input-loc').modal('show');
+  getRoute();
 
 
 }
