@@ -5,6 +5,8 @@ var globals = {
   directionsService: null,
   // PASSED IN FROM STEP 3!!!
   polyroutes: [{"polyroute":"opraG|baqLjB~@nBbAPL","isAccessible":true,"isSelected":1},{"polyroute":"airaGngaqLDQHYFQDOLWDIJUNW??B@","isAccessible":true,"isSelected":1},{"polyroute":"ofraGrbaqLHFh@n@@@DD|CfDt@v@h@j@BD@?LN@@RT??@E","isAccessible":false,"isSelected":1}],
+  // revised routes for draggable (i.e., inaccessible and selected) routes
+  revisedRoutes: []
 };
 
 function initialize() {
@@ -34,3 +36,9 @@ function initialize() {
   globals.map.fitBounds(bounds);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
+
+function submitRevisions() {
+  $('#instructions-base').hide();
+  $('#results-base').show();
+  $('#result-div-text').append(JSON.stringify(globals.revisedRoutes));
+}
