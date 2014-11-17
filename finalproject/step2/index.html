@@ -60,7 +60,78 @@
 
           <div id='instructions-base'>
 
-            <div id='instruction-loc'>
+            <div id='section-base'>
+
+              <div id='section-type'>
+                <p>This section is</p>
+                <select class='form-control'>
+                  <option value='int'>an intersection</option>
+                  <option value='mid'>in the middle</option>
+                </select>
+
+                <p><button class='btn' onclick='sectionTypeSelect()'>Next</button></p>
+                
+              </div>
+
+              
+
+              <div id='section-int' style='display:none;'>
+                <!-- <p>This intersection..</p> -->
+                <div id='section-int-type'>
+                  Select the image below matches most with the intersection.
+
+                  <button class='btn' onclick='sectionIntType("lrud");'><img style='width:80%' src='../img/lrud.png'></button>
+                  <button class='btn' onclick='sectionIntType("lrd");'><img style='width:80%' src='../img/lrd.png'></button>
+                  <button class='btn' onclick='sectionIntType("lud");'><img style='width:80%' src='../img/lud.png'></button>
+                  <button class='btn' onclick='sectionIntType("rud");'><img style='width:80%' src='../img/rud.png'></button>
+                </div>
+                <div id='section-int-obstacles' style='display:none;'>
+                  Please indicate which of the following curb ramps (numbers, red) and crosswalks (letters, yellow) are missing or N/A if all are present.
+
+                  <img id='section-int-img' style='width:80%'>
+
+                  <input class='form-control' id='section-int-input'>
+                </div>
+              </div>
+
+
+
+
+
+              <div id='section-mid' style='display:none;'>
+                <p>I want to report
+                <select class='form-control' id='section-mid-report'>
+                  <option value='stairs'>stairs</option>
+                  <!-- <option value='curbramp'>a missing curb ramp</option> -->
+                  <!-- <option value='crosswalk'>a missing crosswalk</option> -->
+                  <option value='pothole'>a pothole</option>
+                  <option value='obstacle'>an obstacle</option>
+                  <!-- <option value='other'>other</option> -->
+                </select>
+                <input class='form-control' type='text' style='display:none;' id='section-mid-other'/>
+                on the 
+                <select class='form-control' id='section-mid-side'>
+                  <option value='left'>left</option>
+                  <option value='right'>right</option>
+                </select>
+                side of the street.
+                </p>
+                <p><button class='btn' onclick='reportMidObstacle();'>Report!</button></p>
+
+              </div>
+
+              <div id='section-obstacles' style='display:none;'>
+                <p>You have reported...</p>
+                <ul></ul>
+              </div>
+
+              <div id='section-add' style='display:none;'>
+                <p><button class='btn' onclick='addSection();'>Add another section</button></p>
+              </div>
+
+            </div>
+
+<!--             <div id='instruction-loc'>
               <p>You are looking at the accessibility of the route starting at <b><span id='instruction-pos'></span></b>.</p>
               
             </div>
@@ -84,9 +155,9 @@
                 </div>
               </form>
               
-            </div>
+            </div> -->
 
-            <p>Please mark if the route <b>is missing</b> any of the following:</p>
+            <!-- <p>Please mark if the route <b>is missing</b> any of the following:</p>
 
             <div id='instruction-checklist-negative'>
               <form role='form'>
@@ -117,7 +188,7 @@
             </div>
 
             <button class='btn' onclick='submitAccessibility()'>Submit!</button>
-          </div> <!-- instruction base -->
+          </div> --> <!-- instruction base -->
 
           <div id='result-base' style='display:none;'>
             <b>Please copy and paste the following back to Amazon Mechanical Turk.</b> <br /><br />
