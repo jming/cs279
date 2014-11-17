@@ -25,7 +25,7 @@ function placeMarkers(map, markers_list) {
 
 		if (markers_list[i].highlight_start) {
 			displayStreetview(map, marker_pos);
-			$('#instruction-pos').append('(' + marker_pos.lat() + ', ' + marker_pos.lng() + ')');
+			// $('#instruction-pos').append('(' + marker_pos.lat() + ', ' + marker_pos.lng() + ')');
 		}
 		
 
@@ -65,7 +65,7 @@ function submitAccessibility() {
 	checked_array.push($('#instruction-other-pos').val());
 	checked_array.push($('#instruction-other-neg').val());
 
-	$('#result-div-text').append($('#instruction-pos').text()).append('<br>');
+	// $('#result-div-text').append($('#instruction-pos').text()).append('<br>');
 	$('#result-div-text').append(checked_array.toString()).append('<br>');
 	$('#result-div-text').append($('.radio :checked').val()).append('<br>');
 }

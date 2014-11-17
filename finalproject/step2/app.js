@@ -3,7 +3,8 @@ var globals = {
   map: null,
   directionsDisplay: null,
   directionsService: null,
-  markersArray: []
+  markersArray: [],
+  sections: [],
 };
 
 function MarkerInfo (lat,lng,highlight,highlight_start) {
@@ -58,3 +59,80 @@ function updateMap() {
     new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
   ]);
 }
+
+function sectionTypeSelect() {
+
+  $('#section-type').hide();
+  var type = $('#section-type select').val();
+  $('#section-'+type).show();
+  if (type == 'mid') {
+    $('#section-add').show();
+  }
+  // 
+
+  globals.sections.push({
+    'loc': globals.map.getStreetView().getPosition(),
+    'type': type,
+    'obstacles':[]
+  });
+
+}
+
+function reportMidObstacle() {
+
+  var obstacle = $('#section-mid-report').val();
+  var side = $('#section-mid-side').val();
+  var section = globals.sections.pop()
+  section.obstacles.push({
+    'loc': globals.map.getStreetView().getPosition(),
+    'type': obstacle,
+    'side': side
+  });
+  globals.sections.push(section)
+
+  $('#section-obstacles').show();
+
+  $('#section-obstacles ul').append($('<li>')
+    .append('A(n) '+obstacle+' on the '+side+ ' side.'));
+
+}
+
+function addSection() {
+  $('#section-type').show();
+  $('#section-int').hide();
+  $('#section-mid').hide();
+  $('#section-add').hide();
+  $('#section-obstacles').hide();
+  $('#section-obstacles ul').empty();
+
+  $('#section-int-type').show();
+  $('#section-int-obstacles').hide();
+
+  var section = globals.sections.pop()
+
+  if (section.type == 'int') {
+    section.obstacles.push($('#section-int-input').val());
+    $('#section-int-input').val('');
+  }
+
+  globals.sections.push(section);
+
+}
+
+
+function sectionIntType(type) {
+  $('#section-int-type').hide();
+  $('#section-int-obstacles').show();
+  $('#section-int-img').attr('src','../img/'+type+'.png');
+  $('#section-add').show();
+
+  globals.sections.push({
+    'loc': globals.map.getStreetView().getPosition(),
+    'type': type,
+    'obstacles':[]
+  });
+}
+
+
+
+
