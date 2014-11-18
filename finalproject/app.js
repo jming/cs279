@@ -30,6 +30,8 @@ function initialize() {
     new MarkerInfo(42.365517, -71.122176, true),
     new MarkerInfo(42.366523, -71.119212, false)
   ]);
+
+  showSectionAccessibility(globals.sections);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 

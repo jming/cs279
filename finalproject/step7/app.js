@@ -28,6 +28,8 @@ function initialize() {
   }
   globals.map.fitBounds(bounds);
   */
+
+  showSectionMarkers(globals.sections);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
