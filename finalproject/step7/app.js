@@ -20,12 +20,14 @@ function initialize() {
 
   var bounds = new google.maps.LatLngBounds();
   globals.directionsDisplay.setMap(globals.map);
+  /*
   for (var i = 0; i < globals.sectionsArray.length; i++) {
     showRouteAccessibility(globals.sectionsArray[i]);
     bounds.extend(globals.sectionsArray[i].point1);
     bounds.extend(globals.sectionsArray[i].point2);
   }
   globals.map.fitBounds(bounds);
+  */
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 

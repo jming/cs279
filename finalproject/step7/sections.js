@@ -7,3 +7,17 @@ globals.weight = 7;
 function showRouteAccessibility(section) {
     getRoute(section);
 }
+
+
+function showSectionMarkers(sections) {
+    for (var i = 0; i < sections.length; i++) {
+        var section = sections[i];
+
+        if (section.type == 'mid') {
+            console.log('TODO');
+        }
+        else {
+            console.log('TODO');
+        }
+    }
+}
