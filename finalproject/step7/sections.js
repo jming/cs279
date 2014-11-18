@@ -11,13 +11,15 @@ function showSectionMarkers(sections) {
         else {
             var section_img = '';
             if (section.type == 'lrud') {
-                section_img = '../img/int-four-4.png'
+                section_img = '../img/int-four-4.png';
             }
             else {
-                section_img = '../img/int-three-3.png'
+                section_img = '../img/int-three-3.png';
             }
+            var lat = section.loc.k;
+            var lng = section.loc.B;
             var marker = new google.maps.Marker({
-                position: new google.maps.LatLng(section.loc),
+                position: new google.maps.LatLng(lat, lng),
                 map: globals.map,
                 title: 'Intersection ' + i.toString(),
                 clickable: true,
