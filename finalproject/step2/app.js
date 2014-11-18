@@ -76,6 +76,8 @@ function sectionTypeSelect() {
     'obstacles':[]
   });
 
+  $('#section-done').show();
+
 }
 
 function reportMidObstacle() {
@@ -133,6 +135,12 @@ function sectionIntType(type) {
   });
 }
 
+
+function finishSection(type) {
+  $('#instructions-base').hide();
+  $('#result-base').show();
+  $('#result-div-text').append(JSON.stringify(globals.sections));
+}
 
 
 

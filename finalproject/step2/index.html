@@ -127,6 +127,7 @@
 
               <div id='section-add' style='display:none;'>
                 <p><button class='btn' onclick='addSection();'>Add another section</button></p>
+                <p><button class='btn' id='section-done' onclick='finishSection();'>Complete task</button></p>
               </div>
 
             </div>
@@ -190,12 +191,14 @@
             <button class='btn' onclick='submitAccessibility()'>Submit!</button>
           </div> --> <!-- instruction base -->
 
-          <div id='result-base' style='display:none;'>
-            <b>Please copy and paste the following back to Amazon Mechanical Turk.</b> <br /><br />
-            <div id='result-div-text'></div>
-          </div>
+          
 
         </div> <!-- instruction div -->
+
+        <div id='result-base' style='display:none;'>
+          <b>Please copy and paste the following back to Amazon Mechanical Turk.</b> <br /><br />
+          <div id='result-div-text'></div>
+        </div>
           
       </div><!-- row div -->
 
