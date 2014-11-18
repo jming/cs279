@@ -67,14 +67,16 @@ function sectionTypeSelect() {
   $('#section-'+type).show();
   if (type == 'mid') {
     $('#section-add').show();
+
+    globals.sections.push({
+      'loc': globals.map.getStreetView().getPosition(),
+      'type': type,
+      'obstacles':[]
+    });
   }
   // 
 
-  globals.sections.push({
-    'loc': globals.map.getStreetView().getPosition(),
-    'type': type,
-    'obstacles':[]
-  });
+  
 
   $('#section-done').show();
 
