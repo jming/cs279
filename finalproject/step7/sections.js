@@ -15,6 +15,7 @@ function showSectionMarkers(sections) {
             }
             else {
                 section_img = '../img/int-three-3.png';
+                // section_img = '../img/int-four-4.png';
             }
             var lat = section.loc.k;
             var lng = section.loc.B;
