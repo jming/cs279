@@ -3,7 +3,7 @@ var globals = {
   map: null,
   directionsDisplay: null,
   directionsService: null,
-  sections: [{"loc":{"k":42.369594,"B":-71.11811599999999},"type":"int","obstacles":[]},{"loc":{"k":42.369594,"B":-71.11811599999999},"type":"lud","obstacles":[]},{"loc":{"k":42.369513,"B":-71.11790100000002},"type":"mid","obstacles":[{"loc":{"k":42.369513,"B":-71.11790100000002},"type":"obstacle","side":"left"},{"loc":{"k":42.369466,"B":-71.117793},"type":"obstacle","side":"right"}]},{"loc":{"k":42.369298,"B":-71.11749299999997},"type":"int","obstacles":[]},{"loc":{"k":42.369298,"B":-71.11749299999997},"type":"lud","obstacles":[]},{"loc":{"k":42.369298,"B":-71.11749299999997},"type":"int","obstacles":[]},{"loc":{"k":42.369298,"B":-71.11749299999997},"type":"lud","obstacles":[]}]
+  sections: [{"loc":{"k":42.369594,"B":-71.11811599999999},"type":"lud","obstacles":[]},{"loc":{"k":42.369513,"B":-71.11790100000002},"type":"mid","obstacles":[{"loc":{"k":42.369513,"B":-71.11790100000002},"type":"obstacle","side":"left"},{"loc":{"k":42.369466,"B":-71.117793},"type":"obstacle","side":"right"}]},{"loc":{"k":42.369298,"B":-71.11749299999997},"type":"lud","obstacles":[]},{"loc":{"k":42.369298,"B":-71.11749299999997},"type":"int","obstacles":[]},{"loc":{"k":42.369298,"B":-71.11749299999997},"type":"lud","obstacles":[]}]
 };
 
 function initialize() {
