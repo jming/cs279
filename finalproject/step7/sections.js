@@ -12,7 +12,6 @@ function showSectionMarkers(sections) {
                     position: new google.maps.LatLng(obstacle.loc.k, obstacle.loc.B),
                     map: globals.map,
                     title: 'Obstacle ' + oId.toString(),
-                    clickable: true,
                     icon: section_img
                 });
             }
