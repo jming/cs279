@@ -17,7 +17,20 @@ function showSectionMarkers(sections) {
             console.log('TODO');
         }
         else {
-            console.log('TODO');
+            var section_img = '';
+            if (section.type == 'lrud') {
+                section_img = '../img/int-four-4.png'
+            }
+            else {
+                section_img = '../img/int-three-3.png'
+            }
+            var marker = new google.maps.Marker({
+                position: new google.maps.LatLng(section.loc),
+                map: globals.map,
+                title: 'Intersection ' + i.toString(),
+                clickable: true,
+                icon: section_img
+            });
         }
     }
 }
