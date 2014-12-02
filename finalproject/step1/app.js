@@ -26,6 +26,8 @@ function initialize() {
 
   globals.directionsDisplay.setMap(globals.map);
 
+  $('#input-loc').modal('show');
+
   getRoute();
 }
 google.maps.event.addDomListener(window, 'load', initialize);
