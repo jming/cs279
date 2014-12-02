@@ -3,10 +3,13 @@
   <head>
 
     <style type="text/css">
-      html, body, .view-canvas { height: 650px; margin: 0; padding: 0;}
+      html, body, .view-canvas { height: 650px; margin: 0; padding: 20;}
       #instructions-canvas {
         padding: 20px;
         overflow: scroll;
+      }
+      .instructions-img {
+        height:150px;
       }
     </style>
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,11 +27,77 @@
   </head>
   <body>
 
+    <div class='container'>
+      <div class="modal fade" id="input-loc" tabindex="-1" role="dialog" aria-labelledby="input-loc-label" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="input-loc-label">Instructions</h4>
+            </div>
+            <div class="modal-body">
+
+              <table>
+
+              <tr>
+
+                <td><img src='../img/step1a.png' class='instructions-img' /></td>
+                <td><img src='../img/step1b.png' class='instructions-img' /></td>
+                <td><img src='../img/step1c.png' class='instructions-img' /></td>
+                
+              </tr>
+
+
+              <tr>
+                <td><h5>Step 1</h5></td>
+                <td><h5>Step 2</h5></td>
+                <td><h5>Step 3</h5></td>
+              </tr>
+
+
+              <tr>
+                <td>The path between the two red pointer markings is higlighted in blue.</td>
+                <td>Click on the blue line at the location where a street crosses the path to mark the intersections. If you make a mistake, right-click to remove the marker. </td>
+                <td>After you have marked all of the intersections, you are done!</td>
+              </tr>
+
+                <!-- <td>
+                  <tr><img src='../img/step1a.png' class='instructions-img' /></tr>
+                  <tr><b>Step 1.</b></tr>
+                  
+                </td>
+                <td>
+                  <tr><img src='../img/step1a.png' class='instructions-img' /></tr>
+                  <tr><b>Step 1.</b></tr>
+                  <tr>The path between the two red pointer markings is higlighted in blue.</tr>
+                </td>
+                <td>
+                  <tr><img src='../img/step1a.png' class='instructions-img' /></tr>
+                  <tr><b>Step 1.</b></tr>
+                  <tr>The path between the two red pointer markings is higlighted in blue.</tr>
+                </td> -->
+              </table>
+
+<!--               <form>
+                <textarea id='input-loc-text' class='form-control'></textarea>
+              </form> -->
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Begin!</button>
+              <!-- <button type="button" class="btn btn-primary" onclick='updateMap();'>Begin!</button> -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
     <div id='mapping-div' class='row'>
       <div class='col-md-10 view-canvas' id='map-canvas'></div>
       <div class='col-md-2 view-canvas' id='instructions-canvas'>
         <div id='instructions-base'>
-          <p>The route is highlighted in blue. Mark the <b>intersections</b> by clicking on the location on the route. Right-click to remove the marker.</p>
+          <p>Mark the <b>intersections</b> by clicking on where roads cross the blue path. If you make a mistake, right-click to remove the marker.</p>
           <button class='btn' onclick='showLatLngs();'>Done!</button>
         </div>
         <div id='result-base' style='display:none;'>
