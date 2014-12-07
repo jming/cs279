@@ -27,7 +27,6 @@ function placeMarkers(map, markers_list) {
 			displayStreetview(map, marker_pos);
 			// $('#instruction-pos').append('(' + marker_pos.lat() + ', ' + marker_pos.lng() + ')');
 		}
-		
 
 		// google.maps.event.addListener(marker, 'click', function(event) {
 			// console.log(event);

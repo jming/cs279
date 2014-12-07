@@ -5,6 +5,11 @@ var globals = {
   directionsService: null,
   markersArray: [],
   sections: [],
+  intersections: [],
+  start_intersection: 0,
+  end_intersection: 0,
+  curr_intersection: 0,
+  crossability: []
 };
 
 function MarkerInfo (lat,lng,highlight,highlight_start) {
@@ -56,97 +61,54 @@ function updateMap() {
   // (42.365517, -71.122176);(42.366523, -71.119212)
   // (42.370265671066136, -71.11774476913672);(42.3692140976423, -71.11737728118896)
   // var input_loc_parsed = ('[' + input_loc_text + ']');
-  console.log(input_loc_text);
-  placeMarkers(globals.map, [
-    new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
-    new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
-  ]);
+  // console.log(input_loc_text);
+  // placeMarkers(globals.map, [
+  //   new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
+  //   new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
+  // ]);
+
+  intersectionStart(input_loc_text[0][0], input_loc_text[0][1], input_loc_text[1][0], input_loc_text[1][1]);
+  displayStreetview(globals.map, input_loc_text[0][0], input_loc_text[0][1]);
 }
 
-function sectionTypeSelect(loc) {
 
-  $('#section-type').hide();
-  // var type = $('#section-type select').val();
-  var type = 'mid';
-  $('#section-'+type).show();
-  if (type == 'mid') {
-    // $('#section-add').show();
+// TODO: intersection load form step 1??
+function intersectionLoad(intersections) {
+  globals.intersections = intersections;
+}
 
-    globals.sections.push({
-      // 'loc': globals.map.getStreetView().getPosition(),
-      'loc' : loc,
-      'type': type,
-      'obstacles':[]
-    });
+function intersectionStart(startx, starty, endx, endy) {
+  globals.start_intersection = globals.intersections.indexOf((startx, starty));
+  globals.end_intersection = globals.intersections.indexOf((endx, endy));
+  globals.curr_intersection = globals.start_intersection;
+}
+
+function intersectionNext() {
+
+  // add crossability
+  globals.crossability.push({
+    'loc': globals.intersections[globals.curr_intersection]; 
+    'crossable': $('.radio :checked').val()
+  });
+
+  globals.curr_intersection++;
+
+  if (globals.curr_intersection < globals.end_intersection) {
+    // show next section
+    displayStreetview(globals.map, globals.intersections[globals.curr_intersection]);
   }
-  // 
-
   
-
-  $('#section-done').show();
-
-}
-
-function reportMidObstacle() {
-
-  var obstacle = $('#section-mid-report').val();
-  var side = $('#section-mid-side').val();
-  var section = globals.sections.pop()
-  section.obstacles.push({
-    'loc': globals.map.getStreetView().getPosition(),
-    'type': obstacle,
-    'side': side
-  });
-  globals.sections.push(section)
-
-  $('#section-obstacles').show();
-
-  $('#section-obstacles ul').append($('<li>')
-    .append('A(n) '+obstacle+' on the '+side+ ' side.'));
-
-}
-
-function addSection() {
-  $('#section-type').show();
-  $('#section-int').hide();
-  $('#section-mid').hide();
-  $('#section-add').hide();
-  $('#section-obstacles').hide();
-  $('#section-obstacles ul').empty();
-
-  $('#section-int-type').show();
-  $('#section-int-obstacles').hide();
-
-  var section = globals.sections.pop()
-
-  if (section.type == 'int') {
-    section.obstacles.push($('#section-int-input').val());
-    $('#section-int-input').val('');
+  else {
+    // complete task
+    finishSection();
   }
-
-  globals.sections.push(section);
-
 }
 
 
-function sectionIntType(type) {
-  $('#section-int-type').hide();
-  $('#section-int-obstacles').show();
-  $('#section-int-img').attr('src','../img/'+type+'.png');
-  $('#section-add').show();
-
-  globals.sections.push({
-    'loc': globals.map.getStreetView().getPosition(),
-    'type': type,
-    'obstacles':[]
-  });
-}
-
-
-function finishSection(type) {
+function finishSection() {
   $('#instructions-base').hide();
   $('#result-base').show();
-  $('#result-div-text').append(JSON.stringify(globals.sections));
+  $('#result-div-text').append(JSON.stringify(globals.crossability));
 }
 
 

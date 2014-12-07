@@ -76,42 +76,8 @@
           </div>
           <div class="modal-body">
 
-            <h5>Setup</h5>
-            <p>You'll be presented a map with a route marked in blue and a streetview of your starting point on the map. Your goal is to travel from the red starting marker to the yellow end marker while marking the different obstacles.</p>
-            <img src='../img/step2-basicview.png' class='instructions-img' />
+            <p>Your job is to check the crossability of this intersection.</p>
 
-            <h5>Navigating</h5>
-            <table>
-              <tr>
-                <td>
-                  <p>You can pan around using the compass at the top left corner of the streetview or by dragging to spin the view.</p>
-                </td>
-                <td>
-                  <p>You can move by clicking on the arrows on the streetview or by clicking forward along the street.</p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img src='../img/step2-compass.png' class='instructions-img2' />
-                </td>
-                <td>
-                  <img src='../img/step2-arrows.png' class='instructions-img3' />
-                </td>
-              </tr>
-            </table>
-            
-            <h5>Marking</h5>
-            <p>For each road segment, mark if there are any <b>obstacles</b> in the road and which <b>side of the road</b> they occur on. Examples of obstacles are shown in the images below.</p>
-            <table>
-              <tr>
-                <td>construction</td>
-                <td>potholes</td>
-                <td>stairs</td>
-              </tr>
-            </table>
-            <!-- <form>
-              <textarea id='instructions-modal-text' class='form-control'></textarea>
-            </form> -->
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Begin!</button>
@@ -124,10 +90,6 @@
 
   </div>
 
-    
-
-    <!-- <div id='map-canvas'></div> -->
-    <!-- <div id='container'> -->
       <div id='mapping-div' class='row' >
         <div class='col-md-5 view-canvas' id='map-canvas'></div>
         <div class='col-md-5 view-canvas' id='street-canvas'></div>
@@ -137,137 +99,21 @@
 
             <div id='section-base'>
 
-              <!-- <div id='section-type'>
-                <p>This section is</p>
-                <select class='form-control'>
-                  <option value='int'>an intersection</option>
-                  <option value='mid'>in the middle</option>
-                </select>
 
-                <p><button class='btn' onclick='sectionTypeSelect()'>Next</button></p>
-                
-              </div> -->
+              <p>This intersection is: </p>
 
-              
-
-              <!-- <div id='section-int' style='display:none;'>
-                <p>This intersection..</p>
-                <div id='section-int-type'>
-                  Select the image below matches most with the intersection.
-
-                  <button class='btn' onclick='sectionIntType("lrud");'><img style='width:80%' src='../img/lrud.png'></button>
-                  <button class='btn' onclick='sectionIntType("lrd");'><img style='width:80%' src='../img/lrd.png'></button>
-                  <button class='btn' onclick='sectionIntType("lud");'><img style='width:80%' src='../img/lud.png'></button>
-                  <button class='btn' onclick='sectionIntType("rud");'><img style='width:80%' src='../img/rud.png'></button>
+              <div id='instruction-checklist-final'>
+                <div class='radio'>
+                  <label><input type='radio' name='is_crossable' id='is_crossable_yes' value='y'>crossable</label>
                 </div>
-                <div id='section-int-obstacles' style='display:none;'>
-                  Please indicate which of the following curb ramps (numbers, red) and crosswalks (letters, yellow) are missing or N/A if all are present.
-
-                  <img id='section-int-img' style='width:80%'>
-
-                  <input class='form-control' id='section-int-input'>
+                <div class='radio'>
+                  <label><input type='radio' name='is_crossable' id='is_crossable_no' value='n'>not crossable</label>
                 </div>
-              </div> -->
-
-
-
-
-
-              <div id='section-mid' >
-                <p>I want to report
-                <select class='form-control' id='section-mid-report'>
-                  <option value='stairs'>stairs</option>
-                  <option value='construction'>construction</option>
-                  <!-- <option value='curbramp'>a missing curb ramp</option> -->
-                  <!-- <option value='crosswalk'>a missing crosswalk</option> -->
-                  <option value='pothole'>a pothole</option>
-                  <option value='obstacle'>an obstacle</option>
-                  <!-- <option value='other'>other</option> -->
-                </select>
-                <input class='form-control' type='text' style='display:none;' id='section-mid-other'/>
-                on the 
-                <select class='form-control' id='section-mid-side'>
-                  <option value='left'>left</option>
-                  <option value='right'>right</option>
-                </select>
-                side of the street.
-                </p>
-                <p><button class='btn' onclick='reportMidObstacle();'>Report!</button></p>
-
               </div>
 
-              <div id='section-obstacles' style='display:none;'>
-                <p>You have reported...</p>
-                <ul></ul>
-              </div>
+              <button class='btn' id='intersection-next' onclick='intersectionNext();'>Next intersection</button>
 
-              <div id='section-add' >
-                <!-- <p><button class='btn' onclick='addSection();'>Add another section</button></p> -->
-                <p><button class='btn' id='section-done' onclick='finishSection();'>Complete task</button></p>
-              </div>
-
-            </div>
-
-<!--             <div id='instruction-loc'>
-              <p>You are looking at the accessibility of the route starting at <b><span id='instruction-pos'></span></b>.</p>
-              
-            </div>
-            <p>Please mark if the route <b>has</b> any of the following:</p>
-            <div id='instruction-checklist'>
-              <form role='form'>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='stairs' /> Stairs</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='potholes' /> Potholes</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='obstacles' /> Obstacles</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='other-pos' /> Other</label>
-                </div>
-                <div class='form-group'>
-                  <input class='form-control' id='instruction-other-pos' type='text' />
-                </div>
-              </form>
-              
-            </div> -->
-
-            <!-- <p>Please mark if the route <b>is missing</b> any of the following:</p>
-
-            <div id='instruction-checklist-negative'>
-              <form role='form'>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='curb' class='checklist-neg'/> Curb ramps</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='zebra' /> Crosswalk</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='other-neg' /> Other</label>
-                </div>
-                <div class='form-group'>
-                  <input class='form-control' id='instruction-other-neg' type='text' />
-                </div>
-              </form>  
-            </div>
-
-            <p>Is the route accessible?</p>
-
-            <div id='instruction-checklist-final'>
-              <div class='radio'>
-                <label><input type='radio' name='is_accessible' id='is_accessible_yes' value='y'>Yes</label>
-              </div>
-              <div class='radio'>
-                <label><input type='radio' name='is_accessible' id='is_accessible_no' value='n'>No</label>
-              </div>
-            </div>
-
-            <button class='btn' onclick='submitAccessibility()'>Submit!</button>
-          </div> --> <!-- instruction base -->
-
-          
+              <button class='btn' id='intersection-complete' onclick='intersectionComplete();' style='display:none;'>Complete task</button>
 
         </div> <!-- instruction div -->
 
