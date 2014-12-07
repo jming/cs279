@@ -37,6 +37,7 @@ function initialize() {
 
   $('#input-loc').modal('show');
   getRoute();
+  sectionTypeSelect(center_pos);
 
 
 }
@@ -46,12 +47,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 function updateMap() {
   $('#input-loc').modal('hide');
+  $('#instructions-modal').modal('show');
   var input_loc_text = $('#input-loc-text').val().split(';');
 
   for (var i=0; i<input_loc_text.length; i++) {
     input_loc_text[i] = input_loc_text[i].replace('(','').replace(')','').split(',');
   }
   // (42.365517, -71.122176);(42.366523, -71.119212)
+  // (42.370265671066136, -71.11774476913672);(42.3692140976423, -71.11737728118896)
   // var input_loc_parsed = ('[' + input_loc_text + ']');
   console.log(input_loc_text);
   placeMarkers(globals.map, [
@@ -60,16 +63,18 @@ function updateMap() {
   ]);
 }
 
-function sectionTypeSelect() {
+function sectionTypeSelect(loc) {
 
   $('#section-type').hide();
-  var type = $('#section-type select').val();
+  // var type = $('#section-type select').val();
+  var type = 'mid';
   $('#section-'+type).show();
   if (type == 'mid') {
-    $('#section-add').show();
+    // $('#section-add').show();
 
     globals.sections.push({
-      'loc': globals.map.getStreetView().getPosition(),
+      // 'loc': globals.map.getStreetView().getPosition(),
+      'loc' : loc,
       'type': type,
       'obstacles':[]
     });

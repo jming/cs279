@@ -11,6 +11,22 @@
       #result-div {
         padding:50px;
       }
+      .instructions-img {
+        width: 300px;
+      }
+
+      .instructions-img2 {
+        width: 80px;
+      }
+
+      .instructions-img3 {
+        width: 170px;
+      }
+
+      .modal .modal-body {
+          max-height: 420px;
+          overflow-y: auto;
+      }
     </style>
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
@@ -49,6 +65,64 @@
 
   </div>
 
+  <div class='container'>
+    <div class="modal fade" id="instructions-modal" tabindex="-1" role="dialog" aria-labelledby="instructions-modal-label" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            <h4 class="modal-title" id="instructions-modal-label">Instructions</h4>
+          </div>
+          <div class="modal-body">
+
+            <h5>Setup</h5>
+            <p>You'll be presented a map with a route marked in blue and a streetview of your starting point on the map. Your goal is to travel from the red starting marker to the yellow end marker while marking the different obstacles.</p>
+            <img src='../img/step2-basicview.png' class='instructions-img' />
+
+            <h5>Navigating</h5>
+            <table>
+              <tr>
+                <td>
+                  <p>You can pan around using the compass at the top left corner of the streetview or by dragging to spin the view.</p>
+                </td>
+                <td>
+                  <p>You can move by clicking on the arrows on the streetview or by clicking forward along the street.</p>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img src='../img/step2-compass.png' class='instructions-img2' />
+                </td>
+                <td>
+                  <img src='../img/step2-arrows.png' class='instructions-img3' />
+                </td>
+              </tr>
+            </table>
+            
+            <h5>Marking</h5>
+            <p>For each road segment, mark if there are any <b>obstacles</b> in the road and which <b>side of the road</b> they occur on. Examples of obstacles are shown in the images below.</p>
+            <table>
+              <tr>
+                <td>construction</td>
+                <td>potholes</td>
+                <td>stairs</td>
+              </tr>
+            </table>
+            <!-- <form>
+              <textarea id='instructions-modal-text' class='form-control'></textarea>
+            </form> -->
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Begin!</button>
+            <!-- <button type="button" class="btn btn-primary" onclick='updateMap();'>Begin!</button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+
     
 
     <!-- <div id='map-canvas'></div> -->
@@ -62,7 +136,7 @@
 
             <div id='section-base'>
 
-              <div id='section-type'>
+              <!-- <div id='section-type'>
                 <p>This section is</p>
                 <select class='form-control'>
                   <option value='int'>an intersection</option>
@@ -71,12 +145,12 @@
 
                 <p><button class='btn' onclick='sectionTypeSelect()'>Next</button></p>
                 
-              </div>
+              </div> -->
 
               
 
-              <div id='section-int' style='display:none;'>
-                <!-- <p>This intersection..</p> -->
+              <!-- <div id='section-int' style='display:none;'>
+                <p>This intersection..</p>
                 <div id='section-int-type'>
                   Select the image below matches most with the intersection.
 
@@ -92,16 +166,17 @@
 
                   <input class='form-control' id='section-int-input'>
                 </div>
-              </div>
+              </div> -->
 
 
 
 
 
-              <div id='section-mid' style='display:none;'>
+              <div id='section-mid' >
                 <p>I want to report
                 <select class='form-control' id='section-mid-report'>
                   <option value='stairs'>stairs</option>
+                  <option value='construction'>construction</option>
                   <!-- <option value='curbramp'>a missing curb ramp</option> -->
                   <!-- <option value='crosswalk'>a missing crosswalk</option> -->
                   <option value='pothole'>a pothole</option>
@@ -125,8 +200,8 @@
                 <ul></ul>
               </div>
 
-              <div id='section-add' style='display:none;'>
-                <p><button class='btn' onclick='addSection();'>Add another section</button></p>
+              <div id='section-add' >
+                <!-- <p><button class='btn' onclick='addSection();'>Add another section</button></p> -->
                 <p><button class='btn' id='section-done' onclick='finishSection();'>Complete task</button></p>
               </div>
 
