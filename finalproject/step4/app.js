@@ -24,11 +24,20 @@ var globals = {
     }
   ],
   // PASSED IN FROM STEP 2!!!
-  // each intersection contains a location and boolean of accessibility
+  // each intersection contains a location and boolean of cross-ability
   intersections: [
-      new google.maps.LatLng(42.370260407036795,-71.11774742603302),
-      new google.maps.LatLng(42.36960930626074,-71.11815725693282),
-      new google.maps.LatLng(42.36919824433562,-71.117382645607)
+    {
+        loc: new google.maps.LatLng(42.370260407036795,-71.11774742603302),
+        crossable: true
+    },
+    {
+        loc: new google.maps.LatLng(42.36960930626074,-71.11815725693282),
+        crossable: false
+    },
+    {
+        loc: new google.maps.LatLng(42.36919824433562,-71.117382645607),
+        crossable: true
+    }
   ],
   // revised route
   revisedRoute: null
@@ -65,11 +74,12 @@ function initialize() {
   var start = globals.polyroutes[0].points[0];
   var ends = globals.polyroutes[globals.polyroutes.length - 1].points;
   var end = ends[ends.length - 1];
-  // UNCOMMENT
   showDraggableRoute(start, end);
   
-  for (var i = 0; i < globals.intersections.length; i++)
-      addMarker(globals.intersections[i]);
+  for (var i = 0; i < globals.intersections.length; i++) {
+      var intersection = globals.intersections[i];
+      addIntersectionInfo(intersection.loc, intersection.crossable);
+  }
 
   globals.map.fitBounds(bounds);
   $('#input-loc').modal('show');
