@@ -1,6 +1,3 @@
-globals.start = new google.maps.LatLng(42.370769, -71.117342);
-globals.end = new google.maps.LatLng(42.363988, -71.124164);
-
 // shows draggable route between two points
 // also store route in global revisedRoutes array
 function showDraggableRoute(start, end) {
@@ -15,41 +12,40 @@ function showDraggableRoute(start, end) {
       // render route as draggable
       var routeRenderer = new google.maps.DirectionsRenderer({
         draggable: true,
-        preserveViewport: true
+        preserveViewport: true,
+        polylineOptions: { strokeColor: "#000000" }
       });
       routeRenderer.setMap(globals.map);
       routeRenderer.setDirections(response);
 
-      globals.revisedRoutes.push({
+      globals.revisedRoute = {
         start: start,
         end: end,
         route: getEncodedPolyline(routeRenderer.getDirections().routes[0])
-      });
+      };
 
       google.maps.event.addListener(routeRenderer, 'directions_changed', function() {
-        // find index in revisedRoutes where this is stored
-        for (var i = 0; i < globals.revisedRoutes.length; i++) {
-          var route = globals.revisedRoutes[i];
-          // found it - update directions
-          if (route.start == start && route.end == end) {
-            route.route = getEncodedPolyline(routeRenderer.getDirections().routes[0]);
-          }
-        }
+        globals.revisedRoute.route = getEncodedPolyline(routeRenderer.getDirections().routes[0]);
       });
     }
   });
 }
 
 // show static route of points on map
-function showStaticRoute(points, isAccessible, isSelected) {
+function showStaticRoute(points, accessibility) {
   // create line to represent route
   var polyroute = new google.maps.Polyline({
-    strokeColor: isAccessible ? globals.green[isSelected] : globals.red[isSelected],
+    strokeColor: globals[accessibility],
     strokeWeight: globals.weight,
     path: points
   });
 
   polyroute.setMap(globals.map);
+
+  // DELETE WHEN DONE
+  // google.maps.event.addListener(polyroute, 'click', function(event) {
+  //   globals.intersections.push(event.latLng);
+  // });
 }
 
 // return encoded polyline from a route

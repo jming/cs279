@@ -5,8 +5,11 @@
     <style type="text/css">
       html, body, .view-canvas { height: 650px; margin: 0; padding: 0;}
       #instruction-canvas {
-        margin-top: 10px;
         padding: 20px;
+        overflow: scroll;
+      }
+      .instructions-img {
+        height:150px;
       }
     </style>
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -24,13 +27,49 @@
 
   <body>
 
+    <div class='container'>
+      <!--<div class="modal fade" id="input-loc" tabindex="-1" role="dialog" aria-labelledby="input-loc-label" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="input-loc-label">Instructions</h4>
+            </div>
+            <div class="modal-body">
+              <table>
+              <tr>
+                <td><img src='../img/step1a.png' class='instructions-img' /></td>
+                <td><img src='../img/step1b.png' class='instructions-img' /></td>
+                <td><img src='../img/step1c.png' class='instructions-img' /></td>
+              </tr>
+              <tr>
+                <td><h5>Step 1</h5></td>
+                <td><h5>Step 2</h5></td>
+                <td><h5>Step 3</h5></td>
+              </tr>
+              <tr>
+                <td>Instructions for Step 1</td>
+                <td>Instructions for Step 2 (if needed)</td>
+                <td>Instructions for Step 3 (if needed), you are done!</td>
+              </tr>
+              </table>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Begin!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>-->
+
     <div id="mapping-div" class="row">
 
       <div class='col-md-10 view-canvas' id='map-canvas'></div><!-- map canvas -->
       <div class='col-md-2 view-canvas' id='instruction-canvas'>
 
         <div id='instructions-base'>
-          <p>Some instructions</p>
+          <h2>Legend</h2>
+          <div id='instructions-colors'></div>
           <button class='btn' onclick='submitRevisions()'>Done!</button>
         </div>
 
