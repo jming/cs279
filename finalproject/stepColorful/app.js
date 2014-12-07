@@ -5,8 +5,8 @@ var globals = {
   directionsService: null,
   // PASSED IN FROM STEP 2!!!
   polyroutes: [{"polyroute":"opraG|baqLjB~@","accessibility":"left","isSelected":1},{"polyroute":"cmraG|daqLnBbAPL","accessibility":"right","isSelected":1},{"polyroute":"airaGngaqLDQHYFQDOLWDIJUNW??B@","accessibility":"both","isSelected":1},{"polyroute":"ofraGrbaqLHFh@n@@@DD|CfDt@v@h@j@BD@?LN@@RT??@E","accessibility":"none","isSelected":1}],
-  // revised routes for draggable (i.e., inaccessible and selected) routes
-  revisedRoutes: []
+  // revised route
+  revisedRoute: null
 };
 
 function initialize() {
@@ -24,7 +24,7 @@ function initialize() {
   var bounds = new google.maps.LatLngBounds();
   globals.directionsDisplay.setMap(globals.map);
 
-  // display static accessibility
+  // display static accessibility info
   for (var i = 0; i < globals.polyroutes.length; i++) {
     var polyrouteInfo = globals.polyroutes[i];
     var points = google.maps.geometry.encoding.decodePath(polyrouteInfo.polyroute);
@@ -43,11 +43,12 @@ function initialize() {
   showDraggableRoute(start, end);
   
   globals.map.fitBounds(bounds);
-  showInstructions();
+  $('#input-loc').modal('show');
+  showLegend();
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-function showInstructions() {
+function showLegend() {
     var instructions = [
         {text: 'Left Accessible', color: globals.left},
         {text: 'Right Accessible', color: globals.right},
@@ -66,5 +67,5 @@ function showInstructions() {
 function submitRevisions() {
   $('#instructions-base').hide();
   $('#results-base').show();
-  $('#result-div-text').append(JSON.stringify(globals.revisedRoutes));
+  $('#result-div-text').append(JSON.stringify(globals.revisedRoute));
 }
