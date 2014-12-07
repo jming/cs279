@@ -106,6 +106,5 @@ function showLegend() {
 function submitRevisions() {
   $('#instructions-base').hide();
   $('#results-base').show();
-  // $('#result-div-text').append(JSON.stringify(globals.revisedRoute));
-  $('#result-div-text').append(JSON.stringify(globals.intersections));
+  $('#result-div-text').append(JSON.stringify(globals.revisedRoute));
 }
