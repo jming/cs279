@@ -41,11 +41,6 @@ function showStaticRoute(points, accessibility) {
   });
 
   polyroute.setMap(globals.map);
-
-  // DELETE WHEN DONE
-  // google.maps.event.addListener(polyroute, 'click', function(event) {
-  //   globals.intersections.push(event.latLng);
-  // });
 }
 
 // return encoded polyline from a route

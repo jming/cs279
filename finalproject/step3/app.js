@@ -5,6 +5,24 @@ var globals = {
   directionsService: null,
   markersArray: [],
   sections: [],
+  polyroutes: [
+    {
+        "polyroute":"opraG|baqLjB~@",
+        "accessibility":"left"
+    },
+    {
+        "polyroute":"cmraG|daqLnBbAPL",
+        "accessibility":"right"
+    },
+    {
+        "polyroute":"airaGngaqLDQHYFQDOLWDIJUNW??B@",
+        "accessibility":"both"
+    },
+    {
+        "polyroute":"ofraGrbaqLHFh@n@@@DD|CfDt@v@h@j@BD@?LN@@RT??@E",
+        "accessibility":"none"
+    }
+  ]
 };
 
 function MarkerInfo (lat,lng,highlight,highlight_start) {
@@ -35,11 +53,22 @@ function initialize() {
   //   new MarkerInfo(42.366523, -71.119212, false, false)
   // ]);
 
+  var bounds = new google.maps.LatLngBounds();
+
+  for (var i = 0; i < globals.polyroutes.length; i++) {
+    var polyrouteInfo = globals.polyroutes[i];
+    var points = google.maps.geometry.encoding.decodePath(polyrouteInfo.polyroute);
+    polyrouteInfo.points = points;
+    for (var j = 0; j < points.length; j++) {
+      bounds.extend(points[j]);
+    }
+
+    showStaticRoute(polyrouteInfo.points, polyrouteInfo.accessibility);
+  }
+
+  globals.map.fitBounds(bounds);
   $('#input-loc').modal('show');
-  getRoute();
   sectionTypeSelect(center_pos);
-
-
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
