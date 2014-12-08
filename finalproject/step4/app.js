@@ -135,6 +135,9 @@ function showMatchLegend() {
       var match = matchesInfo[i].matches[j];
       html += '<div class="legend-key legend-square" style="background-color:' + match + '"></div>';
     }
+    if (matchesInfo[i].color === globals.none) {
+      html += 'Uncolored sections';
+    }
     html += '</td></tr>';
   }
 
