@@ -9,7 +9,20 @@
         overflow: scroll;
       }
       .instructions-img {
-        height:150px;
+        width:150px;
+      }
+      .legend-key {
+        height:40px;
+        border:1px solid #000;
+      }
+      .legend-square {
+        width: 40px;
+        float: left;
+        margin-left: 5px;
+      }
+      .table-instructions {
+        width:50% !important;
+        text-align:center;
       }
     </style>
     <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
@@ -36,24 +49,34 @@
               <h4 class="modal-title" id="input-loc-label">Instructions</h4>
             </div>
             <div class="modal-body">
-              Drag the black line to select the route that has the fewest inaccessible sections. First 
-              <table>
-              <tr>
-                <td><img src='../img/step1a.png' class='instructions-img' /></td>
-                <td><img src='../img/step1b.png' class='instructions-img' /></td>
-                <td><img src='../img/step1c.png' class='instructions-img' /></td>
-              </tr>
-              <tr>
-                <td><h5>Step 1</h5></td>
-                <td><h5>Step 2</h5></td>
-                <td><h5>Step 3</h5></td>
-              </tr>
-              <tr>
-                <td>Instructions for Step 1</td>
-                <td>Instructions for Step 2 (if needed)</td>
-                <td>Instructions for Step 3 (if needed), you are done!</td>
-              </tr>
+              <p>Drag the black line to select the most accessible route from A to B.</p>
+              <!-- <p>To help you select the most accessible route, we have color-coded sections of the map to indicate which side of the street is accessible:</p>
+              <table class="table table-bordered table-instructions" id="instructions-street-table" align="center">
               </table>
+              <p>And we have also color-coded intersections based on their accessibility:</p>
+              <table class="table table-bordered table-instructions" id="instructions-int-table" align="center">
+              </table>
+              <p>This all means that you can use the following color-matching rules to select an accessible route:</p> -->
+              <p>To help you select the most accessible route, we have color-coded sections of the map to indicate which intersections and sides of the street are accessible. This means that you can use the following color-matching rules to select an accessible route:</p>
+              <table class="table table-bordered table-instructions" id="instructions-match-table" align="center">
+              </table>
+              <p>Where a color "<b>matches with</b>" another color if the two are allowed to be side-by-side in an accessible route. Here are some examples:</p>
+              <table>
+                <tr>
+                  <td style="padding-bottom:10px;"><img src='../img/step4-good.png' class='instructions-img'></td>
+                  <td>Here is a <b>good</b> route. Note that, from top to bottom, the yellow matches with green, the green matches with blue, the blue matches with green, and the green matches with green.</td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:10px;"><img src='../img/step4-bad.png' class='instructions-img'></td>
+                  <td>Here is a <b>bad</b> route. This is inaccessible because the red on the bottom left does not match with any of its surrounding colors.</td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:10px;"><img src='../img/step4-fixed.png' class='instructions-img'></td>
+                  <td>To <b>fix</b> the bad route above, drag the black line away from this inaccessible section to a section where the colors <i>do</i> match. If no such accessible section exists, drag the black line over a section that has not been color-coded yet, like here.</td>
+                </tr>
+              </table>
+              <!-- <br /> -->
+              <p>When you are finished, hit "Done!" to record your new route. Thanks for your help!</p>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Begin!</button>
@@ -69,7 +92,9 @@
       <div class='col-md-2 view-canvas' id='instruction-canvas'>
 
         <div id='instructions-base'>
-          <h2>Legend</h2>
+          <h3>Possible Matches</h3>
+          <table class="table table-bordered" id="legend-match-table" align="center">
+          </table>
           <div id='instructions-colors'></div>
           <button class='btn' onclick='submitRevisions()'>Done!</button>
         </div>

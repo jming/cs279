@@ -55,10 +55,10 @@ function initialize() {
   globals.map = new google.maps.Map(document.getElementById('map-canvas'),
       mapOptions);
 
-  var bounds = new google.maps.LatLngBounds();
   globals.directionsDisplay.setMap(globals.map);
 
-  // display static accessibility info
+  // display static accessibility info and update bounds
+  var bounds = new google.maps.LatLngBounds();
   for (var i = 0; i < globals.polyroutes.length; i++) {
     var polyrouteInfo = globals.polyroutes[i];
     var points = google.maps.geometry.encoding.decodePath(polyrouteInfo.polyroute);
@@ -69,11 +69,12 @@ function initialize() {
 
     showStaticRoute(polyrouteInfo.points, polyrouteInfo.accessibility);
   }
+  globals.map.fitBounds(bounds);
 
   // display draggable route
   var start = globals.polyroutes[0].points[0];
-  var ends = globals.polyroutes[globals.polyroutes.length - 1].points;
-  var end = ends[ends.length - 1];
+  var endpoints = globals.polyroutes[globals.polyroutes.length - 1].points;
+  var end = endpoints[endpoints.length - 1];
   showDraggableRoute(start, end);
   
   // display intersection information
@@ -82,26 +83,63 @@ function initialize() {
       addIntersectionInfo(intersection.loc, intersection.crossable);
   }
 
-  globals.map.fitBounds(bounds);
   $('#input-loc').modal('show');
-  showLegend();
+  // showStreetLegend();
+  // showIntersectionLegend();
+  showMatchLegend();
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
-function showLegend() {
-    var instructions = [
-        {text: 'Left Accessible', color: globals.left},
-        {text: 'Right Accessible', color: globals.right},
-        {text: 'Both Accessible', color: globals.both},
-        {text: 'None Accessible', color: globals.none}
-    ];
+// function showStreetLegend() {
+//   var instructions = [
+//     {text: 'Left Accessible', color: globals.left},
+//     {text: 'Right Accessible', color: globals.right},
+//     {text: 'Both Accessible', color: globals.both},
+//     {text: 'None Accessible', color: globals.none}
+//   ];
 
-    var html = '';
-    for (var i = 0; i < instructions.length; i++) {
-        html += '<div><div style="width:40px;height:40px;border:1px solid #000;background-color:'+ instructions[i].color + '">' + '</div>'+ instructions[i].text + '</div><br />';
+//   var html = '<tr><th>Color</th><th>Meaning</th></tr>';
+//   for (var i = 0; i < instructions.length; i++) {
+//     html += '<tr><td><div class="legend-key" style="background-color:'+ instructions[i].color + '"></div></td>' + '<td>'+ instructions[i].text + '</td></tr>';
+//   }
+
+//   $('#instructions-street-table').html(html);
+// }
+
+// function showIntersectionLegend() {
+//   var instructions = [
+//     {text: 'Can cross', color: globals.both},
+//     {text: 'Cannot cross', color: globals.none}
+//   ];
+
+//   var html = '<tr><th>Color</th><th>Meaning</th></tr>';
+//   for (var i = 0; i < instructions.length; i++) {
+//     html += '<tr><td><svg xmlns="http://www.w3.org/2000/svg" style="height:50px;width:50px;"><circle cx="25" cy="25" r="20" fill="'+ instructions[i].color+ '" /></svg></td>' + '<td>'+ instructions[i].text + '</td></tr>';
+//   }
+
+//   $('#instructions-int-table').html(html);
+// }
+
+function showMatchLegend() {
+  var matchesInfo = [
+    {color: globals.left, matches: [globals.both, globals.left]},
+    {color: globals.right, matches: [globals.both, globals.right]},
+    {color: globals.both, matches: [globals.both, globals.left, globals.right]},
+    {color: globals.none, matches: []}
+  ];
+  var html = '<tr><th>Color</th><th>Matches with</th></tr>';
+  for (var i = 0; i < matchesInfo.length; i++) {
+    html += '<tr><td><div class="legend-key legend-square" style="background-color:' + matchesInfo[i].color + '"></div></td>';
+    html += '<td>';
+    for (var j = 0; j < matchesInfo[i].matches.length; j++) {
+      var match = matchesInfo[i].matches[j];
+      html += '<div class="legend-key legend-square" style="background-color:' + match + '"></div>';
     }
+    html += '</td></tr>';
+  }
 
-    $('#instructions-colors').html(html);
+  $('#instructions-match-table').html(html);
+  $('#legend-match-table').html(html);
 }
 
 function submitRevisions() {
