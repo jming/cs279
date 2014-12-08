@@ -13,7 +13,10 @@ function showDraggableRoute(start, end) {
       var routeRenderer = new google.maps.DirectionsRenderer({
         draggable: true,
         preserveViewport: true,
-        polylineOptions: { strokeColor: "#000000" }
+        polylineOptions: {
+          strokeColor: "#000000",
+          zIndex: google.maps.Marker.MAX_ZINDEX
+        }
       });
       routeRenderer.setMap(globals.map);
       routeRenderer.setDirections(response);

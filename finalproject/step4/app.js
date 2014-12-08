@@ -76,6 +76,7 @@ function initialize() {
   var end = ends[ends.length - 1];
   showDraggableRoute(start, end);
   
+  // display intersection information
   for (var i = 0; i < globals.intersections.length; i++) {
       var intersection = globals.intersections[i];
       addIntersectionInfo(intersection.loc, intersection.crossable);
