@@ -71,9 +71,20 @@ function initialize() {
     showStaticRoute(polyrouteInfo.points, polyrouteInfo.accessibility);
   }
 
+  intersectionLoad([
+    [42.37079689999999, -71.11742509999999],
+    [42.37029797834395, -71.1177251227291],
+    [42.36967701243323, -71.1181046962738],
+    [42.3692140976423, -71.11737728118896],
+    [42.36744837853081, -71.1192365357133],
+    [42.36730846620258, -71.11907583328372],
+    [42.3637026, -71.12412039999998]]);
+
   globals.map.fitBounds(bounds);
   $('#input-loc').modal('show');
-  sectionTypeSelect(center_pos);
+  // sectionTypeSelect(center_pos);
+  // updateMap();
+
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
@@ -91,10 +102,10 @@ function updateMap() {
   // (42.370265671066136, -71.11774476913672);(42.3692140976423, -71.11737728118896)
   // var input_loc_parsed = ('[' + input_loc_text + ']');
   // console.log(input_loc_text);
-  // placeMarkers(globals.map, [
-  //   new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
-  //   new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
-  // ]);
+  placeMarkers(globals.map, [
+    new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
+    new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
+  ]);
 
   intersectionStart(input_loc_text[0][0], input_loc_text[0][1], input_loc_text[1][0], input_loc_text[1][1]);
   displayStreetview(globals.map, input_loc_text[0][0], input_loc_text[0][1]);
@@ -106,9 +117,17 @@ function intersectionLoad(intersections) {
 }
 
 function intersectionStart(startx, starty, endx, endy) {
-  globals.start_intersection = globals.intersections.indexOf((startx, starty));
-  globals.end_intersection = globals.intersections.indexOf((endx, endy));
+  console.log(startx, starty, endx, endy);
+
+  // globals.start_intersection = globals.intersections.indexOf((startx, starty));
+  // globals.end_intersection = globals.intersections.indexOf((endx, endy));
+  // globals.curr_intersection = globals.start_intersection;
+
+  globals.start_intersection = 1;
+  globals.end_intersection = 4;
   globals.curr_intersection = globals.start_intersection;
+
+  console.log(globals);
 }
 
 function intersectionNext() {
@@ -123,11 +142,15 @@ function intersectionNext() {
 
   if (globals.curr_intersection < globals.end_intersection) {
     // show next section
-    displayStreetview(globals.map, globals.intersections[globals.curr_intersection]);
+    var latlng = new google.maps.LatLng(
+      globals.intersections[globals.curr_intersection][0], globals.intersections[globals.curr_intersection][1]);
+    displayStreetview(globals.map, latlng);
+    // $('#')
   }
   
   else {
     // complete task
+    console.log('here!');
     finishSection();
   }
 }
