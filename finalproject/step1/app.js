@@ -34,11 +34,14 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 function showLatLngs() {
   var latLngs = [];
+  var endpoint = globals.markersArray[1];
   for (var i = 0; i < globals.markersArray.length; i++) {
-    if (globals.markersArray[i]) {
+    if (globals.markersArray[i] && i != 1) {
       latLngs.push(globals.markersArray[i].getPosition());
     }
   }
+
+  latLngs.push(endpoint.getPosition());
 
   $('#instructions-base').hide();
   $('#result-base').show();

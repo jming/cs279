@@ -1,3 +1,22 @@
+// place a marker at given location (LatLng object)
+function placeMarker(location) {
+	var marker = new google.maps.Marker({
+		position: location,
+		map: globals.map,
+		title: 'Intersection ' + globals.markersArray.length.toString(),
+		clickable: true
+	});
+
+	globals.markersArray.push(marker);
+
+	// let person also remove marker if desired
+	google.maps.event.addListener(marker, 'rightclick', function(event) {
+		marker.setMap(null);
+		globals.markersArray[globals.markersArray.indexOf(marker)] = null;
+	});
+}
+
+/** UNUSED
 function placeMarkers(map, markers_list) {
 
 	// console.log(markers_list.length);
@@ -28,21 +47,4 @@ function placeMarkers(map, markers_list) {
 		});
 	}
 }
-
-// place a marker at given location (LatLng object)
-function placeMarker(location) {
-	var marker = new google.maps.Marker({
-		position: location,
-		map: globals.map,
-		title: 'Intersection ' + globals.markersArray.length.toString(),
-		clickable: true
-	});
-
-	globals.markersArray.push(marker);
-
-	// let person also remove marker if desired
-	google.maps.event.addListener(marker, 'rightclick', function(event) {
-		marker.setMap(null);
-		globals.markersArray[globals.markersArray.indexOf(marker)] = null;
-	});
-}
+**/
