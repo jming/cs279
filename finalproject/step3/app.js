@@ -91,24 +91,39 @@ google.maps.event.addDomListener(window, 'load', initialize);
 // console.log(window.map)
 
 function updateMap() {
+
   $('#input-loc').modal('hide');
   $('#instructions-modal').modal('show');
+
   var input_loc_text = $('#input-loc-text').val().split(';');
 
-  for (var i=0; i<input_loc_text.length; i++) {
-    input_loc_text[i] = input_loc_text[i].replace('(','').replace(')','').split(',');
-  }
+  // for (var i=0; i<input_loc_text.length; i++) {
+  //   input_loc_text[i] = input_loc_text[i].replace('(','').replace(')','').split(',');
+  // }
   // (42.365517, -71.122176);(42.366523, -71.119212)
   // (42.370265671066136, -71.11774476913672);(42.3692140976423, -71.11737728118896)
   // var input_loc_parsed = ('[' + input_loc_text + ']');
   // console.log(input_loc_text);
+  // placeMarkers(globals.map, [
+  //   new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
+  //   new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
+  // ]);
+
+  var start_intersection = globals.intersections[input_loc_text[0]]
+  var end_intersection = globals.intersections[input_loc_text[1]]
+
   placeMarkers(globals.map, [
-    new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
-    new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
+    new MarkerInfo(start_intersection[0], start_intersection[1], true, true),
+    new MarkerInfo(end_intersection[0], end_intersection[1], false, false)
   ]);
 
-  intersectionStart(input_loc_text[0][0], input_loc_text[0][1], input_loc_text[1][0], input_loc_text[1][1]);
-  displayStreetview(globals.map, input_loc_text[0][0], input_loc_text[0][1]);
+  // placeMarkers(globals.map, [
+  //   new MarkerInfo(globals.intersections[0][0], globals.intersections[0][1], true, true),
+  //   new MarkerInfo(globals.intersections[globals.intersections.length-1][0],globals.intersections[globals.intersections.length-1][1], false, false)
+  // ]);
+
+  intersectionStart(input_loc_text[0], input_loc_text[1]);
+  displayStreetview(globals.map, start_intersection[0], start_intersection[1]);
 }
 
 // TODO: intersection load form step 1??
@@ -116,15 +131,15 @@ function intersectionLoad(intersections) {
   globals.intersections = intersections;
 }
 
-function intersectionStart(startx, starty, endx, endy) {
-  console.log(startx, starty, endx, endy);
+function intersectionStart(start, end) {
+  // console.log(startx, starty, endx, endy);
 
   // globals.start_intersection = globals.intersections.indexOf((startx, starty));
   // globals.end_intersection = globals.intersections.indexOf((endx, endy));
   // globals.curr_intersection = globals.start_intersection;
 
-  globals.start_intersection = 1;
-  globals.end_intersection = 4;
+  globals.start_intersection = start;
+  globals.end_intersection = end;
   globals.curr_intersection = globals.start_intersection;
 
   console.log(globals);

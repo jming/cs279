@@ -1,0 +1,8 @@
+.modal .modal-body {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+h1 {
+	font-family: 'Pacifico', cursive;
+}
