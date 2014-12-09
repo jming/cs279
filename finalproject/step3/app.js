@@ -60,6 +60,7 @@ function initialize() {
 
   var bounds = new google.maps.LatLngBounds();
 
+  // show static sections and update bounds of map
   for (var i = 0; i < globals.polyroutes.length; i++) {
     var polyrouteInfo = globals.polyroutes[i];
     var points = google.maps.geometry.encoding.decodePath(polyrouteInfo.polyroute);
@@ -70,6 +71,14 @@ function initialize() {
 
     showStaticRoute(polyrouteInfo.points);
   }
+
+  // add markers start and endpoints
+  var start = globals.polyroutes[0].points[0];
+  addEndpointMarker(start, true);
+
+  var endpoints = globals.polyroutes[globals.polyroutes.length - 1].points;
+  var end = endpoints[endpoints.length - 1];
+  addEndpointMarker(end, false);
 
   intersectionLoad([
     [42.37079689999999, -71.11742509999999],
