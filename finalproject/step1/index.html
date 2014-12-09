@@ -36,6 +36,13 @@
             </div>
             <div class="modal-body">
 
+              <div class='row'>
+                <div class='col-md-3'>
+                  <img src='../img/step1a.png' class='instructions-img4' />
+                  <h5>Step 1</h5>
+                </div>
+              </div>
+
               <table>
 
               <tr>
@@ -93,10 +100,11 @@
     </div>
 
     <div id='mapping-div' class='row'>
-      <div class='col-md-10 view-canvas' id='map-canvas'></div>
-      <div class='col-md-2 view-canvas' id='instructions-canvas'>
+      <div class='col-md-9 view-canvas' id='map-canvas'></div>
+      <div class='col-md-3 view-canvas' id='instructions-canvas'>
         <div id='instructions-base'>
           <p>Mark the <b>intersections</b> by clicking on where roads cross the blue path. If you make a mistake, right-click to remove the marker.</p>
+          <button class='btn' onclick='$("#input-loc").modal("show");'>Show instructions</button>
           <button class='btn' onclick='showLatLngs();'>Done!</button>
         </div>
         <div id='result-base' style='display:none;'>
