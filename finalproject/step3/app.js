@@ -68,7 +68,7 @@ function initialize() {
       bounds.extend(points[j]);
     }
 
-    showStaticRoute(polyrouteInfo.points, polyrouteInfo.accessibility);
+    showStaticRoute(polyrouteInfo.points);
   }
 
   intersectionLoad([
