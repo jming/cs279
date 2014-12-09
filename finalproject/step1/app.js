@@ -1,16 +1,12 @@
 // yay globals :)
 var globals = {
   map: null,
+  start: new google.maps.LatLng(42.370769, -71.117342),
+  end: new google.maps.LatLng(42.363988, -71.124164),
   directionsDisplay: null,
   directionsService: null,
   markersArray: []
 };
-
-function MarkerInfo (lat,lng,highlight) {
-  this.lat = lat;
-  this.lng = lng;
-  this.highlight = highlight;
-}
 
 function initialize() {
   globals.directionsDisplay = new google.maps.DirectionsRenderer();
@@ -47,8 +43,4 @@ function showLatLngs() {
   $('#result-base').show();
 
   $('#result-div-text').append(latLngs.toString());
-
-  // alert(latLngs);
-  // console.log(latLngs);
 };
-// console.log(window.map)

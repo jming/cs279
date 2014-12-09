@@ -1,5 +1,5 @@
-globals.start = new google.maps.LatLng(42.370769, -71.117342);
-globals.end = new google.maps.LatLng(42.363988, -71.124164);
+// globals.start = new google.maps.LatLng(42.370769, -71.117342);
+// globals.end = new google.maps.LatLng(42.363988, -71.124164);
 
 // returns route between start and endpoints
 function getRoute() {
