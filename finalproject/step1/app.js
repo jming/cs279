@@ -2,7 +2,8 @@
 var globals = {
   map: null,
   start: new google.maps.LatLng(42.370769, -71.117342),
-  end: new google.maps.LatLng(42.363988, -71.124164),
+  // end: new google.maps.LatLng(42.363988, -71.124164),
+  end: new google.maps.LatLng(42.380216, -71.125039),
   directionsDisplay: null,
   directionsService: null,
   markersArray: []
