@@ -76,7 +76,7 @@ function displayIntersection() {
 // latlng is of the intersection. default color is white.
 function addIntersection(latlng) {
     return new google.maps.Circle({
-        strokeColor: '#FFFFFF',
+        strokeColor: '#000000',
         strokeWeight: 4,
         fillColor: '#FFFFFF',
         fillOpacity: 0.85,
