@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+
+    <style type="text/css">
+      html, body, .view-canvas { height: 650px; margin: 0; padding: 0;}
+      #instruction-canvas {
+        padding: 20px;
+        overflow: scroll;
+      }
+      .instructions-img {
+        width:150px;
+      }
+      .legend-key {
+        height:40px;
+        border:1px solid #000;
+      }
+      .legend-square {
+        width: 40px;
+        float: left;
+        margin-left: 5px;
+      }
+      .table-instructions {
+        width:50% !important;
+        text-align:center;
+      }
+    </style>
+    <link href="../bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../app.css" rel="stylesheet">
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCyBnFtNxTH2Mh-iJIy1EMaZjwMhS80keM&libraries=geometry">
+    </script>
+    <script src='../bootstrap/js/bootstrap.min.js'></script>
+
+    <script type="text/javascript" src='app.js'></script>
+    <script type="text/javascript" src='sections.js'></script>
+    <script type="text/javascript" src='directions.js'></script>
+  </head>
+
+  <body>
+
+    <div class='container'>
+      <div class="modal fade" id="input-loc" tabindex="-1" role="dialog" aria-labelledby="input-loc-label" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title" id="input-loc-label">Instructions</h4>
+            </div>
+            <div class="modal-body">
+              <p>Drag the black line to select the most accessible route from A to B.</p>
+              <!-- <p>To help you select the most accessible route, we have color-coded sections of the map to indicate which side of the street is accessible:</p>
+              <table class="table table-bordered table-instructions" id="instructions-street-table" align="center">
+              </table>
+              <p>And we have also color-coded intersections based on their accessibility:</p>
+              <table class="table table-bordered table-instructions" id="instructions-int-table" align="center">
+              </table>
+              <p>This all means that you can use the following color-matching rules to select an accessible route:</p> -->
+              <p>To help you select the most accessible route, we have color-coded sections of the map to indicate which intersections and sides of the street are accessible. This means that you can use the following color-matching rules to select an accessible route:</p>
+              <table class="table table-bordered table-instructions" id="instructions-match-table" align="center">
+              </table>
+              <p>Where a color "<b>matches with</b>" another color if the two are allowed to be side-by-side in an accessible route. Here are some examples:</p>
+              <table>
+                <tr>
+                  <td style="padding-bottom:10px;"><img src='../img/step4-good.png' class='instructions-img'></td>
+                  <td>This is a <b>good</b> route. Note that, from top to bottom, the yellow matches with green, the green matches with blue, the blue matches with green, and the green matches with green.</td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:10px;"><img src='../img/step4-bad.png' class='instructions-img'></td>
+                  <td>This is a <b>bad</b> route. This route is inaccessible because the red on the bottom left does not match with any of its surrounding colors in the route.</td>
+                </tr>
+                <tr>
+                  <td style="padding-bottom:10px;"><img src='../img/step4-fixed.png' class='instructions-img'></td>
+                  <td>To <b>fix</b> the bad route above, drag the black line away from this inaccessible section to a section where the colors <i>do</i> match. If no such accessible section exists, drag the black line over a section that has not been color-coded yet, like here.</td>
+                </tr>
+              </table>
+              <p>If more than one route is most accessible, pick the shortest one. When you are finished, hit "Done!" to record your new route. Thanks for your help!</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Begin!</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="mapping-div" class="row">
+
+      <div class='col-md-10 view-canvas' id='map-canvas'></div><!-- map canvas -->
+      <div class='col-md-2 view-canvas' id='instruction-canvas'>
+
+        <div id='instructions-base'>
+          <h3>Possible Matches</h3>
+          <table class="table table-bordered" id="legend-match-table" align="center">
+          </table>
+          <div id='instructions-colors'></div>
+          <button class='btn' onclick='submitRevisions()'>Done!</button>
+        </div>
+
+        <div id='results-base' style='display:none;'>
+          <b>Something about results:</b> <br /><br />
+          <div id='result-div-text'></div>
+        </div>
+
+
+      </div><!-- instruction canvas -->
+    </div>
+
+  </body>
+
+</html>

@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>Command Selection Experiment</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="app.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="http://getbootstrap.com/assets/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div id='consent-div' class="container instructions">
+      
+      <h1>Command Selection Experiment</h1>
+
+      <h4>Participation is voluntary.</h4>
+      It is your choice whether or not to participate in this research. If you choose to participate, you may change your mind and leave the study at any time.
+
+      <h4>Description of the proposed study.</h4>
+      You will be asked to participate in a command selection task, which will take approximately ten to fifteen minutes. In this task, you will be asked to select the icon related to a corresponding task. Please read the instructions before starting the task, and if anything is unclear about the rules, you may ask before starting. After completing the task, you may ask questions about the purpose of the game and the research goals.
+
+      <h4>Potential risks and discomforts.</h4>
+      There is minimal risk that you may experience eye strain or other discomforts related to completing a task on a computer screen, but since the duration of the task is short, the probability of experiencing any discomfort is very low. We will be logging data based on your movements and actions during the task, but the data will not be linked to any identifiable information about yourself.
+
+      <h4>Potential benefits.</h4>
+      There are no special benefits you should expect from participating in the study; however, we hope you will find the experience engaging and enjoyable. The data gained from this study will help advance research in human computer interaction (in the context of artificial intelligence).
+
+      <h4>Compensation.</h4>
+      You will not be compensated in any monetary form for participating in this research.
+
+      <h4>Questions?</h4>
+      Contact Dianna Hu (dhu@college.harvard.edu), Joy Ming (jming@college.harvard.edu), or LuLu Li (luluvyd@gmail.com).
+
+      <h4>Participant consent.</h4>
+      I understand the risks presented by this study and by clicking on the button below, I am consenting to this experiment.
+
+      <p>
+        <button class='btn' onclick='setVariables(1)'>Condition 1</button>
+        <button class='btn' onclick='setVariables(2)'>Condition 2</button>
+        <button class='btn' onclick='setVariables(3)'>Condition 3</button>
+        <button class='btn' onclick='setVariables(4)'>Condition 4</button>
+      </p>
+
+    </div><!-- /.consent-div -->
+
+    <div id='general-instructions-div' class='container' style='display:none;' >
+      <h1>Instructions</h1>
+      <p>You will be presented with two types of interfaces. For each interface, you will be asked to complete a series of tasks, each indicated by an image and short description. To complete the task, please click on the button <b>on the interface</b> corresponding with the given task. You will have a practice phase to get familiar with the interface, followed by a testing phase.</p>
+      <p>Before you begin:</p>
+      <ul>
+        <li>Turn your volume up.</li>
+        <li>Make sure your screen is maximized.</li>
+      </ul>
+      <button class='btn' onclick="startInstructions();">Start!</button>
+    </div>
+    
+    <div id='interface-instructions-div' class='container' style='display:none;'>
+      <h1>New Interface</h1>
+      <p id='interface-specifics'></p>
+      <p>Ready for some interface interaction? :)</p>
+      <button class='btn' onclick="startAction();">Yes!</button>
+    </div>
+
+    <div id='ribbon-div' class="container experiment-canvas">
+      <canvas id="ribbon-canvas" width="1280" height="800"></canvas>
+    </div><!-- /.ribbon-div -->
+
+    <div id='commandmap-div' class="container experiment-canvas">
+      <canvas id="commandmap-canvas" width="1280" height="800"></canvas>
+    </div><!-- /.commandmap-div -->
+
+    <div id='happy-form-div' class='container' style='display:none;' >
+      <h1>Happiness Form</h1>
+
+      <p>Please fill out this form and tell us about your experience with the experiment. Thank you for your participation :)</p>
+
+      <p>Age: <input type="text" name="age" id="age"></p>
+      <p>Gender: <select name="gender" id="gender">
+                                  <option value="F">F</option>
+                                  <option value="M">M</option>
+                                  </select>
+      </p>
+      <p>How many hours do you use Microsoft Word every week?: 
+                                  <select name="usage_hour" id="usage_hour">
+                                  <option value="0">0</option>
+                                  <option value="1-5">1-5</option>
+                                  <option value="5-10">5-10</option>
+                                  <option value="10-15">10-15</option>
+                                  <option value="15-20">15-20</option>
+                                  <option value="20+">20+</option>
+                                  </select>
+      </p>
+      <p>Input Device: <select name="input_device" id="input_device">
+                                  <option value="mouse">mouse</option>
+                                  <option value="tpad">tpad</option>
+                                  </select>
+      </p>
+      <p>Browser: <select name="browser" id="browser">
+                                  <option value="iexplorer">iExplorer</option>
+                                  <option value="chrome">Chrome</option>
+                                  <option value="safari">Safari</option>
+                                  <option value="firefox">Firefox</option>
+                                  <option value="other">other</option>
+                                  </select>
+      </p>
+      <p>OS: <select name="os" id="os">
+                                  <option value="windows">Windows</option>
+                                  <option value="mac">Mac</option>
+                                  <option value="other">other</option>
+                                  </select>
+      </p>
+
+      <p>Please ranking each question from 1 (least) to 5 (most).</p>
+      <table class="tg" >
+        <tr>
+          <th class="tg-031e"></th>
+          <th class="tg-031e">Ribbon</th>
+          <th class="tg-031e">CM</th>
+        </tr>
+        <tr>
+              <td class="tg-031e">How mentally demanding was the task?</td>
+              <td class="tg-031e"><select name="ribbon_1" id="ribbon_1">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_1" id="commap_1">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
+        </tr>
+        <tr>
+              <td class="tg-031e">How physically demanding was the task?</td>
+              <td class="tg-031e"><select name="ribbon_2" id="ribbon_2">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_2" id="commap_2">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
+        </tr>
+        <tr>
+              <td class="tg-031e">How hurried or rushed was the pace of the task?</td>
+              <td class="tg-031e"><select name="ribbon_3" id="ribbon_3">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_3" id="commap_3">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
+        </tr>
+        <tr>
+              <td class="tg-031e">How hard did you have to work to accomplish your level of performance?</td>
+              <td class="tg-031e"><select name="ribbon_4" id="ribbon_4">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_4" id="commap_4">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
+        </tr>
+        <tr>
+              <td class="tg-031e">How insecure, discouraged, irritated, stressed,<br>and annoyed were you?</td>
+              <td class="tg-031e"><select name="ribbon_5" id="ribbon_5">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>
+              <td class="tg-031e"><select name="commap_5" id="commap_5">
+                                  <option value="1">1</option>
+                                  <option value="2">2</option>
+                                  <option value="3">3</option>
+                                  <option value="4">4</option>
+                                  <option value="5">5</option>
+                                  </select></td>                              
+        </tr>
+        </table>
+    <br />
+    <button class='btn' onclick="happyform();">Finish</button>
+  </div><!-- /.happy-form-div -->
+
+  <div id='final-info-div' class='container' style='display:none;' >
+    <h2>Final information</h2>
+    <h3>Please copy and paste the following back onto the MTurk HIT.</h3>
+    <div id='final-info-text'></div>
+  </div>
+
+    <!-- Bootstrap core JavaScript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="http://getbootstrap.com/dist/js/bootstrap.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+    <script src="interface.js"></script>
+    <script src="app.js"></script>
+    <script src="FileSaver.js"></script>
+  </body>
+</html>

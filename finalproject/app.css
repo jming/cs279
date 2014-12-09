@@ -1,0 +1,24 @@
+.modal .modal-body {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+h1 {
+	font-family: 'Pacifico', cursive;
+}
+
+.instructions-img {
+width: 300px;
+}
+
+.instructions-img2 {
+width: 80px;
+}
+
+.instructions-img3 {
+width: 170px;
+}
+
+.instructions-img4 {
+height:200px;
+}

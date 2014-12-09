@@ -1,0 +1,13 @@
+.experiment-canvas {
+	margin: 0;
+	padding: 0;
+	display: none;
+}
+
+.instructions {
+	padding: 30px;
+}
+
+td {
+    padding: 30px;
+}
