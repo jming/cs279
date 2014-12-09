@@ -69,4 +69,8 @@ function submitAccessibility() {
 	$('#result-div-text').append($('.radio :checked').val()).append('<br>');
 }
 
+function displayIntersection() {
+	// 
+}
+
 
