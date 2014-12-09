@@ -143,6 +143,12 @@ function intersectionStart(start, end) {
   globals.curr_intersection = globals.start_intersection;
 
   console.log(globals);
+
+  for (var i = globals.start_intersection; i < globals.end_intersection; i++) {
+    var pos = new google.maps.LatLng(
+      globals.intersections[i][0], globals.intersections[i][1]);
+    addIntersection(pos);
+  }
 }
 
 function intersectionNext() {
