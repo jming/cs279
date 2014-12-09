@@ -73,4 +73,15 @@ function displayIntersection() {
 	// 
 }
 
-
+// latlng is of the intersection. default color is white.
+function addIntersection(latlng) {
+    return new google.maps.Circle({
+        strokeColor: '#FFFFFF',
+        strokeWeight: 4,
+        fillColor: '#FFFFFF',
+        fillOpacity: 0.85,
+        center: latlng,
+        map: globals.map,
+        radius: 10
+    });
+}
