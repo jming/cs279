@@ -85,3 +85,13 @@ function addIntersection(latlng) {
         radius: 10
     });
 }
+
+// latlng is of marker position. start is boolean of whether is start
+function addEndpointMarker(latlng, start) {
+    return new google.maps.Marker({
+        position: latlng,
+        map: globals.map,
+        title: start ? 'Start' : 'End',
+        icon: 'https://chart.googleapis.com/chart?chst=d_map_pin_letter&chld=' + (start ? 'A|ff0000' : 'B|00ff00')
+    });
+}
