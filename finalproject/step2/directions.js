@@ -6,10 +6,10 @@ globals.end = new google.maps.LatLng(42.3801904, -71.12509539999996);
 
 
 // returns route between start and endpoints
-function getRoute() {
+function getRoute(start, end, color) {
   var request = {
-    origin: globals.start,
-    destination: globals.end,
+    origin: start,
+    destination: end,
     travelMode: google.maps.TravelMode.WALKING,
     provideRouteAlternatives: true
   };
@@ -18,18 +18,18 @@ function getRoute() {
     if (status == google.maps.DirectionsStatus.OK) {
       // NO! below thing is NOT (marker-placement) clickable
       // globals.directionsDisplay.setDirections(response);
-      showRoute(response.routes[0]);
+      showRoute(response.routes[0], color);
       // placeMarker(response.routes[0].legs[0].start_location);
       // placeMarker(response.routes[0].legs[0].end_location);
     }
   });
 }
 
-// display route on map (and allow clickable!)
-function showRoute(route) {
+// display route on map
+function showRoute(route, color) {
   // create line to represent route
   var polyroute = new google.maps.Polyline({
-    strokeColor: '#3366FF',
+    strokeColor: color,
     strokeWeight: 7
   });
 
@@ -47,9 +47,4 @@ function showRoute(route) {
 
   globals.map.fitBounds(bounds);
   polyroute.setMap(globals.map);
-
-  // let person place marker at every point in path
-  // google.maps.event.addListener(polyroute, 'click', function(event) {
-  //   placeMarker(event.latLng);
-  // });
 }
