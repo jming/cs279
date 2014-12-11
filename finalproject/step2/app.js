@@ -104,13 +104,13 @@ function reportMidObstacle() {
 
   var obstacle = $('#section-mid-report').val();
   var side = $('#section-mid-side').val();
-  var section = globals.sections.pop()
+  var section = globals.sections.pop();
   section.obstacles.push({
     'loc': globals.map.getStreetView().getPosition(),
     'type': obstacle,
     'side': side
   });
-  globals.sections.push(section)
+  globals.sections.push(section);
 
   $('#section-obstacles').show();
 
