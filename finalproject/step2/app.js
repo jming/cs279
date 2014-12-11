@@ -5,6 +5,10 @@ var globals = {
   directionsService: null,
   markersArray: [],
   sections: [],
+  intersections: [[42.37079689999999, -71.11742509999999],[42.379649703070385, -71.12467251732659],[42.37898099675762, -71.12417015384813],[42.37840525211632, -71.12377233764579],[42.37765791101481, -71.12316531041711],[42.37729828049165, -71.12284770985644],[42.377019833791245, -71.12257724334643],[42.37658564284933, -71.12219546803362],[42.375992447916865, -71.12101388090059],[42.37550533291056, -71.11996261623011],[42.37513990533766, -71.11914939605276],[42.37505536460976, -71.11911232140835],[42.37444719768779, -71.11885738982068],[42.37394296041304, -71.11892277002335],[42.37334668042175, -71.11856989860536],[42.37312344945484, -71.11790396926949],[42.3728851637608, -71.1171068236419],[42.37269216025804, -71.11642654188836],[42.37234230976074, -71.11657745422332],[42.37160825202197, -71.11691749632337],[42.37141750373189, -71.1170419238029],[42.37430368700686, -71.11882717164525],[42.3801904, -71.12509539999996]],
+  start_intersection: 0,
+  end_intersection: 0,
+  curr_intersection: 0
 };
 
 function MarkerInfo (lat,lng,highlight,highlight_start) {
@@ -52,16 +56,23 @@ function updateMap() {
   $('#instructions-modal').modal('show');
   var input_loc_text = $('#input-loc-text').val().split(';');
 
-  for (var i=0; i<input_loc_text.length; i++) {
-    input_loc_text[i] = input_loc_text[i].replace('(','').replace(')','').split(',');
-  }
+  // for (var i=0; i<input_loc_text.length; i++) {
+  //   input_loc_text[i] = input_loc_text[i].replace('(','').replace(')','').split(',');
+  // }
   // (42.365517, -71.122176);(42.366523, -71.119212)
   // (42.370265671066136, -71.11774476913672);(42.3692140976423, -71.11737728118896)
   // var input_loc_parsed = ('[' + input_loc_text + ']');
-  console.log(input_loc_text);
+  // console.log(input_loc_text);
+  // placeMarkers(globals.map, [
+  //   new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
+  //   new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
+  // ]);
+  var start_intersection = globals.intersections[input_loc_text[0]]
+  var end_intersection = globals.intersections[input_loc_text[1]]
+
   placeMarkers(globals.map, [
-    new MarkerInfo(input_loc_text[0][0], input_loc_text[0][1], true, true),
-    new MarkerInfo(input_loc_text[1][0], input_loc_text[1][1], false, false)
+    new MarkerInfo(start_intersection[0], start_intersection[1], true, true),
+    new MarkerInfo(end_intersection[0], end_intersection[1], false, false)
   ]);
 }
 
