@@ -1,10 +1,11 @@
 // place a marker at given location (LatLng object)
-function placeMarker(location) {
+function placeMarker(location, color) {
 	var marker = new google.maps.Marker({
 		position: location,
 		map: globals.map,
 		title: 'Intersection ' + globals.markersArray.length.toString(),
-		clickable: true
+		clickable: true,
+                icon: 'http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png'
 	});
 
 	globals.markersArray.push(marker);
