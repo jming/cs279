@@ -39,7 +39,9 @@ function initialize() {
   getRoute();
   sectionTypeSelect(center_pos);
 
-
+  // add markers start and endpoints
+  addEndpointMarker(globals.start, true);
+  addEndpointMarker(globals.end, false);
 }
 google.maps.event.addDomListener(window, 'load', initialize);
 
