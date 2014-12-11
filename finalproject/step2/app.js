@@ -5,6 +5,9 @@ var globals = {
   directionsService: null,
   markersArray: [],
   sections: [],
+  intersections: [],
+  start_intersection: 0,
+  end_intersection: 0
 };
 
 function MarkerInfo (lat,lng,highlight,highlight_start) {
