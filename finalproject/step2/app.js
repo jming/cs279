@@ -122,6 +122,9 @@ function sectionTypeSelect(loc) {
 function reportMidObstacle() {
 
   var obstacle = $('#section-mid-report').val();
+  if (obstacle == 'other') {
+    obstacle = $('#section-mid-other').val();
+  }
   var side = $('#section-mid-side').val();
   var section = globals.sections.pop();
   section.obstacles.push({
@@ -134,7 +137,7 @@ function reportMidObstacle() {
   $('#section-obstacles').show();
 
   $('#section-obstacles ul').append($('<li>')
-    .append('A(n) '+obstacle+' on the '+side+ ' side.'));
+    .append(obstacle+' on the '+side+ ' side.'));
 
 }
 
@@ -181,5 +184,12 @@ function finishSection(type) {
   $('#result-div-text').append(JSON.stringify(globals.sections));
 }
 
-
+function selectChange() {
+  if ($('#section-mid-report').val() == 'other') {
+    $('#section-mid-other').show();
+  }
+  else {
+    $('#section-mid-other').hide();
+  }
+}
 

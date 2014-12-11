@@ -200,3 +200,4 @@ function finishSection() {
   $('#result-base').show();
   $('#result-div-text').append(JSON.stringify(globals.crossability));
 }
+
