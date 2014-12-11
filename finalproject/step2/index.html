@@ -162,15 +162,14 @@
 
               <div id='section-mid' >
                 <p>I want to report
-                <select class='form-control' id='section-mid-report'>
+                <select class='form-control' id='section-mid-report' onchange="selectChange();">
                   <option value='stairs'>stairs</option>
                   <option value='construction'>construction</option>
                   <!-- <option value='curbramp'>a missing curb ramp</option> -->
                   <!-- <option value='crosswalk'>a missing crosswalk</option> -->
                   <option value='pothole'>a pothole</option>
-                  <option value='obstacle'>an obstacle</option>
                   <option value='sidewalk'>no sidewalk</option>
-                  <option value='other'>other</option>
+                  <option value='other'>other obstacle</option>
                   <!-- <option value='other'>other</option> -->
                 </select>
                 <input class='form-control' type='text' style='display:none;' id='section-mid-other'/>
