@@ -153,7 +153,7 @@ function intersectionStart(start, end) {
 
   console.log(globals);
 
-  for (var i = globals.start_intersection; i < globals.end_intersection; i++) {
+  for (var i = globals.start_intersection; i <= globals.end_intersection; i++) {
     var pos = new google.maps.LatLng(
       globals.intersections[i][0], globals.intersections[i][1]);
     addIntersection(pos);
@@ -162,15 +162,24 @@ function intersectionStart(start, end) {
 
 function intersectionNext() {
 
+  var checked = $('.checkbox :checked');
+  console.log(checked);
+  var crossable = []
+  for (var i = 0; i < checked.length; i++) {
+    console.log(checked[i]);
+    crossable.push(checked[i].value);
+    checked[i].checked = false;
+  }
+
   // add crossability
   globals.crossability.push({
     'loc': globals.intersections[globals.curr_intersection],
-    'crossable': $('.radio :checked').val()
+    'crossable': crossable
   });
 
   globals.curr_intersection++;
 
-  if (globals.curr_intersection < globals.end_intersection) {
+  if (globals.curr_intersection <= globals.end_intersection) {
     // show next section
     var latlng = new google.maps.LatLng(
       globals.intersections[globals.curr_intersection][0], globals.intersections[globals.curr_intersection][1]);
@@ -187,7 +196,7 @@ function intersectionNext() {
 
 
 function finishSection() {
-  $('#instructions-base').hide();
+  $('#section-base').hide();
   $('#result-base').show();
   $('#result-div-text').append(JSON.stringify(globals.crossability));
 }
