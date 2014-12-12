@@ -36,9 +36,9 @@ function placeMarkers(map, markers_list) {
 	}
 }
 
-function displayStreetview(map, pos) {
+function displayStreetview(map, lat, lng) {
 	var panoramaOptions = {
-		position: pos,
+		position: new google.maps.LatLng(lat, lng),
 		pov: {
 			heading: 34,
 			pitch: 10
