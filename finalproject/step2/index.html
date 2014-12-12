@@ -63,10 +63,11 @@
           </div>
           <div class="modal-body">
 
-            
+            <h4>At a glance</h4>
+
             <p>Your job is to check the <b>accessibility</b> along a section of a route by reporting any <b>pedestrian obstacles</b> that might occur along the way. </p>
 
-            <h5>Setup</h5>
+            <h4>Setup</h4>
 
             <p>On the left map pane, you will be presented with a Google Maps route, highlighted in blue, from Route Marker A to B. The section you will be checking is highlighted in yellow, and starts at the red start marker and goes until the yellow end marker.</p>
 
@@ -75,7 +76,7 @@
             <!-- TODO: replace image! -->
             <img src='../img/step2-setup.png' class='instructions-img' />
 
-            <h5>Orient</h5>
+            <h4>Orient</h4>
 
             <p>Face the direction of the end of the route, or the yellow marker, by using the compass in the top left corner of the streetview pane or by dragging across the streetview screen.
 
@@ -84,11 +85,11 @@
 
             </p>
 
-            <h5>Report obstacles</h5>
+            <h4>Report obstacles</h4>
 
-            <p>Now spin around along route so you can see the sidewalks that are located on the sides of the route that a pedestrian would take if they were to walk along the route.</p>
+            <p>Now spin around along the route so you can see the sidewalks located on the sides of the route that a pedestrian would take if they were to walk along the route.</p>
 
-            <p>Check each of the sidewalks to see if there are any <b>obstacles</b> that appear on either sidewalk. Obstacles include any of the following:</p>
+            <p>Check each of the sidewalks to see if there are any <b>obstacles</b> that appear on either sidewalk. Obstacles include any of the following:
 
             <p>
 
@@ -103,19 +104,18 @@
 
             </p>
 
-            <p>If you see an obstacle at the current location along either the left or right sidewalk, report that obstacle using the dropdown on the right side of the screen. Select the type of obstacle you have located or fill in a description using the "other" option.
+            <p>If you see an obstacle at the current location along either the left or right sidewalk, report that obstacle using the dropdown on the right side of the screen. Select the type of obstacle you have located or fill in a description using the "other" option. If the obstacle continues past an intersection, report the obstacle again after you have crossed that intersection.
 
-            <img src='../img/step2-report.jpg' class='instructions-img3' /> 
-
+              <img src='../img/step2-report.jpg' class='instructions-img3' /> 
             </p>
 
-            <h5>Navigate along the road</h5>
+            <h4>Navigate along the road</h4>
             
             <p>Once you have reported the obstacles you see on both the left and right sidewalks along this road, continue along the road towards the yellow end marker. You can move by using the arrows on the streetview image, your arrow keys, or clicking forward on the streetview image.</p>
 
             <br><img src='../img/step2-arrows.png' class='instructions-img3' />
 
-            <h5>Complete task</h5>
+            <h4>Complete task</h4>
 
             <p>When you have reached the yellow marker, click "complete task" and copy and paste the text string back to Amazon Mechanical Turk.</p>
 
@@ -180,66 +180,6 @@
               </div>
 
             </div>
-
-<!--             <div id='instruction-loc'>
-              <p>You are looking at the accessibility of the route starting at <b><span id='instruction-pos'></span></b>.</p>
-              
-            </div>
-            <p>Please mark if the route <b>has</b> any of the following:</p>
-            <div id='instruction-checklist'>
-              <form role='form'>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='stairs' /> Stairs</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='potholes' /> Potholes</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='obstacles' /> Obstacles</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='other-pos' /> Other</label>
-                </div>
-                <div class='form-group'>
-                  <input class='form-control' id='instruction-other-pos' type='text' />
-                </div>
-              </form>
-              
-            </div> -->
-
-            <!-- <p>Please mark if the route <b>is missing</b> any of the following:</p>
-
-            <div id='instruction-checklist-negative'>
-              <form role='form'>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='curb' class='checklist-neg'/> Curb ramps</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='zebra' /> Crosswalk</label>
-                </div>
-                <div class='checkbox'>
-                  <label><input type='checkbox' value='other-neg' /> Other</label>
-                </div>
-                <div class='form-group'>
-                  <input class='form-control' id='instruction-other-neg' type='text' />
-                </div>
-              </form>  
-            </div>
-
-            <p>Is the route accessible?</p>
-
-            <div id='instruction-checklist-final'>
-              <div class='radio'>
-                <label><input type='radio' name='is_accessible' id='is_accessible_yes' value='y'>Yes</label>
-              </div>
-              <div class='radio'>
-                <label><input type='radio' name='is_accessible' id='is_accessible_no' value='n'>No</label>
-              </div>
-            </div>
-
-            <button class='btn' onclick='submitAccessibility()'>Submit!</button>
-          </div> --> <!-- instruction base -->
-
           
 
         </div> <!-- instruction div -->
