@@ -63,42 +63,53 @@
           </div>
           <div class="modal-body">
 
+            
+            <p>Your job is to check the <b>accessibility</b> along a section of a route by reporting any <b>pedestrian obstacles</b> that might occur along the way. </p>
+
             <h5>Setup</h5>
-            <p>You'll be presented a map with a route marked in blue and a streetview of your starting point on the map. Your goal is to travel from the red starting marker to the yellow end marker while marking the different obstacles.</p>
+
+            <p>On the left map pane, you will be presented with a Google Maps route, highlighted in blue, from Route Marker A to B. The section you will be checking is highlighted in yellow, and starts at the red start marker and goes until the yellow end marker.</p>
+
+            <p>On the right streetview pane, you will see the street view of a given location on the route. You can tell where you are along the route based on the small person pin that shows up on the left map pane.</p>
+
+            <!-- TODO: replace image! -->
             <img src='../img/step2-basicview.png' class='instructions-img' />
 
-            <h5>Navigating</h5>
-            <table>
-              <tr>
-                <td>
-                  <p>Pan around using the compass at the top left corner of the streetview or by dragging to spin the view.</p>
-                </td>
-                <td>
-                  <p>Move by clicking on the arrows on the streetview or by clicking forward along the street.</p>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img src='../img/step2-compass.png' class='instructions-img2' />
-                </td>
-                <td>
-                  <img src='../img/step2-arrows.png' class='instructions-img3' />
-                </td>
-              </tr>
-            </table>
+            <h5>Orient</h5>
+
+            <p>Face the direction of the end of the route by using the compass in the top left corner of the streetview pane or by dragging across the streetview screen.
+
+            <br><img class='instructions-img3' src='../img/step3-orient.png' />
+            <br><img src='../img/step2-compass.png' class='instructions-img2' />
+            <br><img src='../img/step2-compass.png' class='instructions-img2' />
+
+            </p>
+
+            <h5>Report obstacles</h5>
+
+            <p>Now spin around along route so you can see the sidewalks that are located on the sides of the route that a pedestrian would take if they were to walk along the route.</p>
+
+            <p>Check each of the sidewalks to see if there are any <b>obstacles</b> that appear on either sidewalk. Obstacles include any of the following:
+
+              <ul>
+                <li> stairs </li>
+                <li> construction </li>
+                <li> pothole </li>
+                <li> no sidewalk </li>
+              </ul>
+
+            </p>
+
+            <p>If you see an obstacle at the current location along either the left or right sidewalk, report that obstacle using the dropdown on the right side of the screen. Select the type of obstacle you have located or fill in a description using the "other" option.</p>
+
+            <h5>Navigate along the road</h5>
             
-            <h5>Marking</h5>
-            <p>For each road segment, mark if there are any <b>obstacles</b> in the road and which <b>side of the road</b> they occur on. Examples of obstacles are shown in the images below.</p>
-            <table class="table">
-              <tr>
-                <td>construction</td>
-                <td>potholes</td>
-                <td>stairs</td>
-              </tr>
-            </table>
-            <!-- <form>
-              <textarea id='instructions-modal-text' class='form-control'></textarea>
-            </form> -->
+            <p>Once you have reported the obstacles you see on both the left and right sidewalks along this road, continue along the road towards the yellow end marker. You can move by using the arrows on the streetview image, your arrow keys, or clicking forward on the streetview image.</p>
+
+            <h5>Complete task</h5>
+
+            <p>When you have reached the yellow marker, click "complete task" and copy and paste the text string back to Amazon Mechanical Turk.</p>
+
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">Begin!</button>
@@ -124,42 +135,6 @@
 
             <div id='section-base'>
 
-              <!-- <div id='section-type'>
-                <p>This section is</p>
-                <select class='form-control'>
-                  <option value='int'>an intersection</option>
-                  <option value='mid'>in the middle</option>
-                </select>
-
-                <p><button class='btn' onclick='sectionTypeSelect()'>Next</button></p>
-                
-              </div> -->
-
-              
-
-              <!-- <div id='section-int' style='display:none;'>
-                <p>This intersection..</p>
-                <div id='section-int-type'>
-                  Select the image below matches most with the intersection.
-
-                  <button class='btn' onclick='sectionIntType("lrud");'><img style='width:80%' src='../img/lrud.png'></button>
-                  <button class='btn' onclick='sectionIntType("lrd");'><img style='width:80%' src='../img/lrd.png'></button>
-                  <button class='btn' onclick='sectionIntType("lud");'><img style='width:80%' src='../img/lud.png'></button>
-                  <button class='btn' onclick='sectionIntType("rud");'><img style='width:80%' src='../img/rud.png'></button>
-                </div>
-                <div id='section-int-obstacles' style='display:none;'>
-                  Please indicate which of the following curb ramps (numbers, red) and crosswalks (letters, yellow) are missing or N/A if all are present.
-
-                  <img id='section-int-img' style='width:80%'>
-
-                  <input class='form-control' id='section-int-input'>
-                </div>
-              </div> -->
-
-
-
-
-
               <div id='section-mid' >
                 <p>I want to report
                 <select class='form-control' id='section-mid-report' onchange="selectChange();">
@@ -178,7 +153,7 @@
                   <option value='left'>left</option>
                   <option value='right'>right</option>
                 </select>
-                side of the street.
+                sidewalk of the current street.
                 </p>
                 <p><button class='btn' onclick='reportMidObstacle();'>Report!</button></p>
 
