@@ -24,7 +24,7 @@ function placeMarkers(map, markers_list) {
 		});
 
 		if (markers_list[i].highlight_start) {
-			displayStreetview(map, marker_pos);
+			displayStreetview(map, marker_pos.lat(), marker_pos.lng());
 			// $('#instruction-pos').append('(' + marker_pos.lat() + ', ' + marker_pos.lng() + ')');
 		}
 		
