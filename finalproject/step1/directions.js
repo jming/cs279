@@ -15,8 +15,8 @@ function getRoute() {
       // NO! below thing is NOT (marker-placement) clickable
       // globals.directionsDisplay.setDirections(response);
       showRoute(response.routes[0]);
-      placeMarker(response.routes[0].legs[0].start_location);
-      placeMarker(response.routes[0].legs[0].end_location);
+      placeMarker(response.routes[0].legs[0].start_location, 'red');
+      placeMarker(response.routes[0].legs[0].end_location, 'red');
     }
   });
 }

@@ -5,7 +5,7 @@ function placeMarker(location, color) {
 		map: globals.map,
 		title: 'Intersection ' + globals.markersArray.length.toString(),
 		clickable: true,
-                icon: 'http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png'
+        icon: 'http://maps.google.com/mapfiles/ms/icons/' + color + '-dot.png'
 	});
 
 	globals.markersArray.push(marker);
