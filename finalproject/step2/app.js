@@ -72,10 +72,10 @@ function updateMap() {
 
   console.log(input_loc_text, start_intersection, end_intersection);
 
-  placeMarkers(globals.map, [
-    new MarkerInfo(start_intersection[0], start_intersection[1], true, true),
-    new MarkerInfo(end_intersection[0], end_intersection[1], false, false)
-  ]);
+  // placeMarkers(globals.map, [
+  //   new MarkerInfo(start_intersection[0], start_intersection[1], true, true),
+  //   new MarkerInfo(end_intersection[0], end_intersection[1], false, false)
+  // ]);
 
   intersectionStart(input_loc_text[0], input_loc_text[1]);
   displayStreetview(globals.map, start_intersection[0], start_intersection[1]);
@@ -86,6 +86,10 @@ function updateMap() {
   var endLatLng = new google.maps.LatLng(
     end_intersection[0], end_intersection[1]);
   getRoute(startLatLng, endLatLng, globals.highlightColor);
+
+  placeMarkers(globals.map, [
+    new MarkerInfo(42.370687,-71.11749299999997, false, false)]);
+    // new MarkerInfo(42.37289,-71.11712399999999, false, false)])
 }
 
 function intersectionStart(start, end) {
