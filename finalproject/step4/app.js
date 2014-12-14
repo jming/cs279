@@ -3,42 +3,45 @@ var globals = {
   map: null,
   directionsDisplay: null,
   directionsService: null,
-  // PASSED IN FROM STEP 2!!!
+  // hackhackhack
+  rawIntersections: [[42.37079689999999,-71.11742509999999],[42.37141750373189,-71.1170419238029],[42.37160825202197,-71.11691749632337],[42.37234230976074,-71.11657745422332],[42.37269216025804,-71.11642654188836],[42.3728851637608,-71.1171068236419],[42.37312344945484,-71.11790396926949],[42.37334668042175,-71.11856989860536]],
+  rawCrossability: [true, true, false, true, true, false, true, true],
+  // rawAccessibility: ["left", "both", "left", "right", "both", "both", "right"],
+  // PASSED IN FROM STEP 2!!! but not. derp.
   // each polyroute contains a route and an accessibility string tag
   polyroutes: [
     {
-        "polyroute":"opraG|baqLjB~@",
-        "accessibility":"left"
+      polyroute: "opraG|baqLYQEAYOaAi@",
+      accessibility: "left"
     },
     {
-        "polyroute":"cmraG|daqLnBbAPL",
-        "accessibility":"right"
+      polyroute: "ktraGn`aqLc@W",
+      accessibility: "both"
     },
     {
-        "polyroute":"airaGngaqLDQHYFQDOLWDIJUNW??B@",
-        "accessibility":"both"
+      polyroute: "ouraGv_aqLsCcA",
+      accessibility: "left"
     },
     {
-        "polyroute":"ofraGrbaqLHFh@n@@@DD|CfDt@v@h@j@BD@?LN@@RT??@E",
-        "accessibility":"none"
+      polyroute: "czraGr}`qLgA_@",
+      accessibility: "right"
+    },
+    {
+      polyroute: "k|raGr|`qLOz@AHSfA",
+      accessibility: "both"
+    },
+    {
+      polyroute: "q}raG`aaqLOt@Q|@Kd@",
+      accessibility: "both"
+    },
+    {
+      polyroute: "__saGzeaqLWzAGTCDGJAB",
+      accessibility: "right"
     }
   ],
-  // PASSED IN FROM STEP 2!!!
+  // PASSED IN FROM STEP 2!!! but not. derp.
   // each intersection contains a location and boolean of cross-ability
-  intersections: [
-    {
-        loc: new google.maps.LatLng(42.370260407036795,-71.11774742603302),
-        crossable: true
-    },
-    {
-        loc: new google.maps.LatLng(42.36960930626074,-71.11815725693282),
-        crossable: false
-    },
-    {
-        loc: new google.maps.LatLng(42.36919824433562,-71.117382645607),
-        crossable: true
-    }
-  ],
+  intersections: [],
   // revised route
   revisedRoute: null
 };
@@ -56,6 +59,9 @@ function initialize() {
       mapOptions);
 
   globals.directionsDisplay.setMap(globals.map);
+
+  intersectionLoad(globals.rawIntersections);
+  // polyrouteLoad(globals.rawIntersections);
 
   // display static accessibility info and update bounds
   var bounds = new google.maps.LatLngBounds();
@@ -150,3 +156,69 @@ function submitRevisions() {
   $('#results-base').show();
   $('#result-div-text').append(JSON.stringify(globals.revisedRoute));
 }
+
+function intersectionLoad(intersections) {
+  for (var i = 0; i < intersections.length; i++) {
+    var intersection = intersections[i];
+    var crossable = globals.rawCrossability[i];
+    globals.intersections.push({
+      loc: new google.maps.LatLng(intersection[0], intersection[1]),
+      crossable: crossable
+    });
+  }
+}
+
+// function polyrouteLoad(intersections, callback) {
+//   for (var i = 0; i < intersections.length - 1; i++) {
+//     var start = intersections[i];
+//     var end = intersections[i + 1];
+
+//     var request = {
+//       origin: new google.maps.LatLng(start[0], start[1]),
+//       destination: new google.maps.LatLng(end[0], end[1]),
+//       travelMode: google.maps.TravelMode.WALKING
+//     };
+
+//     var accessibility = globals.rawAccessibility[i];
+
+//     globals.directionsService.route(request, function(response, status) {
+//       if (status == google.maps.DirectionsStatus.OK) {
+//         var newPolyroute = {
+//           polyroute: getEncodedPolyline(response.routes[0]),
+//           accessibility: accessibility
+//         };
+//         globals.polyroutes.push(newPolyroute);
+//       }
+
+//       callback();
+//     });
+//   }
+// }
+
+// function doRouteMagic() {
+//   // display static accessibility info and update bounds
+//   var bounds = new google.maps.LatLngBounds();
+//   for (var i = 0; i < globals.polyroutes.length; i++) {
+//     var polyrouteInfo = globals.polyroutes[i];
+//     var points = google.maps.geometry.encoding.decodePath(polyrouteInfo.polyroute);
+//     polyrouteInfo.points = points;
+//     for (var j = 0; j < points.length; j++) {
+//       bounds.extend(points[j]);
+//     }
+
+//     showStaticRoute(polyrouteInfo.points, polyrouteInfo.accessibility);
+//   }
+//   globals.map.fitBounds(bounds);
+
+//   // display draggable route
+//   var start = globals.polyroutes[0].points[0];
+//   var endpoints = globals.polyroutes[globals.polyroutes.length - 1].points;
+//   var end = endpoints[endpoints.length - 1];
+//   showDraggableRoute(start, end);
+  
+//   // display intersection information
+//   for (var i = 0; i < globals.intersections.length; i++) {
+//       var intersection = globals.intersections[i];
+//       addIntersectionInfo(intersection.loc, intersection.crossable);
+//   }
+// }
