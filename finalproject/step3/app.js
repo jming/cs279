@@ -5,29 +5,13 @@ var globals = {
   directionsService: null,
   markersArray: [],
   sections: [],
-  polyroutes: [
-    {
-        "polyroute":"opraG|baqLjB~@",
-        "accessibility":"left"
-    },
-    {
-        "polyroute":"cmraG|daqLnBbAPL",
-        "accessibility":"right"
-    },
-    {
-        "polyroute":"airaGngaqLDQHYFQDOLWDIJUNW??B@",
-        "accessibility":"both"
-    },
-    {
-        "polyroute":"ofraGrbaqLHFh@n@@@DD|CfDt@v@h@j@BD@?LN@@RT??@E",
-        "accessibility":"none"
-    }
-  ],
   intersections: [],
   start_intersection: 0,
   end_intersection: 0,
   curr_intersection: 0,
-  crossability: []
+  crossability: [],
+  start: new google.maps.LatLng(42.37079689999999, -71.11742509999999),
+  end: new google.maps.LatLng(42.3801904, -71.12509539999996)
 };
 
 function MarkerInfo (lat,lng,highlight,highlight_start) {
@@ -60,37 +44,14 @@ function initialize() {
 
   var bounds = new google.maps.LatLngBounds();
 
-  // show static sections and update bounds of map
-  for (var i = 0; i < globals.polyroutes.length; i++) {
-    var polyrouteInfo = globals.polyroutes[i];
-    var points = google.maps.geometry.encoding.decodePath(polyrouteInfo.polyroute);
-    polyrouteInfo.points = points;
-    for (var j = 0; j < points.length; j++) {
-      bounds.extend(points[j]);
-    }
-
-    showStaticRoute(polyrouteInfo.points);
-  }
-
   // add markers start and endpoints
-  var start = globals.polyroutes[0].points[0];
-  addEndpointMarker(start, true);
+  addEndpointMarker(globals.start, true);
+  addEndpointMarker(globals.end, false);
 
-  var endpoints = globals.polyroutes[globals.polyroutes.length - 1].points;
-  var end = endpoints[endpoints.length - 1];
-  addEndpointMarker(end, false);
+  intersectionLoad([[42.37079689999999,-71.11742509999999],[42.37141750373189,-71.1170419238029],[42.37160825202197,-71.11691749632337],[42.37234230976074,-71.11657745422332],[42.37269216025804,-71.11642654188836],[42.3728851637608,-71.1171068236419],[42.37312344945484,-71.11790396926949],[42.37334668042175,-71.11856989860536],[42.37394296041304,-71.11892277002335],[42.37430368700686,-71.11882717164525],[42.37444719768779,-71.11885738982068],[42.37505536460976,-71.11911232140835],[42.37513990533766,-71.11914939605276],[42.37550533291056,-71.11996261623011],[42.375992447916865,-71.12101388090059],[42.37658564284933,-71.12219546803362],[42.377019833791245,-71.12257724334643],[42.37729828049165,-71.12284770985644],[42.37765791101481,-71.12316531041711],[42.37840525211632,-71.12377233764579],[42.37898099675762,-71.12417015384813],[42.379649703070385,-71.12467251732659],[42.3801904,-71.12509539999996]]);
 
-  intersectionLoad([
-    [42.37079689999999, -71.11742509999999],
-    [42.37029797834395, -71.1177251227291],
-    [42.36967701243323, -71.1181046962738],
-    [42.3692140976423, -71.11737728118896],
-    [42.36744837853081, -71.1192365357133],
-    [42.36730846620258, -71.11907583328372],
-    [42.3637026, -71.12412039999998]]);
-
-  globals.map.fitBounds(bounds);
   $('#input-loc').modal('show');
+  getRoute(globals.start, globals.end);
   // sectionTypeSelect(center_pos);
   // updateMap();
 
@@ -121,10 +82,12 @@ function updateMap() {
   var start_intersection = globals.intersections[input_loc_text[0]]
   var end_intersection = globals.intersections[input_loc_text[1]]
 
+  /*
   placeMarkers(globals.map, [
     new MarkerInfo(start_intersection[0], start_intersection[1], true, true),
     new MarkerInfo(end_intersection[0], end_intersection[1], false, false)
   ]);
+  */
 
   // placeMarkers(globals.map, [
   //   new MarkerInfo(globals.intersections[0][0], globals.intersections[0][1], true, true),
@@ -132,7 +95,8 @@ function updateMap() {
   // ]);
 
   intersectionStart(input_loc_text[0], input_loc_text[1]);
-  displayStreetview(globals.map, start_intersection[0], start_intersection[1]);
+  var startLatLng = new google.maps.LatLng(start_intersection[0], start_intersection[1]);
+  displayStreetview(globals.map, startLatLng);
 }
 
 // TODO: intersection load form step 1??
@@ -153,11 +117,16 @@ function intersectionStart(start, end) {
 
   console.log(globals);
 
+  var bounds = new google.maps.LatLngBounds();
+
   for (var i = globals.start_intersection; i <= globals.end_intersection; i++) {
     var pos = new google.maps.LatLng(
       globals.intersections[i][0], globals.intersections[i][1]);
     addIntersection(pos);
+    bounds.extend(pos);
   }
+
+  globals.map.fitBounds(bounds);
 }
 
 function intersectionNext() {

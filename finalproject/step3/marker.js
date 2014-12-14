@@ -82,7 +82,7 @@ function addIntersection(latlng) {
         fillOpacity: 0.85,
         center: latlng,
         map: globals.map,
-        radius: 10
+        radius: 7
     });
 }
 
