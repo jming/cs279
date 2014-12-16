@@ -3,6 +3,7 @@ var globals = {
   map: null,
   directionsDisplay: null,
   directionsService: null,
+  groundTruth: [{"loc":[42.37079689999999,-71.11742509999999],"crossable":[]},{"loc":[42.37141750373189,-71.1170419238029],"crossable":["left-left","left-right","right-left","right-right"]},{"loc":[42.37160825202197,-71.11691749632337],"crossable":["left-left","left-right","right-left","right-right"]},{"loc":[42.37234230976074,-71.11657745422332],"crossable":["left-left","right-right"]},{"loc":[42.37269216025804,-71.11642654188836],"crossable":["left-left","left-right","right-left","right-right"]}],
   // hackhackhack
   rawIntersections: [[42.37079689999999,-71.11742509999999],[42.37141750373189,-71.1170419238029],[42.37160825202197,-71.11691749632337],[42.37234230976074,-71.11657745422332],[42.37269216025804,-71.11642654188836],[42.3728851637608,-71.1171068236419],[42.37312344945484,-71.11790396926949],[42.37334668042175,-71.11856989860536]],
   rawCrossability: [true, true, false, true, true, false, true, true],
